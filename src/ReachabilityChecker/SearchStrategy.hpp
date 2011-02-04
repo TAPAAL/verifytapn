@@ -1,11 +1,11 @@
 #ifndef SEARCHSTRATEGY_HPP_
 #define SEARCHSTRATEGY_HPP_
 
-#include "WaitingList.hpp"
-#include "PWList.hpp"
-#include "../Core/QueryChecker.hpp"
+#include "PassedWaitingList/WaitingList.hpp"
+#include "PassedWaitingList/PWList.hpp"
+#include "QueryChecker/QueryChecker.hpp"
 #include "../Core/VerificationOptions.hpp"
-#include "TraceStore.hpp"
+#include "Trace/TraceStore.hpp"
 
 namespace VerifyTAPN
 {

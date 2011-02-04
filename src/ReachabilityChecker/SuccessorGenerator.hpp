@@ -5,7 +5,7 @@
 #include "boost/smart_ptr.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 #include "boost/numeric/ublas/io.hpp"
-#include "../TAPN/TimedArcPetriNet.hpp"
+#include "../Core/TAPN/TimedArcPetriNet.hpp"
 #include "Successor.hpp"
 #include "../Core/VerificationOptions.hpp"
 

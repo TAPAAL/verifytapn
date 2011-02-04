@@ -9,7 +9,7 @@
 #include "boost/make_shared.hpp"
 #include "google/sparse_hash_map"
 #include "boost/functional/hash.hpp"
-#include "../Core/Pairing.hpp"
+#include "Pairing.hpp"
 
 namespace VerifyTAPN {
 

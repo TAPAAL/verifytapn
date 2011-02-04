@@ -1,5 +1,5 @@
 #include "SearchStrategy.hpp"
-#include "../TAPN/TimedArcPetriNet.hpp"
+#include "../Core/TAPN/TimedArcPetriNet.hpp"
 #include "Successor.hpp"
 
 namespace VerifyTAPN

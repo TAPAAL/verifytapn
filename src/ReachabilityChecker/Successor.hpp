@@ -1,7 +1,7 @@
 #ifndef SUCCESSOR_HPP_
 #define SUCCESSOR_HPP_
 
-#include "TraceInfo.hpp"
+#include "Trace/TraceInfo.hpp"
 
 namespace VerifyTAPN
 {

@@ -1,6 +1,6 @@
 #include "TimedTransition.hpp"
-#include "../Core/SymMarking.hpp"
-#include "../Core/DiscretePart.hpp"
+#include "../SymbolicMarking/SymMarking.hpp"
+#include "../SymbolicMarking/DiscretePart.hpp"
 #include "TimedArcPetriNet.hpp"
 
 namespace VerifyTAPN {
