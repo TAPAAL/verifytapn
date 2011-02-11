@@ -5,7 +5,7 @@
 
 namespace VerifyTAPN {
 	namespace TAPN {
-		void TimedArcPetriNet::Initialize(bool useInfinityPlaces)
+		void TimedArcPetriNet::Initialize(bool useUntimedPlaces)
 		{
 			for(unsigned int i = 0; i < places.size(); i++){
 				places[i]->SetIndex(i);
@@ -40,24 +40,24 @@ namespace VerifyTAPN {
 			GeneratePairings();
 			FindMaxConstants();
 
-			if(useInfinityPlaces)
-				MarkInfinityPlaces();
+			if(useUntimedPlaces)
+				MarkUntimedPlaces();
 		}
 
-		void TimedArcPetriNet::MarkInfinityPlaces()
+		void TimedArcPetriNet::MarkUntimedPlaces()
 		{
 			for(TimedPlace::Vector::const_iterator iter = places.begin(); iter != places.end(); ++iter)
 			{
-				bool isInfinityPlace = true;
+				bool isUntimedPlace = true;
 				for(TimedInputArc::WeakPtrVector::const_iterator arcIter = (*iter)->GetPostset().begin(); arcIter != (*iter)->GetPostset().end(); ++arcIter)
 				{
 					boost::shared_ptr<TimedInputArc> arc = arcIter->lock();
 
 					if(!arc->Interval().IsZeroInfinity())
-						isInfinityPlace = false;
+						isUntimedPlace = false;
 				}
 
-				(*iter)->MarkInfinityPlace(isInfinityPlace);
+				if(isUntimedPlace) (*iter)->MarkPlaceAsUntimed();
 			}
 		}
 
