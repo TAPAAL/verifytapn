@@ -7,6 +7,7 @@
 #include "TimedPlace.hpp"
 #include "TimedTransition.hpp"
 #include "TimedInputArc.hpp"
+#include "TransportArc.hpp"
 #include "OutputArc.hpp"
 #include "TimeInvariant.hpp"
 #include "TimeInterval.hpp"
