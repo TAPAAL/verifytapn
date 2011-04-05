@@ -23,6 +23,8 @@ namespace VerifyTAPN {
 			virtual ~TimeInvariant() { /* Empty */ };
 		public: // inspectors
 			void Print(std::ostream& out) const;
+			inline const int GetBound() const { return bound; }
+			inline const bool IsBoundStrict() const { return strictComparison; }
 
 		public: // statics
 			static TimeInvariant CreateFor(const std::string& invariant);
