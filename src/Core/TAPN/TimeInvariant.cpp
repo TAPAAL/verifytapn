@@ -4,6 +4,8 @@
 
 namespace VerifyTAPN {
 	namespace TAPN {
+		const TimeInvariant TimeInvariant::LS_INF;
+
 		TimeInvariant TimeInvariant::CreateFor(const std::string& invariant)
 		{
 			bool strict = !boost::algorithm::icontains(invariant, "<=");
