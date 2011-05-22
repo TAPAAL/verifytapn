@@ -48,7 +48,7 @@ namespace VerifyTAPN {
 				}
 			};
 
-			inline const bool IsZeroInfinity() const { return lowerBound == 0 && upperBound == std::numeric_limits<int>().max(); }
+			inline const bool IsZeroInfinity() const { return !leftStrict && lowerBound == 0 && upperBound == std::numeric_limits<int>().max() && rightStrict; }
 
 		public: // statics
 			static TimeInterval CreateFor(const std::string& interval);
