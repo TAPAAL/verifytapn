@@ -10,6 +10,8 @@ namespace VerifyTAPN {
 	{
 		ClearAll();
 
+		//this->Print(std::cout);
+
 		const TAPN::TimedTransition::Vector& transitions = tapn.GetTransitions();
 
 		CollectArcsAndAppropriateTokens(transitions, &marking);
@@ -79,6 +81,7 @@ namespace VerifyTAPN {
 	void SuccessorGenerator::GenerateSuccessors(const TAPN::TimedTransition::Vector& transitions, const SymbolicMarking* marking, std::vector<Successor>& succ)
 	{
 		int currentTransitionIndex = 0;
+		int realCurrentTransitionIndex = 0;
 		for(TAPN::TimedTransition::Vector::const_iterator iter = transitions.begin(); iter != transitions.end(); ++iter)
 		{
 			unsigned int presetSize = (*iter)->GetPresetSize();
@@ -94,6 +97,8 @@ namespace VerifyTAPN {
 				bool done = false;
 				while(true)
 				{
+					transitionStatistics[realCurrentTransitionIndex]++;
+					numberOfTransitionsFired++;
 					GenerateSuccessorForCurrentPermutation(*(*iter), indicesOfCurrentPermutation, currentTransitionIndex, presetSize, marking, succ);
 
 					// Generate next permutation of input tokens
@@ -116,6 +121,7 @@ namespace VerifyTAPN {
 				}
 			}
 
+			realCurrentTransitionIndex++;
 			currentTransitionIndex += presetSize; // jump to next start of next transition in arcsArray
 		}
 	}
@@ -392,9 +398,39 @@ namespace VerifyTAPN {
 			out << i << ": " << arcsArray[i] << "\n";
 		}
 
+		out << "\nTransitions Array:\n";
+				out << "------------------\n";
+		for(int j =0;j< numberOfTransitions;j++){
+			out << j << ": " << transitionStatistics[j] << "\n";
+		}
+
 		out << "\n\nToken Indices:\n";
 		out << "----------------------\n";
 
 		out << *tokenIndices << "\n";
+	}
+
+	void SuccessorGenerator::PrintTransitionStatistics(std::ostream& out) const {
+		out << std::endl << "TRANSITION STATISTICS";
+		for (int i=0;i<tapn.GetNumberOfTransitions();i++) {
+			if ((i) % 6 == 0) {
+				out << std::endl;
+				out << " " << "T" << i << ":" << transitionStatistics[i];
+			}
+			else {
+				out << ", T" << i << ":" << transitionStatistics[i];
+			}
+//			if (i==0) {
+//				out << "- " << "T" << i << ": " << transitionStatistics[i];
+//			}
+//			else if (i < tapn.GetNumberOfTransitions()-1){
+//				out << ", T" << i << ": " << transitionStatistics[i];
+//			}
+//			else {
+//				out << ", T" << i << ": " << transitionStatistics[i] << " -" << std::endl;
+//			}
+		}
+		out << std::endl;
+		out << std::endl;
 	}
 }

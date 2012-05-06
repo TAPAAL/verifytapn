@@ -16,9 +16,10 @@ namespace VerifyTAPN {
 	class SuccessorGenerator {
 	public:
 	    SuccessorGenerator(const TAPN::TimedArcPetriNet & tapn, const MarkingFactory & factory, const VerificationOptions & options, unsigned int tokensInInitialMarking)
-	    :tapn(tapn), factory(factory), arcsArray(), nInputArcs(tapn.GetNumberOfConsumingArcs()), options(options), tokenIndices(), maxUsedTokens(tokensInInitialMarking)
+	    :numberOfTransitionsFired(0), tapn(tapn), factory(factory), arcsArray(), nInputArcs(tapn.GetNumberOfConsumingArcs()), transitionStatistics(), numberOfTransitions(tapn.GetNumberOfTransitions()), options(options), tokenIndices(), maxUsedTokens(tokensInInitialMarking)
 	    {
 	        arcsArray = new unsigned [nInputArcs];
+	        transitionStatistics = new unsigned [numberOfTransitions];
 	        tokenIndices = new boost::numeric::ublas::matrix<int>(nInputArcs, options.GetKBound());
 	    }
 
@@ -34,16 +35,22 @@ namespace VerifyTAPN {
 	    void GenerateDiscreteTransitionsSuccessors(const SymbolicMarking & marking, std::vector<VerifyTAPN::Successor> & succ);
 	public:
 	    void Print(std::ostream & out) const;
+	    void PrintTransitionStatistics(std::ostream & out) const;
 	public:
 	    inline void ClearAll()
 	    {
 	        ClearArcsArray();
+	        ClearTransitionsArray();
 	        ClearTokenIndices();
 	    }
 
 	    inline void ClearArcsArray()
 	    {
 	        memset(arcsArray, 0, nInputArcs * sizeof (arcsArray[0]));
+	    }
+
+	    inline void ClearTransitionsArray() {
+	    	memset(transitionStatistics, 0, numberOfTransitions * sizeof (transitionStatistics[0]));
 	    }
 
 	    inline void ClearTokenIndices()
@@ -55,7 +62,7 @@ namespace VerifyTAPN {
 	    {
 	    	return maxUsedTokens;
 	    }
-
+		int numberOfTransitionsFired;
 	private:
 	    void CollectArcsAndAppropriateTokens(const TAPN::TimedTransition::Vector & transitions, const SymbolicMarking *marking);
 	    void GenerateSuccessors(const TAPN::TimedTransition::Vector & transitions, const SymbolicMarking *marking, std::vector<Successor> & succ);
@@ -71,6 +78,8 @@ namespace VerifyTAPN {
 		const MarkingFactory& factory;
 		unsigned int* arcsArray;
 		unsigned int nInputArcs;
+		unsigned int* transitionStatistics;
+		const int numberOfTransitions;
 		const VerificationOptions& options;
 		boost::numeric::ublas::matrix<int>* tokenIndices;
 		unsigned int maxUsedTokens;

@@ -44,6 +44,7 @@ namespace VerifyTAPN {
 			const int GetNumberOfConsumingArcs() const { return inputArcs.size() + transportArcs.size(); }
 			const OutputArc::Vector& GetOutputArcs() const { return outputArcs; }
 			const int GetNumberOfOutputArcs() const { return outputArcs.size(); }
+			const int GetNumberOfTransitions() const { return transitions.size(); }
 			int NumberOfPlaces() const { return places.size(); };
 			const Pairing& GetPairing(const TimedTransition& t) const { return pairings.find(t)->second; }
 			inline int MaxConstant() const { return maxConstant; };
