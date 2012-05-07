@@ -16,11 +16,12 @@ namespace VerifyTAPN {
 	class SuccessorGenerator {
 	public:
 	    SuccessorGenerator(const TAPN::TimedArcPetriNet & tapn, const MarkingFactory & factory, const VerificationOptions & options, unsigned int tokensInInitialMarking)
-	    :numberOfTransitionsFired(0), tapn(tapn), factory(factory), arcsArray(), nInputArcs(tapn.GetNumberOfConsumingArcs()), transitionStatistics(), numberOfTransitions(tapn.GetNumberOfTransitions()), options(options), tokenIndices(), maxUsedTokens(tokensInInitialMarking)
+	    :tapn(tapn), factory(factory), arcsArray(), nInputArcs(tapn.GetNumberOfConsumingArcs()), transitionStatistics(), numberOfTransitions(tapn.GetNumberOfTransitions()), options(options), tokenIndices(), maxUsedTokens(tokensInInitialMarking)
 	    {
 	        arcsArray = new unsigned [nInputArcs];
 	        transitionStatistics = new unsigned [numberOfTransitions];
 	        tokenIndices = new boost::numeric::ublas::matrix<int>(nInputArcs, options.GetKBound());
+	        ClearTransitionsArray();
 	    }
 
 	    ;
@@ -40,7 +41,6 @@ namespace VerifyTAPN {
 	    inline void ClearAll()
 	    {
 	        ClearArcsArray();
-	        ClearTransitionsArray();
 	        ClearTokenIndices();
 	    }
 
@@ -62,7 +62,6 @@ namespace VerifyTAPN {
 	    {
 	    	return maxUsedTokens;
 	    }
-		int numberOfTransitionsFired;
 	private:
 	    void CollectArcsAndAppropriateTokens(const TAPN::TimedTransition::Vector & transitions, const SymbolicMarking *marking);
 	    void GenerateSuccessors(const TAPN::TimedTransition::Vector & transitions, const SymbolicMarking *marking, std::vector<Successor> & succ);

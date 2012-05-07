@@ -83,7 +83,6 @@ namespace VerifyTAPN
 					}
 
 					factory->Release(iter->Marking());
-					std::cout << "transitions fired: " << succGen.numberOfTransitionsFired;
 					return checker.IsEF();
 				}
 				factory->Release(iter->Marking());
@@ -92,7 +91,6 @@ namespace VerifyTAPN
 
 			//PrintDiagnostics(successors.size());
 		}
-		std::cout << "transitions fired: " << succGen.numberOfTransitionsFired;
 		return checker.IsAG(); // return true if AG query (no counter example found), false if EF query (no proof found)
 	}
 

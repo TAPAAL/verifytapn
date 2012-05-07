@@ -98,7 +98,7 @@ namespace VerifyTAPN {
 				while(true)
 				{
 					transitionStatistics[realCurrentTransitionIndex]++;
-					numberOfTransitionsFired++;
+
 					GenerateSuccessorForCurrentPermutation(*(*iter), indicesOfCurrentPermutation, currentTransitionIndex, presetSize, marking, succ);
 
 					// Generate next permutation of input tokens
