@@ -415,10 +415,10 @@ namespace VerifyTAPN {
 		for (int i=0;i<tapn.GetNumberOfTransitions();i++) {
 			if ((i) % 6 == 0) {
 				out << std::endl;
-				out << tapn.GetTransitions()[i]->GetName() << ":" << transitionStatistics[i];
+				out << "<" << tapn.GetTransitions()[i]->GetName() << ":" << transitionStatistics[i] << ">";
 			}
 			else {
-				out << " " <<tapn.GetTransitions()[i]->GetName() << ":" << transitionStatistics[i];
+				out << " <"  <<tapn.GetTransitions()[i]->GetName() << ":" << transitionStatistics[i] << ">";
 			}
 		}
 		out << std::endl;
