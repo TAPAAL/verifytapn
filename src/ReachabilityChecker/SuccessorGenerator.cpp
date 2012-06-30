@@ -103,6 +103,8 @@ namespace VerifyTAPN {
 
 					// Generate next permutation of input tokens
 					int j = presetSize - 1;
+					if (j<0) { break; }    
+
 					while(true)
 					{
 						indicesOfCurrentPermutation[j] += 1;
