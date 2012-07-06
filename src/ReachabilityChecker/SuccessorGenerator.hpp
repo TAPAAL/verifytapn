@@ -29,6 +29,7 @@ namespace VerifyTAPN {
 	    {
 	        delete [] arcsArray;
 	        delete tokenIndices;
+		delete [] transitionStatistics;
 	    }
 
 	    ;
