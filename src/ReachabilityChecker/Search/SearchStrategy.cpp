@@ -157,4 +157,9 @@ namespace VerifyTAPN
 			}
 		}
 	}
+
+	void DefaultSearchStrategy::PrintTransitionStatistics() const {
+		succGen.PrintTransitionStatistics(std::cout);
+		return;
+	}
 }

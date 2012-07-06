@@ -30,6 +30,7 @@ namespace VerifyTAPN
 		virtual unsigned int MaxUsedTokens() const = 0;
 		virtual Stats GetStats() const = 0;
 		virtual void PrintTraceIfAny(bool result) const = 0;
+		virtual void PrintTransitionStatistics() const = 0;
 	};
 
 
@@ -54,6 +55,7 @@ namespace VerifyTAPN
 		virtual unsigned int MaxUsedTokens() const { return succGen.MaxUsedTokens(); };
 		virtual Stats GetStats() const;
 		virtual void PrintTraceIfAny(bool result) const;
+		virtual void PrintTransitionStatistics() const;
 	protected:
 		virtual WaitingList* CreateWaitingList() const = 0;
 	private:

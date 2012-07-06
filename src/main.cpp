@@ -148,6 +148,7 @@ int main(int argc, char* argv[])
 	std::cout << options << std::endl;
 	bool result = strategy->Verify();
 	std::cout << strategy->GetStats() << std::endl;
+	strategy->PrintTransitionStatistics();
 	std::cout << "Query is " << (result ? "satisfied" : "NOT satisfied") << "." << std::endl;
 	std::cout << "Max number of tokens found in any reachable marking: ";
 	if(strategy->MaxUsedTokens() == options.GetKBound() + 1)
