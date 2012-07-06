@@ -95,9 +95,9 @@ namespace VerifyTAPN {
 					indicesOfCurrentPermutation[i] = 0;
 
 				bool done = false;
+				transitionStatistics[realCurrentTransitionIndex]++;
 				while(true)
 				{
-					transitionStatistics[realCurrentTransitionIndex]++;
 
 					GenerateSuccessorForCurrentPermutation(*(*iter), indicesOfCurrentPermutation, currentTransitionIndex, presetSize, marking, succ);
 
