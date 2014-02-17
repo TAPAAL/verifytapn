@@ -8,14 +8,14 @@ namespace VerifyTAPN
 			return new NotExpression(*this);
 		}
 
-		void NotExpression::Accept(Visitor& visitor, boost::any& context) const
+		void NotExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
 		}
 
-		void BoolExpression::Accept(Visitor& visitor, boost::any& context) const
+		void BoolExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
 		}
 
 		BoolExpression* BoolExpression::clone() const
@@ -23,9 +23,9 @@ namespace VerifyTAPN
 			return new BoolExpression(*this);
 		}
 
-		void AtomicProposition::Accept(Visitor& visitor, boost::any& context) const
+		void AtomicProposition::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
 		}
 
 		AtomicProposition* AtomicProposition::clone() const
@@ -38,9 +38,9 @@ namespace VerifyTAPN
 			return new AndExpression(*this);
 		}
 
-		void AndExpression::Accept(Visitor& visitor, boost::any& context) const
+		void AndExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
 		}
 
 		OrExpression* OrExpression::clone() const
@@ -48,29 +48,79 @@ namespace VerifyTAPN
 			return new OrExpression(*this);
 		}
 
-		void OrExpression::Accept(Visitor& visitor, boost::any& context) const
+		void OrExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
+		}
+                
+		void PlusExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
 		}
 
-		ParExpression* ParExpression::clone() const
+                PlusExpression* PlusExpression::clone() const
 		{
-			return new ParExpression(*this);
+			return new PlusExpression(*this);
+		}
+                
+                void SubtractExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
 		}
 
-		void ParExpression::Accept(Visitor& visitor, boost::any& context) const
+                SubtractExpression* SubtractExpression::clone() const
 		{
-			visitor.Visit(*this, context);
+			return new SubtractExpression(*this);
+		}
+                
+                void MinusExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
 		}
 
+                MinusExpression* MinusExpression::clone() const
+		{
+			return new MinusExpression(*this);
+		}
+
+                void MultiplyExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
+		}
+
+                MultiplyExpression* MultiplyExpression::clone() const
+		{
+			return new MultiplyExpression(*this);
+		}
+                
+                void NumberExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
+		}
+
+                NumberExpression* NumberExpression::clone() const
+		{
+			return new NumberExpression(*this);
+		} 
+                
+                void IdentifierExpression::Accept(Visitor& Visitor, boost::any& context) const
+		{
+			Visitor.Visit(*this, context);
+		}
+
+                IdentifierExpression* IdentifierExpression::clone() const
+		{
+			return new IdentifierExpression(*this);
+		} 
+                
 		Query* Query::clone() const
 		{
 			return new Query(*this);
 		}
 
-		void Query::Accept(Visitor& visitor, boost::any& context) const
+		void Query::Accept(Visitor& Visitor, boost::any& context) const
 		{
-			visitor.Visit(*this, context);
+			Visitor.Visit(*this, context);
 		}
 	}
 }

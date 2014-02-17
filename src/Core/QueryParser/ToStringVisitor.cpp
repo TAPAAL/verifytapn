@@ -11,13 +11,6 @@ namespace VerifyTAPN
 			expr.Child().Accept(*this, context);
 		}
 
-		void ToStringVisitor::Visit(const ParExpression& expr, boost::any& context)
-		{
-			std::cout << "(";
-			expr.Child().Accept(*this, context);
-			std::cout << ")";
-		}
-
 		void ToStringVisitor::Visit(const OrExpression& expr, boost::any& context)
 		{
 			expr.Left().Accept(*this, context);
@@ -31,11 +24,19 @@ namespace VerifyTAPN
 			std::cout << " and ";
 			expr.Right().Accept(*this, context);
 		}
-
+                
+                // needs implementation
 		void ToStringVisitor::Visit(const AtomicProposition& expr, boost::any& context)
 		{
-			std::cout << tapn->GetPlace(expr.Place()).GetName() << " " << expr.Operator() << " " << expr.N();
+//			std::cout << tapn->GetPlace(expr.Place()).GetName() << " " << expr.Operator() << " " << expr.N();
 		}
+                
+                void ToStringVisitor::Visit(const NumberExpression& expr, boost::any& context){};
+                void ToStringVisitor::Visit(const IdentifierExpression& expr, boost::any& context){};
+                void ToStringVisitor::Visit(const MultiplyExpression& expr, boost::any& context){};
+                void ToStringVisitor::Visit(const MinusExpression& expr, boost::any& context){};
+                void ToStringVisitor::Visit(const SubtractExpression& expr, boost::any& context){};
+                void ToStringVisitor::Visit(const PlusExpression& expr, boost::any& context){};
 
 		void ToStringVisitor::Visit(const BoolExpression& expr, boost::any& context)
 		{

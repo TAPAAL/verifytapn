@@ -8,11 +8,6 @@ namespace VerifyTAPN{
 			expr.Child().Accept(*this, context);
 		}
 
-		void BadPlaceVisitor::Visit(const ParExpression& expr, boost::any& context)
-		{
-			expr.Child().Accept(*this, context);
-		}
-
 		void BadPlaceVisitor::Visit(const OrExpression& expr, boost::any& context)
 		{
 			expr.Left().Accept(*this, context);
@@ -28,7 +23,9 @@ namespace VerifyTAPN{
 		void BadPlaceVisitor::Visit(const AtomicProposition& expr, boost::any& context)
 		{
 			if(expr.Operator() == "=" || expr.Operator() == "==" || expr.Operator() == "!=" || expr.Operator() == "<" || expr.Operator() == "<="){
-				badPlaces.push_back(expr.Place());
+                                // not entirely sure _WHAT_ a bad place is?
+                                expr.GetLeft().Accept(*this, context);
+                                expr.GetRight().Accept(*this, context);
 			}
 		}
 
@@ -40,5 +37,32 @@ namespace VerifyTAPN{
 		{
 			query.Child().Accept(*this, context);
 		}
-	}
+
+                void BadPlaceVisitor::Visit(const NumberExpression& expr, boost::any& context) {
+                    // ignore
+                };
+
+                void BadPlaceVisitor::Visit(const IdentifierExpression& expr, boost::any& context) {
+                    badPlaces.push_back(expr.GetPlace());
+                };
+
+                void BadPlaceVisitor::Visit(const MultiplyExpression& expr, boost::any& context) {
+                    expr.GetLeft().Accept(*this, context);
+                    expr.GetRight().Accept(*this, context);
+                };
+
+                void BadPlaceVisitor::Visit(const MinusExpression& expr, boost::any& context) {
+                    expr.GetValue().Accept(*this, context);
+                };
+
+                void BadPlaceVisitor::Visit(const SubtractExpression& expr, boost::any& context) {
+                    expr.GetLeft().Accept(*this, context);
+                    expr.GetRight().Accept(*this, context);
+                };
+
+                void BadPlaceVisitor::Visit(const PlusExpression& expr, boost::any& context) {
+                    expr.GetLeft().Accept(*this, context);
+                    expr.GetRight().Accept(*this, context);
+                };
+       }
 }
