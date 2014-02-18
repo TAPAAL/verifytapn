@@ -19,14 +19,18 @@ namespace VerifyTAPN{
 			expr.Left().Accept(*this, context);
 			expr.Right().Accept(*this, context);
 		}
-
+ 
 		void BadPlaceVisitor::Visit(const AtomicProposition& expr, boost::any& context)
 		{
-			if(expr.Operator() == "=" || expr.Operator() == "==" || expr.Operator() == "!=" || expr.Operator() == "<" || expr.Operator() == "<="){
-                                // not entirely sure _WHAT_ a bad place is?
-                                expr.GetLeft().Accept(*this, context);
-                                expr.GetRight().Accept(*this, context);
-			}
+                    // if equality, visit both sides 
+                    if(expr.Operator() == "=" || expr.Operator() == "==" || expr.Operator() == "!="){
+                        expr.GetLeft().Accept(*this, context);
+                        expr.GetRight().Accept(*this, context);
+                    } else if(expr.Operator() == "<" || expr.Operator() == "<="){       // else visit "low" inequality side
+                        expr.GetLeft().Accept(*this, context);
+                    } else if(expr.Operator() == ">" || expr.Operator() == ">="){       // see above
+                        expr.GetRight().Accept(*this, context);
+                    }
 		}
 
 		void BadPlaceVisitor::Visit(const BoolExpression& expr, boost::any& context)
