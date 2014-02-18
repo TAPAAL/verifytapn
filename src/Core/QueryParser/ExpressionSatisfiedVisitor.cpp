@@ -41,14 +41,40 @@ namespace VerifyTAPN
                     context = Compare(boost::any_cast<int>(left), expr.Operator(), boost::any_cast<int>(right));
 		}
 
+                void ExpressionSatisfiedVisitor::Visit(const NumberExpression& expr, boost::any& context){
+                    context = expr.GetValue();
+                };
                 
-                // needs implementation
-                void ExpressionSatisfiedVisitor::Visit(const NumberExpression& expr, boost::any& context){};
-                void ExpressionSatisfiedVisitor::Visit(const IdentifierExpression& expr, boost::any& context){};
-                void ExpressionSatisfiedVisitor::Visit(const MultiplyExpression& expr, boost::any& context){};
-                void ExpressionSatisfiedVisitor::Visit(const MinusExpression& expr, boost::any& context){};
-                void ExpressionSatisfiedVisitor::Visit(const SubtractExpression& expr, boost::any& context){};
-                void ExpressionSatisfiedVisitor::Visit(const PlusExpression& expr, boost::any& context){};
+                void ExpressionSatisfiedVisitor::Visit(const IdentifierExpression& expr, boost::any& context){
+                    context = marking.NumberOfTokensInPlace(expr.GetPlace());
+                };
+                
+                void ExpressionSatisfiedVisitor::Visit(const MultiplyExpression& expr, boost::any& context){
+                    boost::any left, right;
+                    expr.GetLeft().Accept(*this, left);
+                    expr.GetRight().Accept(*this, right);
+                    context = (boost::any_cast<int>(left) * boost::any_cast<int>(right));
+                };
+                
+                void ExpressionSatisfiedVisitor::Visit(const MinusExpression& expr, boost::any& context){
+                    boost::any value;
+                    expr.GetValue().Accept(*this, value);
+                    context = -boost::any_cast<int>(value);
+                };
+                
+                void ExpressionSatisfiedVisitor::Visit(const SubtractExpression& expr, boost::any& context){
+                    boost::any left, right;
+                    expr.GetLeft().Accept(*this, left);
+                    expr.GetRight().Accept(*this, right);
+                    context = (boost::any_cast<int>(left) - boost::any_cast<int>(right));
+                };
+                
+                void ExpressionSatisfiedVisitor::Visit(const PlusExpression& expr, boost::any& context){
+                    boost::any left, right;
+                    expr.GetLeft().Accept(*this, left);
+                    expr.GetRight().Accept(*this, right);
+                    context = (boost::any_cast<int>(left) + boost::any_cast<int>(right));
+                };
                 
 		void ExpressionSatisfiedVisitor::Visit(const BoolExpression& expr, boost::any& context)
 		{
