@@ -51,7 +51,7 @@ namespace AST {
                         query.Child().Accept(*this, context);
                 };
 
-                // needs implementation
+                // needs implementation (apparently this visitor is never used, not implemented)
                 void UpwardClosedVisitor::Visit(const NumberExpression& expr, boost::any& context){};
                 void UpwardClosedVisitor::Visit(const IdentifierExpression& expr, boost::any& context){};
                 void UpwardClosedVisitor::Visit(const MultiplyExpression& expr, boost::any& context){};

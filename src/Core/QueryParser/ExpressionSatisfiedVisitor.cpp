@@ -38,7 +38,9 @@ namespace VerifyTAPN
                     boost::any left, right;
                     expr.GetLeft().Accept(*this, left);
                     expr.GetRight().Accept(*this, right);
-                    context = Compare(boost::any_cast<int>(left), expr.Operator(), boost::any_cast<int>(right));
+                    int iLeft = boost::any_cast<int>(left);
+                    int iRight = boost::any_cast<int>(right);
+                    context = Compare(iLeft, expr.Operator(), iRight);
 		}
 
                 void ExpressionSatisfiedVisitor::Visit(const NumberExpression& expr, boost::any& context){
@@ -46,7 +48,7 @@ namespace VerifyTAPN
                 };
                 
                 void ExpressionSatisfiedVisitor::Visit(const IdentifierExpression& expr, boost::any& context){
-                    context = marking.NumberOfTokensInPlace(expr.GetPlace());
+                    context = static_cast<int>(marking.NumberOfTokensInPlace(expr.GetPlace()));
                 };
                 
                 void ExpressionSatisfiedVisitor::Visit(const MultiplyExpression& expr, boost::any& context){
