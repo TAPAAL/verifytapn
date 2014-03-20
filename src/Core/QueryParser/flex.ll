@@ -44,14 +44,18 @@ and|&&						{ return token::AND; }
 true						{ return token::BOOL_TRUE; }
 false						{ return token::BOOL_FALSE; }
 "!"|not						{ return token::NOT; }
-"("							{ return token::LPARAN; }
-")"							{ return token::RPARAN; }
 "<"							{ yylval->string = new std::string(yytext); return token::LESS; }
 "<="						{ yylval->string = new std::string(yytext); return token::LESSEQUAL; }
 "="							{ yylval->string = new std::string(yytext); return token::EQUAL; }
 "=="						{ yylval->string = new std::string(yytext); return token::EQUAL; }
 ">="						{ yylval->string = new std::string(yytext); return token::GREATEREQUAL; }
 ">"							{ yylval->string = new std::string(yytext); return token::GREATER; }
+"("							{return token::LPARAN;}
+")"							{return token::RPARAN;}
+"+"							{return token::PLUS;}
+"-"							{return token::MINUS;}
+"*"							{return token::MULTIPLY;}
+
 [a-zA-Z_][a-zA-Z_0-9]*      { yylval->string = new std::string(yytext); return token::IDENTIFIER; }
 
 %%

@@ -21,14 +21,6 @@ namespace VerifyTAPN
 			tuple.returnExpr = boost::any_cast<Tuple&>(any).returnExpr;
 		}
 
-		void NormalizationVisitor::Visit(const ParExpression& expr, boost::any& context)
-		{
-			Tuple& tuple = boost::any_cast<Tuple&>(context);
-			boost::any any = Tuple(tuple.negate, NULL);
-			expr.Child().Accept(*this, any);
-			tuple.returnExpr = new ParExpression(boost::any_cast<Tuple&>(any).returnExpr);
-		}
-
 		void NormalizationVisitor::Visit(const OrExpression& expr, boost::any& context)
 		{
 			Tuple& tuple = boost::any_cast<Tuple&>(context);
@@ -68,8 +60,16 @@ namespace VerifyTAPN
 			}else{
 				op = expr.Operator();
 			}
-			tuple.returnExpr = new AtomicProposition(expr.Place(), &op, expr.N());
+			tuple.returnExpr = new AtomicProposition(&expr.GetLeft(), &op, &expr.GetRight());
 		}
+                
+                // these should never be visited (handled in atomic expression)
+                void NormalizationVisitor::Visit(const NumberExpression& expr, boost::any& context){};
+                void NormalizationVisitor::Visit(const IdentifierExpression& expr, boost::any& context){};
+                void NormalizationVisitor::Visit(const MultiplyExpression& expr, boost::any& context){};
+                void NormalizationVisitor::Visit(const MinusExpression& expr, boost::any& context){};
+                void NormalizationVisitor::Visit(const SubtractExpression& expr, boost::any& context){};
+                void NormalizationVisitor::Visit(const PlusExpression& expr, boost::any& context){};
 
 		void NormalizationVisitor::Visit(const BoolExpression& expr, boost::any& context)
 		{

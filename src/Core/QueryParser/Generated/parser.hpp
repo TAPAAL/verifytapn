@@ -1,10 +1,8 @@
-
-/* A Bison parser, made by GNU Bison 2.4.1.  */
+/* A Bison parser, made by GNU Bison 2.7.12-4996.  */
 
 /* Skeleton interface for Bison LALR(1) parsers in C++
    
-      Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-   Foundation, Inc.
+      Copyright (C) 2002-2013 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,15 +30,19 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/**
+ ** \file Core/QueryParser/Generated/parser.hpp
+ ** Define the VerifyTAPN::parser class.
+ */
+
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
-#ifndef PARSER_HEADER_H
-# define PARSER_HEADER_H
+#ifndef YY_YY_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED
+# define YY_YY_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED
 
 /* "%code requires" blocks.  */
-
-/* Line 35 of lalr1.cc  */
-#line 7 "grammar.yy"
+/* Line 33 of lalr1.cc  */
+#line 7 "Core/QueryParser/grammar.yy"
 
 # include <string>
 #include "../AST.hpp"
@@ -49,32 +51,13 @@ namespace VerifyTAPN{
 }
 
 
-
-/* Line 35 of lalr1.cc  */
-#line 55 "Generated/parser.hpp"
+/* Line 33 of lalr1.cc  */
+#line 56 "Core/QueryParser/Generated/parser.hpp"
 
 
 #include <string>
 #include <iostream>
 #include "stack.hh"
-
-
-/* Line 35 of lalr1.cc  */
-#line 5 "grammar.yy"
-namespace VerifyTAPN {
-
-/* Line 35 of lalr1.cc  */
-#line 68 "Generated/parser.hpp"
-  class position;
-  class location;
-
-/* Line 35 of lalr1.cc  */
-#line 5 "grammar.yy"
-} // VerifyTAPN
-
-/* Line 35 of lalr1.cc  */
-#line 77 "Generated/parser.hpp"
-
 #include "location.hh"
 
 /* Enabling traces.  */
@@ -82,45 +65,11 @@ namespace VerifyTAPN {
 # define YYDEBUG 0
 #endif
 
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 1
-#endif
-
-/* Enabling the token table.  */
-#ifndef YYTOKEN_TABLE
-# define YYTOKEN_TABLE 0
-#endif
-
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)		\
-do {							\
-  if (N)						\
-    {							\
-      (Current).begin = (Rhs)[1].begin;			\
-      (Current).end   = (Rhs)[N].end;			\
-    }							\
-  else							\
-    {							\
-      (Current).begin = (Current).end = (Rhs)[0].end;	\
-    }							\
-} while (false)
-#endif
-
-
-/* Line 35 of lalr1.cc  */
-#line 5 "grammar.yy"
+/* Line 33 of lalr1.cc  */
+#line 5 "Core/QueryParser/grammar.yy"
 namespace VerifyTAPN {
-
-/* Line 35 of lalr1.cc  */
-#line 124 "Generated/parser.hpp"
+/* Line 33 of lalr1.cc  */
+#line 73 "Core/QueryParser/Generated/parser.hpp"
 
   /// A Bison parser.
   class Parser
@@ -130,19 +79,18 @@ namespace VerifyTAPN {
 #ifndef YYSTYPE
     union semantic_type
     {
-
-/* Line 35 of lalr1.cc  */
-#line 30 "grammar.yy"
+/* Line 33 of lalr1.cc  */
+#line 30 "Core/QueryParser/grammar.yy"
 
 	int          					number;
 	std::string* 					string;
-	VerifyTAPN::AST::Expression*	expr;
-	VerifyTAPN::AST::Query*		 	query;
+	VerifyTAPN::AST::Expression*                    expr;
+        VerifyTAPN::AST::ArithmeticExpression*           arexpr;
+	VerifyTAPN::AST::Query*                         query;
 
 
-
-/* Line 35 of lalr1.cc  */
-#line 146 "Generated/parser.hpp"
+/* Line 33 of lalr1.cc  */
+#line 94 "Core/QueryParser/Generated/parser.hpp"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -170,7 +118,10 @@ namespace VerifyTAPN {
      AND = 270,
      NOT = 271,
      BOOL_TRUE = 272,
-     BOOL_FALSE = 273
+     BOOL_FALSE = 273,
+     PLUS = 274,
+     MINUS = 275,
+     MULTIPLY = 276
    };
 
     };
@@ -200,6 +151,10 @@ namespace VerifyTAPN {
 #endif
 
   private:
+    /// This class is not copyable.
+    Parser (const Parser&);
+    Parser& operator= (const Parser&);
+
     /// Report a syntax error.
     /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
@@ -244,6 +199,14 @@ namespace VerifyTAPN {
     /// The location stack.
     location_stack_type yylocation_stack_;
 
+    /// Whether the given \c yypact_ value indicates a defaulted state.
+    /// \param yyvalue   the value to check
+    static bool yy_pact_value_is_default_ (int yyvalue);
+
+    /// Whether the given \c yytable_ value indicates a syntax error.
+    /// \param yyvalue   the value to check
+    static bool yy_table_value_is_error_ (int yyvalue);
+
     /// Internal symbol numbers.
     typedef unsigned char token_number_type;
     /* Tables.  */
@@ -251,7 +214,7 @@ namespace VerifyTAPN {
     static const signed char yypact_[];
     static const signed char yypact_ninf_;
 
-    /// For a state, default rule to reduce.
+    /// For a state, default reduction number.
     /// Unless\a  yytable_ specifies something else to do.
     /// Zero means the default is an error.
     static const unsigned char yydefact_[];
@@ -275,18 +238,14 @@ namespace VerifyTAPN {
     /// For a rule, its LHS.
     static const unsigned char yyr1_[];
     /// For a rule, its RHS length.
-    static const unsigned char yyr2_[];
+    static const unsigned char yyr2_[]; 
 
-#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+    /// Convert the symbol name \a n to a form suitable for a diagnostic.
+    static std::string yytnamerr_ (const char *n);
+
+
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-#endif
-
-#if YYERROR_VERBOSE
-    /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    virtual std::string yytnamerr_ (const char *n);
-#endif
-
 #if YYDEBUG
     /// A type to store symbol numbers and -1.
     typedef signed char rhs_number_type;
@@ -313,6 +272,7 @@ namespace VerifyTAPN {
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, do not display the symbol, just free it.
     /// \param yytype       The symbol type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
@@ -340,14 +300,12 @@ namespace VerifyTAPN {
     /* User arguments.  */
     VerifyTAPN::TAPNQueryParser& driver;
   };
-
-/* Line 35 of lalr1.cc  */
-#line 5 "grammar.yy"
+/* Line 33 of lalr1.cc  */
+#line 5 "Core/QueryParser/grammar.yy"
 } // VerifyTAPN
-
-/* Line 35 of lalr1.cc  */
-#line 350 "Generated/parser.hpp"
-
+/* Line 33 of lalr1.cc  */
+#line 308 "Core/QueryParser/Generated/parser.hpp"
 
 
-#endif /* ! defined PARSER_HEADER_H */
+
+#endif /* !YY_YY_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED  */
