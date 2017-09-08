@@ -10,7 +10,7 @@ lib64="-L$HOME/dev/ia64/uppaal/lib -ludbm"
 inc32="-I/Users/srba/dev/ia32/uppaal/include/  -I/usr/local/include/"
 lib32="-L$HOME/dev/ia32/uppaal/lib -ludbm"
 
-compatibility="-mmacosx-version-min=10.9"
+compatibility="-mmacosx-version-min=10.7"
 
 src=`find . -name "*.cpp"`
 
