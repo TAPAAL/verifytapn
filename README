@@ -11,6 +11,7 @@ b. Install boost libraries (we used 1.40 but any version that is backward
 	- On ubuntu you can install it through the software center
 	- Otherwise, there is a guide here: 
 	  http://www.boost.org/doc/libs/1_40_0/more/getting_started/unix-variants.html
+   On Mac run: brew install automake
 c. Download UPPAAL DBM library (we use version 2.0.7)
 	- unpack the downloaded file
 	- go to the "modules" folder

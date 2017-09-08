@@ -2,15 +2,15 @@
 
 parser=Core/QueryParser
 
-export CPLUS_INCLUDE_PATH=$HOME/dev/boost_1_46_1
+export CPLUS_INCLUDE_PATH=/usr/local/Cellar/google-sparsehash/2.0.3/include
 
-inc64="-I$HOME/dev/ia64/include -I$HOME/dev/ia64/uppaal/include"
+inc64="-I/Users/srba/dev/ia64/uppaal/include/ -I/usr/local/include/"
 lib64="-L$HOME/dev/ia64/uppaal/lib -ludbm"
 
-inc32="-I$HOME/dev/ia32/include -I$HOME/dev/ia32/uppaal/include"
+inc32="-I/Users/srba/dev/ia32/uppaal/include/  -I/usr/local/include/"
 lib32="-L$HOME/dev/ia32/uppaal/lib -ludbm"
 
-compatibility="-mmacosx-version-min=10.6"
+compatibility="-mmacosx-version-min=10.9"
 
 src=`find . -name "*.cpp"`
 
