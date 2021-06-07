@@ -1,3 +1,9 @@
+# verifytapn
+
+VerifyTAPN is a stand-alone verification engine for timed-arc Petri nets, developed for the verification tool TAPAAL. 
+
+
+```
 --------------------------------------------------------------------------------
 1. Setup project in Eclipse
 --------------------------------------------------------------------------------
@@ -62,3 +68,4 @@ To recompile the query parser follow these steps:
 1. go to src/Core/QueryParser/
 2. run flex -o Generated/lexer.cpp flex.ll
 3. run bison -o Generated/parser.cpp grammar.yy
+```
