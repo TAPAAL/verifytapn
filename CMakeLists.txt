@@ -57,11 +57,15 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
+    set(cflag-dbm "-DDISABLE_ASSERTX")
     ExternalProject_add(udbm-ext
 	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
         GIT_TAG update-install-location
 	CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} 
-        BUILD_COMMAND make
+		CFLAGS=${cflag-dbm}
+		CPPFLAGS=${cflag-dbm}
+        BUILD_COMMAND make &&
+		cp -r <SOURCE_DIR>/include <BINARY_DIR>
         INSTALL_COMMAND make install
     )
 
@@ -73,7 +77,5 @@ if (VERIFYTAPN_GetDependencies)
 endif (VERIFYTAPN_GetDependencies)
 
 #include_directories(include)
-#include_directories(${UPPAAL_PATH}/server/modules/include)
-#link_directories(${UPPAAL_PATH}/server/build/linux64/uppaal/lib)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/)
