@@ -9,8 +9,5 @@ add_library(SymbolicMarking
 
 
 target_link_libraries(SymbolicMarking
-	${EXTERNAL_INSTALL_LOCATION}/lib/libdbm.a
-	${EXTERNAL_INSTALL_LOCATION}/lib/libhash.a
-	${EXTERNAL_INSTALL_LOCATION}/lib/libbase.a
-	${EXTERNAL_INSTALL_LOCATION}/lib/libdebug.a
+	${EXTERNAL_INSTALL_LOCATION}/lib/libudbm.a
 )
