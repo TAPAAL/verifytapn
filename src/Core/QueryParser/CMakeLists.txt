@@ -1,5 +1,3 @@
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 find_package(FLEX 2.6.4 REQUIRED)
 find_package(BISON 3.0.5 REQUIRED)
 
@@ -24,4 +22,3 @@ add_library(QueryParser
 )
 
 add_dependencies(QueryParser rapidxml-ext)
-target_link_libraries(QueryParser SymbolicMarking)
