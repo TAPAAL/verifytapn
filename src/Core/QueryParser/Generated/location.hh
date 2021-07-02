@@ -31,12 +31,12 @@
 // version 2.2 of Bison.
 
 /**
- ** \file Generated/location.hh
+ ** \file /home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/location.hh
  ** Define the VerifyTAPN::location class.
  */
 
-#ifndef YY_YY_GENERATED_LOCATION_HH_INCLUDED
-# define YY_YY_GENERATED_LOCATION_HH_INCLUDED
+#ifndef YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_LOCATION_HH_INCLUDED
+# define YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_LOCATION_HH_INCLUDED
 
 # include <iostream>
 # include <string>
@@ -53,9 +53,9 @@
 #  endif
 # endif
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 namespace VerifyTAPN {
-#line 59 "Generated/location.hh"
+#line 59 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/location.hh"
 
   /// A point in a source file.
   class position
@@ -327,8 +327,8 @@ namespace VerifyTAPN {
     return ostr;
   }
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 } // VerifyTAPN
-#line 333 "Generated/location.hh"
+#line 333 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/location.hh"
 
-#endif // !YY_YY_GENERATED_LOCATION_HH_INCLUDED
+#endif // !YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_LOCATION_HH_INCLUDED

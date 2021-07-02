@@ -32,7 +32,7 @@
 
 
 /**
- ** \file Generated/parser.hpp
+ ** \file /home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.hpp
  ** Define the VerifyTAPN::parser class.
  */
 
@@ -41,10 +41,10 @@
 // Undocumented macros, especially those whose name start with YY_,
 // are private implementation details.  Do not rely on them.
 
-#ifndef YY_YY_GENERATED_PARSER_HPP_INCLUDED
-# define YY_YY_GENERATED_PARSER_HPP_INCLUDED
+#ifndef YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED
+# define YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED
 // "%code requires" blocks.
-#line 7 "grammar.yy"
+#line 7 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 
 # include <string>
 #include "../AST.hpp"
@@ -52,7 +52,7 @@ namespace VerifyTAPN{
 	class TAPNQueryParser;
 }
 
-#line 56 "Generated/parser.hpp"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.hpp"
 
 
 # include <cstdlib> // std::abort
@@ -180,9 +180,9 @@ namespace VerifyTAPN{
 # define YYDEBUG 0
 #endif
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 namespace VerifyTAPN {
-#line 186 "Generated/parser.hpp"
+#line 186 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.hpp"
 
 
 
@@ -195,7 +195,7 @@ namespace VerifyTAPN {
     /// Symbol semantic values.
     union semantic_type
     {
-#line 30 "grammar.yy"
+#line 30 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 
 	int          					number;
 	std::string* 					string;
@@ -203,7 +203,7 @@ namespace VerifyTAPN {
         VerifyTAPN::AST::ArithmeticExpression*           arexpr;
 	VerifyTAPN::AST::Query*                         query;
 
-#line 207 "Generated/parser.hpp"
+#line 207 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.hpp"
 
     };
 #else
@@ -727,12 +727,12 @@ namespace VerifyTAPN {
   };
 
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 } // VerifyTAPN
-#line 733 "Generated/parser.hpp"
+#line 733 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.hpp"
 
 
 
 
 
-#endif // !YY_YY_GENERATED_PARSER_HPP_INCLUDED
+#endif // !YY_YY_HOME_KYRKE_PROJECTS_VERIFYTAPN_SRC_CORE_QUERYPARSER_GENERATED_PARSER_HPP_INCLUDED

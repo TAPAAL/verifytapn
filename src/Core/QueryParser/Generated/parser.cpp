@@ -41,11 +41,11 @@
 
 
 // Unqualified %code blocks.
-#line 38 "grammar.yy"
+#line 38 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 
 	#include "../TAPNQueryParser.hpp"
 
-#line 49 "Generated/parser.cpp"
+#line 49 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
 
 
 #ifndef YY_
@@ -135,9 +135,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 namespace VerifyTAPN {
-#line 141 "Generated/parser.cpp"
+#line 141 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
 
 
   /* Return YYSTR after stripping away unnecessary quotes and
@@ -379,111 +379,111 @@ namespace VerifyTAPN {
     switch (yysym.type_get ())
     {
       case 3: // IDENTIFIER
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 385 "Generated/parser.cpp"
+#line 385 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 4: // LESS
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 391 "Generated/parser.cpp"
+#line 391 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 5: // LESSEQUAL
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 397 "Generated/parser.cpp"
+#line 397 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 6: // EQUAL
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 403 "Generated/parser.cpp"
+#line 403 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 7: // GREATEREQUAL
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 409 "Generated/parser.cpp"
+#line 409 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 8: // GREATER
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 415 "Generated/parser.cpp"
+#line 415 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 23: // query
-#line 57 "grammar.yy"
+#line 57 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.query); }
-#line 421 "Generated/parser.cpp"
+#line 421 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 24: // expression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 427 "Generated/parser.cpp"
+#line 427 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 25: // arithmeticExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.arexpr); }
-#line 433 "Generated/parser.cpp"
+#line 433 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 26: // multiplyExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.arexpr); }
-#line 439 "Generated/parser.cpp"
+#line 439 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 27: // arithmeticParantheses
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.arexpr); }
-#line 445 "Generated/parser.cpp"
+#line 445 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 28: // parExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 451 "Generated/parser.cpp"
+#line 451 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 29: // notExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 457 "Generated/parser.cpp"
+#line 457 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 30: // orExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 463 "Generated/parser.cpp"
+#line 463 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 31: // andExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 469 "Generated/parser.cpp"
+#line 469 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 32: // boolExpression
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 475 "Generated/parser.cpp"
+#line 475 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 33: // atomicProposition
-#line 56 "grammar.yy"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.expr); }
-#line 481 "Generated/parser.cpp"
+#line 481 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       case 34: // compareOp
-#line 55 "grammar.yy"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                     { delete (yysym.value.string); }
-#line 487 "Generated/parser.cpp"
+#line 487 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
         break;
 
       default:
@@ -622,13 +622,13 @@ namespace VerifyTAPN {
 
 
     // User initialization code.
-#line 21 "grammar.yy"
+#line 21 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 {
   // Initialize the initial location.
   yyla.location.begin.filename = yyla.location.end.filename = &driver.file;
 }
 
-#line 632 "Generated/parser.cpp"
+#line 632 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
 
 
     /* Initialize the stack.  The initial state will be set in
@@ -753,186 +753,186 @@ namespace VerifyTAPN {
           switch (yyn)
             {
   case 2:
-#line 61 "grammar.yy"
+#line 61 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                 { (yylhs.value.query) = new VerifyTAPN::AST::Query(VerifyTAPN::AST::EF, (yystack_[0].value.expr)); driver.SetAST((yylhs.value.query)); }
-#line 759 "Generated/parser.cpp"
+#line 759 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 3:
-#line 62 "grammar.yy"
+#line 62 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                         { (yylhs.value.query) = new VerifyTAPN::AST::Query(VerifyTAPN::AST::AG, (yystack_[0].value.expr)); driver.SetAST((yylhs.value.query)); }
-#line 765 "Generated/parser.cpp"
+#line 765 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 4:
-#line 65 "grammar.yy"
+#line 65 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                 { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 771 "Generated/parser.cpp"
+#line 771 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 5:
-#line 66 "grammar.yy"
+#line 66 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                         { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 777 "Generated/parser.cpp"
+#line 777 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 6:
-#line 67 "grammar.yy"
+#line 67 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                        { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 783 "Generated/parser.cpp"
+#line 783 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 7:
-#line 68 "grammar.yy"
+#line 68 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                         { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 789 "Generated/parser.cpp"
+#line 789 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 8:
-#line 69 "grammar.yy"
+#line 69 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                             { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 795 "Generated/parser.cpp"
+#line 795 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 9:
-#line 70 "grammar.yy"
+#line 70 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                          { (yylhs.value.expr) = (yystack_[0].value.expr); }
-#line 801 "Generated/parser.cpp"
+#line 801 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 10:
-#line 76 "grammar.yy"
+#line 76 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                         { (yylhs.value.arexpr) = new VerifyTAPN::AST::PlusExpression((yystack_[2].value.arexpr), (yystack_[0].value.arexpr)); }
-#line 807 "Generated/parser.cpp"
+#line 807 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 11:
-#line 77 "grammar.yy"
+#line 77 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                         { (yylhs.value.arexpr) = new VerifyTAPN::AST::SubtractExpression((yystack_[2].value.arexpr), (yystack_[0].value.arexpr)); }
-#line 813 "Generated/parser.cpp"
+#line 813 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 12:
-#line 78 "grammar.yy"
+#line 78 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                       { (yylhs.value.arexpr) = new VerifyTAPN::AST::MinusExpression((yystack_[0].value.arexpr)); }
-#line 819 "Generated/parser.cpp"
+#line 819 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 13:
-#line 79 "grammar.yy"
+#line 79 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                         { (yylhs.value.arexpr) = (yystack_[0].value.arexpr); }
-#line 825 "Generated/parser.cpp"
+#line 825 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 14:
-#line 82 "grammar.yy"
+#line 82 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                                 { (yylhs.value.arexpr) = new VerifyTAPN::AST::MultiplyExpression((yystack_[2].value.arexpr), (yystack_[0].value.arexpr)); }
-#line 831 "Generated/parser.cpp"
+#line 831 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 15:
-#line 83 "grammar.yy"
+#line 83 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                                 { (yylhs.value.arexpr) = (yystack_[0].value.arexpr); }
-#line 837 "Generated/parser.cpp"
+#line 837 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 16:
-#line 86 "grammar.yy"
+#line 86 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                 { (yylhs.value.arexpr) = (yystack_[1].value.arexpr); }
-#line 843 "Generated/parser.cpp"
+#line 843 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 17:
-#line 87 "grammar.yy"
+#line 87 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                 { (yylhs.value.arexpr) = new VerifyTAPN::AST::NumberExpression((yystack_[0].value.number));}
-#line 849 "Generated/parser.cpp"
+#line 849 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 18:
-#line 88 "grammar.yy"
+#line 88 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                 { 
                                                                     int placeIndex = driver.net.GetPlaceIndex(*(yystack_[0].value.string));
                                                                     delete (yystack_[0].value.string);
                                                                     if(placeIndex == -1) error(yystack_[0].location, "unknown place"); 
                                                                     (yylhs.value.arexpr) = new VerifyTAPN::AST::IdentifierExpression(placeIndex); 
                                                                  }
-#line 860 "Generated/parser.cpp"
+#line 860 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 19:
-#line 96 "grammar.yy"
+#line 96 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = (yystack_[1].value.expr); }
-#line 866 "Generated/parser.cpp"
+#line 866 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 20:
-#line 97 "grammar.yy"
+#line 97 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = new VerifyTAPN::AST::NotExpression((yystack_[0].value.expr)); }
-#line 872 "Generated/parser.cpp"
+#line 872 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 21:
-#line 98 "grammar.yy"
+#line 98 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = new VerifyTAPN::AST::OrExpression((yystack_[2].value.expr), (yystack_[0].value.expr)); }
-#line 878 "Generated/parser.cpp"
+#line 878 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 22:
-#line 99 "grammar.yy"
+#line 99 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = new VerifyTAPN::AST::AndExpression((yystack_[2].value.expr), (yystack_[0].value.expr)); }
-#line 884 "Generated/parser.cpp"
+#line 884 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 23:
-#line 100 "grammar.yy"
+#line 100 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = new VerifyTAPN::AST::BoolExpression(true); }
-#line 890 "Generated/parser.cpp"
+#line 890 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 24:
-#line 101 "grammar.yy"
+#line 101 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                     { (yylhs.value.expr) = new VerifyTAPN::AST::BoolExpression(false); }
-#line 896 "Generated/parser.cpp"
+#line 896 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 25:
-#line 103 "grammar.yy"
+#line 103 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                               { (yylhs.value.expr) = new VerifyTAPN::AST::AtomicProposition((yystack_[2].value.arexpr), (yystack_[1].value.string), (yystack_[0].value.arexpr)); }
-#line 902 "Generated/parser.cpp"
+#line 902 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 26:
-#line 105 "grammar.yy"
+#line 105 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                           { (yylhs.value.string) = (yystack_[0].value.string); }
-#line 908 "Generated/parser.cpp"
+#line 908 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 27:
-#line 105 "grammar.yy"
+#line 105 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                  { (yylhs.value.string) = (yystack_[0].value.string); }
-#line 914 "Generated/parser.cpp"
+#line 914 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 28:
-#line 105 "grammar.yy"
+#line 105 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                              { (yylhs.value.string) = (yystack_[0].value.string); }
-#line 920 "Generated/parser.cpp"
+#line 920 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 29:
-#line 105 "grammar.yy"
+#line 105 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                      { (yylhs.value.string) = (yystack_[0].value.string); }
-#line 926 "Generated/parser.cpp"
+#line 926 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
   case 30:
-#line 105 "grammar.yy"
+#line 105 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
                                                                     { (yylhs.value.string) = (yystack_[0].value.string); }
-#line 932 "Generated/parser.cpp"
+#line 932 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
     break;
 
 
-#line 936 "Generated/parser.cpp"
+#line 936 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
 
             default:
               break;
@@ -1396,11 +1396,11 @@ namespace VerifyTAPN {
       return yy_undef_token_;
   }
 
-#line 5 "grammar.yy"
+#line 5 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 } // VerifyTAPN
-#line 1402 "Generated/parser.cpp"
+#line 1402 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/parser.cpp"
 
-#line 107 "grammar.yy"
+#line 107 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/grammar.yy"
 
 
 void 

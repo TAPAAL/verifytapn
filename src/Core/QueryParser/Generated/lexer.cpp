@@ -1,6 +1,6 @@
-#line 2 "Generated/lexer.cpp"
+#line 2 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
 
-#line 4 "Generated/lexer.cpp"
+#line 4 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -477,8 +477,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "flex.ll"
-#line 2 "flex.ll"
+#line 1 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
+#line 2 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 # include <string>
 # include "../TAPNQueryParser.hpp"
 # include "parser.hpp"
@@ -494,11 +494,11 @@ char *yytext;
    Unfortunately yyterminate by default returns 0, which is
    not of token_type.  */
 #define yyterminate() return token::END
-#line 498 "Generated/lexer.cpp"
-#line 26 "flex.ll"
+#line 498 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
+#line 26 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 # define YY_USER_ACTION  yylloc->columns (yyleng);
-#line 501 "Generated/lexer.cpp"
-#line 502 "Generated/lexer.cpp"
+#line 501 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
+#line 502 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
 
 #define INITIAL 0
 
@@ -716,13 +716,13 @@ YY_DECL
 		}
 
 	{
-#line 28 "flex.ll"
+#line 28 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 
 
-#line 31 "flex.ll"
+#line 31 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
   yylloc->step ();
 
-#line 726 "Generated/lexer.cpp"
+#line 726 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -778,13 +778,13 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 33 "flex.ll"
+#line 33 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylloc->step (); }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 34 "flex.ll"
+#line 34 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylloc->lines (yyleng); yylloc->step (); }
 	YY_BREAK
 
@@ -792,110 +792,110 @@ YY_RULE_SETUP
 
 case 3:
 YY_RULE_SETUP
-#line 40 "flex.ll"
+#line 40 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->number = atoi(yytext); return token::NUMBER; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 41 "flex.ll"
+#line 41 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::EF; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 42 "flex.ll"
+#line 42 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::AG; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 43 "flex.ll"
+#line 43 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::OR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 44 "flex.ll"
+#line 44 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::AND; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 45 "flex.ll"
+#line 45 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::BOOL_TRUE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 46 "flex.ll"
+#line 46 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::BOOL_FALSE; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 47 "flex.ll"
+#line 47 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { return token::NOT; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 48 "flex.ll"
+#line 48 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::LESS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 49 "flex.ll"
+#line 49 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::LESSEQUAL; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 50 "flex.ll"
+#line 50 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::EQUAL; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 51 "flex.ll"
+#line 51 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::EQUAL; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 52 "flex.ll"
+#line 52 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::GREATEREQUAL; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 53 "flex.ll"
+#line 53 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::GREATER; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 54 "flex.ll"
+#line 54 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 {return token::LPARAN;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 55 "flex.ll"
+#line 55 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 {return token::RPARAN;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 56 "flex.ll"
+#line 56 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 {return token::PLUS;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 57 "flex.ll"
+#line 57 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 {return token::MINUS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 58 "flex.ll"
+#line 58 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 {return token::MULTIPLY;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 60 "flex.ll"
+#line 60 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 { yylval->string = new std::string(yytext); return token::IDENTIFIER; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 62 "flex.ll"
+#line 62 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 ECHO;
 	YY_BREAK
-#line 899 "Generated/lexer.cpp"
+#line 899 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/Generated/lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1867,7 +1867,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 62 "flex.ll"
+#line 62 "/home/kyrke/projects/verifytapn/src/Core/QueryParser/flex.ll"
 
 namespace VerifyTAPN
 {

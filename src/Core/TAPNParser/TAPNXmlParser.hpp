@@ -2,8 +2,9 @@
 #define VERIFYTAPN_TAPNXMLPARSER_HPP_
 
 #include "../TAPN/TAPN.hpp"
-#include "boost/smart_ptr.hpp"
-#include "../../../lib/rapidxml-1.13/rapidxml.hpp"
+
+#include <boost/smart_ptr.hpp>
+#include <rapidxml.hpp>
 
 namespace VerifyTAPN {
 	using namespace VerifyTAPN::TAPN;
