@@ -71,9 +71,11 @@ if (VERIFYTAPN_GetDependencies)
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib64)
+    link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
 
     # we can now include external libraries
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
+    include_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/include)
 endif (VERIFYTAPN_GetDependencies)
 
 #include_directories(include)
