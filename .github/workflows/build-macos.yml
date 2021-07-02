@@ -28,7 +28,7 @@ jobs:
     
     - name: Install depends
       run: |
-        brew install cmake boost flex bison
+        brew install cmake boost google-sparsehash flex bison
     
     - name: Build 
       uses: lukka/run-cmake@v3
@@ -40,7 +40,10 @@ jobs:
         cmakeBuildType: Release
         cmakeGenerator: UnixMakefiles
         buildDirectory: '${{runner.workspace}}/build'     
-    
+      env:
+        CC: gcc-9
+        CXX: g++-9
+
     - name: Upload artifacts 
       uses: actions/upload-artifact@v2
       with:

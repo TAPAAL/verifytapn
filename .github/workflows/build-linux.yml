@@ -19,7 +19,7 @@ jobs:
     
     - name: ubuntu install depends
       run: |
-        sudo apt-get install -f flex bison libboost-all-dev cmake build-essential
+        sudo apt-get install -f flex bison libboost-all-dev libsparsehash-dev cmake build-essential
 
     - name: Build 
       uses: lukka/run-cmake@v3
