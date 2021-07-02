@@ -60,7 +60,7 @@ jobs:
         ;
         EOF
 
-        ./b2 toolset=gcc-m target-os=windows cflags="-mtune=$MTUNE" cxxstd=17 cxxflags="-mtune=$MTUNE" address-model="$ADDRM" binary-format="pe" abi="ms" threading="multi" threadapi="win32" variant=release --user-config="win$ADDRM-config.jam" --without-mpi --without-python --without-coroutine --without-graph --without-graph_parallel --without-wave --without-context -sNO_BZIP2=1 -j$CORES install
+        sudo ./b2 toolset=gcc-m target-os=windows cflags="-mtune=$MTUNE" cxxstd=17 cxxflags="-mtune=$MTUNE" address-model="$ADDRM" binary-format="pe" abi="ms" threading="multi" threadapi="win32" variant=release --user-config="win$ADDRM-config.jam" --without-mpi --without-python --without-coroutine --without-graph --without-graph_parallel --without-wave --without-context -sNO_BZIP2=1 -j$CORES install
         cd ..
 
         sudo apt install unzip
@@ -69,7 +69,7 @@ jobs:
         cd sparsehash-sparsehash-2.0.4
         ./configure CXXFLAGS=-std=c++11 --host win
         make
-        make install
+        sudo make install
         cd ..
         
         
