@@ -28,7 +28,7 @@ jobs:
     
     - name: Install depends
       run: |
-        brew install cmake boost google-sparsehash flex bison
+        brew install cmake boost google-sparsehash flex bison 
     
     - name: Build 
       uses: lukka/run-cmake@v3
