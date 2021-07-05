@@ -64,7 +64,7 @@ if (VERIFYTAPN_GetDependencies)
     )
 
     set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT")
-    set(EXTLIB "/home/kyrke/projects/verifytapn/tmp.mr40frd1RA")
+    set(EXTLIB "/usr/local")
     ExternalProject_add(udbm-ext
 	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
         GIT_TAG v2.0.9
