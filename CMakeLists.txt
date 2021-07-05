@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 #C/C++ Configuration
-set(CMAKE CXX STANDARD 17)
+set(CMAKE CXX STANDARD 14)
 if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Release)
 endif (NOT CMAKE_BUILD_TYPE)
@@ -44,6 +44,12 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_RELEASE_LIBS ON)
+set(Boost_USE_MULTITHREADED OFF)
+find_package(Boost 1.66 REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+
 if (VERIFYTAPN_GetDependencies)
     # setup for external imports
     include(ExternalProject)
@@ -57,20 +63,22 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
-    set(cflag-dbm "-DDISABLE_ASSERTX")
+    set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT")
+    set(EXTLIB "/home/kyrke/projects/verifytapn/tmp.mr40frd1RA")
     ExternalProject_add(udbm-ext
 	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
-        GIT_TAG update-install-location
-	CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} 
-		CFLAGS=${cflag-dbm}
+        GIT_TAG v2.0.9
+	CONFIGURE_COMMAND CXXFLAGS=-std=c++14 CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} 
+		CPATH=${EXTLIB}/include
+		CFLAGS=${cflag-dbm} 
 		CPPFLAGS=${cflag-dbm}
-        BUILD_COMMAND make &&
-		cp -r <SOURCE_DIR>/include <BINARY_DIR>
+		LIBRARY_PATH=${EXTLIB}/lib
+		BUILD_COMMAND LIBRARY_PATH=${EXTLIB}/lib CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} CPATH=${EXTLIB}/include make &&
+		  cp -r <SOURCE_DIR>/include <BINARY_DIR>
         INSTALL_COMMAND make install
     )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-    link_directories(${EXTERNAL_INSTALL_LOCATION}/lib64)
     link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
 
     # we can now include external libraries
