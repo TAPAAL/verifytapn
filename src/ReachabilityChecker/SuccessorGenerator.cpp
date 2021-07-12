@@ -1,7 +1,7 @@
 #include "SuccessorGenerator.hpp"
 #include "../Core/TAPN/TimedInputArc.hpp"
-#include "../Core/SymbolicMarking/SymbolicMarking.hpp"
 #include "../Core/TAPN/Pairing.hpp"
+#include "../Core/SymbolicMarking/SymbolicMarking.hpp"
 #include <algorithm>
 #include <set>
 

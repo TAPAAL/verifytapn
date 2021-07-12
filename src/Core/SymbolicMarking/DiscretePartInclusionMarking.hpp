@@ -2,12 +2,12 @@
 #define DISCRETEPARTINCLUSIONMARKING_HPP_
 
 #include "StoredMarking.hpp"
-#include "dbm/fed.h"
 #include <vector>
 #include "boost/functional/hash.hpp"
 #include <algorithm>
 #include "TokenMapping.hpp"
 #include "../../typedefs.hpp"
+#include <dbm/fed.h>
 #include <iosfwd>
 
 namespace VerifyTAPN {

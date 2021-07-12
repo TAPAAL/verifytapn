@@ -63,23 +63,17 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
-    set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT")
-    set(EXTLIB "/usr/local")
+    set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
     ExternalProject_add(udbm-ext
 	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
         GIT_TAG v2.0.9
-	CONFIGURE_COMMAND CXXFLAGS=-std=c++14 CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} 
-		CPATH=${EXTLIB}/include
-		CFLAGS=${cflag-dbm} 
-		CPPFLAGS=${cflag-dbm}
-		LIBRARY_PATH=${EXTLIB}/lib
-		BUILD_COMMAND LIBRARY_PATH=${EXTLIB}/lib CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} CPATH=${EXTLIB}/include make &&
-		  cp -r <SOURCE_DIR>/include <BINARY_DIR>
+	CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} CPATH=${Boost_INCLUDE_DIR} CFLAGS=${cflag-dbm} CPPFLAGS=${cflag-dbm}
+	BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}  CPATH=${Boost_INCLUDE_DIR} make && cp -r <SOURCE_DIR>/include <BINARY_DIR>
         INSTALL_COMMAND make install
     )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-    link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
+    #link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
 
     # we can now include external libraries
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)

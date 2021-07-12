@@ -3,7 +3,7 @@
 
 #include <limits>
 #include <iostream>
-#include "dbm/constraints.h"
+#include <dbm/constraints.h>
 
 namespace VerifyTAPN {
 	namespace TAPN {

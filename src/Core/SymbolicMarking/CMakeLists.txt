@@ -8,6 +8,6 @@ add_library(SymbolicMarking
 )
 
 
-target_link_libraries(SymbolicMarking
-	${EXTERNAL_INSTALL_LOCATION}/uppaal/lib/libudbm.a
-)
+#target_link_libraries(SymbolicMarking
+#	 ${EXTERNAL_INSTALL_LOCATION}/uppaal/lib/libudbm.a
+#)
