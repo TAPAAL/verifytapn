@@ -2,12 +2,16 @@ cmake_minimum_required(VERSION 3.16)
 
 #C/C++ Configuration
 set(CMAKE CXX STANDARD 14)
+
 if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Release)
 endif (NOT CMAKE_BUILD_TYPE)
 
 if (CMAKE_BUILD_TYPE MATCHES Release)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+	if (NOT APPLE)
+	  #TODO: Using INTERPROCEDURAL_OPTIMIZATION fails when corss-compiling for windows, disabled for now
+	  #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+	endif()
 endif ()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -63,21 +67,22 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
-    set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
-    ExternalProject_add(udbm-ext
-	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
-        GIT_TAG v2.0.9
-	CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} CPATH=${Boost_INCLUDE_DIR} CFLAGS=${cflag-dbm} CPPFLAGS=${cflag-dbm}
-	BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}  CPATH=${Boost_INCLUDE_DIR} make && cp -r <SOURCE_DIR>/include <BINARY_DIR>
-        INSTALL_COMMAND make install
-    )
+    #set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
+    #ExternalProject_add(udbm-ext
+    #	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
+    #    GIT_TAG v2.0.9
+    #	CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} CPATH=${Boost_INCLUDE_DIR} CFLAGS=${cflag-dbm} CPPFLAGS=${cflag-dbm}
+    #	BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}  CPATH=${Boost_INCLUDE_DIR} make && cp -r <SOURCE_DIR>/include <BINARY_DIR>
+    #   INSTALL_COMMAND make install
+    #    )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
+    link_directories(/home/kyrke/projects/UCDD/build/ucdd/lib)
     #link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
 
     # we can now include external libraries
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-    include_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/include)
+    include_directories(/home/kyrke/projects/UCDD/include)
 endif (VERIFYTAPN_GetDependencies)
 
 #include_directories(include)
