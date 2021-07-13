@@ -64,14 +64,14 @@ jobs:
         ./b2 toolset=gcc-m target-os=windows cflags="-mtune=$MTUNE" cxxstd=17 cxxflags="-mtune=$MTUNE" address-model="$ADDRM" binary-format="pe" abi="ms" threading="multi" threadapi="win32" variant=release --user-config="win$ADDRM-config.jam" --prefix="$PREFIX" --without-mpi --without-python --without-coroutine --without-graph --without-graph_parallel --without-wave --without-context -sNO_BZIP2=1 -j$CORES install
         cd ..
 
-        #        sudo apt install unzip
-        #wget https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.zip
-        #unzip sparsehash-2.0.4.zip
-        #cd sparsehash-sparsehash-2.0.4
-        #./configure CXXFLAGS=-std=c++11 --prefix="$PREFIX" --host win
-        #make
-        #make install
-        #cd ..
+        sudo apt install unzip
+        wget https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.zip
+        unzip sparsehash-2.0.4.zip
+        cd sparsehash-sparsehash-2.0.4
+        ./configure CXXFLAGS=-std=c++11 --prefix="$PREFIX" --host win
+        make
+        make install
+        cd ..
         
         
     - name: Build 
