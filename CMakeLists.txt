@@ -68,21 +68,27 @@ if (VERIFYTAPN_GetDependencies)
     )
 
     #set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
-    #ExternalProject_add(udbm-ext
-    #	GIT_REPOSITORY https://github.com/uppaalmodelchecker/UDBM
-    #    GIT_TAG v2.0.9
-    #	CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} <SOURCE_DIR>/configure --prefix=${EXTERNAL_INSTALL_LOCATION} CPATH=${Boost_INCLUDE_DIR} CFLAGS=${cflag-dbm} CPPFLAGS=${cflag-dbm}
-    #	BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}  CPATH=${Boost_INCLUDE_DIR} make && cp -r <SOURCE_DIR>/include <BINARY_DIR>
-    #   INSTALL_COMMAND make install
-    #    )
+    ExternalProject_add(udbm-ext
+	    URL https://people.cs.aau.dk/~ba47ku/dl/udbm-prerelease.zip
+	    URL_HASH SHA512=71bdb764a8111a51ce3eec827f1e9670689bb83c729cf4e1ed719b1a6357319d2ac9d4983770148fa9fd6f699fe17700bf172b0f8b2f96725bfc9229e61bf5aa
+	    CMAKE_ARGS(
+              -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
+	      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+   	    )
+            INSTALL_COMMAND 
+	    	mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include && 
+		${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include && 
+		mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
+                ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib 
+    )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-    link_directories(/home/kyrke/projects/UCDD/build/ucdd/lib)
+    #link_directories(/home/kyrke/projects/UCDD/build/ucdd/lib)
     #link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
 
     # we can now include external libraries
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-    include_directories(/home/kyrke/projects/UCDD/include)
+    #include_directories(/home/kyrke/projects/UCDD/include)
 endif (VERIFYTAPN_GetDependencies)
 
 #include_directories(include)
