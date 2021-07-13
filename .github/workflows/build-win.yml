@@ -42,8 +42,9 @@ jobs:
         export CC=x86_64-w64-mingw32-gcc
         export CXX=x86_64-w64-mingw32-g++
 
-        export PREFIX=$(mktemp -d -p .) #Or set it to path where libs are saved
-        export PREFIX=$(realpath $PREFIX)
+        export PREFIX=$(pwd)/prefixDepend 
+        #export PREFIX=$(realpath $PREFIX)
+        mkdir -p $PREFIX
         
         BOOST=boost_1_72_0
         VER=${BOOST#boost_}
@@ -79,6 +80,7 @@ jobs:
         cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
         cmakeAppendedArgs: >-
           -DCMAKE_TOOLCHAIN_FILE=${{runner.workspace}}/verifytapn/toolchain-x86_64-w64-mingw32.cmake
+          -DBOOST_ROOT=${{runner.workspace}}/prefixDepend
         cmakeBuildType: Release
         cmakeGenerator: UnixMakefiles
         buildDirectory: '${{runner.workspace}}/build'     
