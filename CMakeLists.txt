@@ -69,8 +69,8 @@ if (VERIFYTAPN_GetDependencies)
 
     #set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
     ExternalProject_add(udbm-ext
-	    URL https://people.cs.aau.dk/~ba47ku/dl/udbm-prerelease.zip
-	    URL_HASH SHA512=71bdb764a8111a51ce3eec827f1e9670689bb83c729cf4e1ed719b1a6357319d2ac9d4983770148fa9fd6f699fe17700bf172b0f8b2f96725bfc9229e61bf5aa
+	    URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.10-rc.1.zip
+	    URL_HASH SHA512=2c3177b9e5cde9f790373f726a50b83917fb32a45122dfaeab1e3db1f4abd246ce98af7e3b23de403094eb679672f9b6c85b4a16143962607e126551820aa565
 	    CMAKE_ARGS(
               -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
 	      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
