@@ -3,3 +3,4 @@ Release
 .cproject
 .project
 .settings
+build/

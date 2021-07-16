@@ -4,9 +4,9 @@
 #include "DiscreteMarking.hpp"
 #include "StoredMarking.hpp"
 #include "TokenMapping.hpp"
-#include "dbm/fed.h"
 #include "MarkingFactory.hpp"
 #include "../TAPN/TimedArcPetriNet.hpp"
+#include <dbm/fed.h>
 #include <iosfwd>
 
 namespace VerifyTAPN {

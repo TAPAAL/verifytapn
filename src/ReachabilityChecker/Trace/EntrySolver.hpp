@@ -4,8 +4,8 @@
 #include "TraceInfo.hpp"
 #include <deque>
 #include <vector>
-#include "dbm/fed.h"
 #include "../../typedefs.hpp"
+#include <dbm/fed.h>
 
 namespace VerifyTAPN
 {

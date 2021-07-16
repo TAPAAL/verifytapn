@@ -1,9 +1,9 @@
 #include "TraceStore.hpp"
 #include "EntrySolver.hpp"
 #include "../../Core/SymbolicMarking/SymbolicMarking.hpp"
-#include "../../../lib/rapidxml-1.13/rapidxml.hpp"
-#include "../../../lib/rapidxml-1.13/rapidxml_print.hpp"
 #include "../../Core/TAPNParser/util.hpp"
+
+#include <rapidxml.hpp>
 
 namespace VerifyTAPN
 {
@@ -204,6 +204,6 @@ namespace VerifyTAPN
 			UpdateMarking(marking, traceInfo, tapn);
 		}
 
-		std::cerr << doc;
+		std::cerr << doc.first_node();
 	}
 }
