@@ -4,6 +4,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 #env:
 #    BOOST_ROOT : "/usr/local/share/boost/1.69.0" 
