@@ -13,7 +13,7 @@ project(${VERIFYTAPN_NAME} VERSION ${VERIFYTAPN_VERSION} LANGUAGES CXX C)
 
 
 # C++ Definition
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
@@ -52,7 +52,8 @@ endif ()
 ## Enabled INTERPROCEDURAL_OPTIMIZATION for non-macos
 if (CMAKE_BUILD_TYPE MATCHES Release)
     if (NOT APPLE)
-    	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+        #TODO: Using INTERPROCEDURAL_OPTIMIZATION fails when corss-compiling for windows, disabled for now
+        #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
     endif ()
 endif ()
 
