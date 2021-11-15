@@ -4,28 +4,25 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [synchronize, opened, reopened, ready_for_review]
   workflow_dispatch:
 
-#env:
-#    BOOST_ROOT : "/usr/local/share/boost/1.69.0" 
-#    Boost_INCLUDE_DIR : "/usr/local/share/boost/1.69.0/libs/headers"
+concurrency: 
+  group: build-win-${{ github.head_ref }}
+  cancel-in-progress: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    if: github.event.pull_request.draft == false  
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     
     - name: Install depends
       run: |
         sudo apt-get update
-        sudo apt-get install flex cmake build-essential mingw-w64-x86-64-dev mingw-w64-tools g++-mingw-w64-x86-64
+        sudo apt-get install flex bison mingw-w64-x86-64-dev mingw-w64-tools g++-mingw-w64-x86-64
     
     - name: Setup Dependency
       run: | 
