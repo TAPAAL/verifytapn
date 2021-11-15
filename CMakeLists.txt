@@ -1,53 +1,68 @@
 cmake_minimum_required(VERSION 3.16)
 
-#C/C++ Configuration
-set(CMAKE CXX STANDARD 14)
+## Default to release builds, must be set before project
+if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+endif()
 
-if (NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE Release)
-endif (NOT CMAKE_BUILD_TYPE)
 
-if (CMAKE_BUILD_TYPE MATCHES Release)
-	if (NOT APPLE)
-	  #TODO: Using INTERPROCEDURAL_OPTIMIZATION fails when corss-compiling for windows, disabled for now
-	  #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-	endif()
-endif ()
+# Project Definition
+set(VERIFYTAPN_NAME "verifytapn")
+set(VERIFYTAPN_VERSION 1.3.0)
+project(${VERIFYTAPN_NAME} VERSION ${VERIFYTAPN_VERSION} LANGUAGES CXX C)
+
+
+# C++ Definition
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Project Configuration
-set(VERIFYTAPN_VERSION 1.3.0)
-project( verifytapn VERSION ${VERIDYTAPN_VERSION} LANGUAGES CXX C)
 
-
+# Default Values
+## Build Flags
 option(VERIFYTAPN_Static "Link libraries statically" ON)
-option(VERIFYTAPN_GetDependencies "Get external depedencies automatically" ON)
+option(VERIFYTAPN_GetDependencies "Fetch external dependencies from web." ON)
+set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external CACHE PATH "Install location for external dependencies")
+set(VERIFYTAPN_TARGETDIR "${CMAKE_BINARY_DIR}/${VERIFYTAPN_NAME}" CACHE PATH "Traget directory for build files")
+set(VERIFYTAPN_OSX_DEPLOYMENT_TARGET 10.8 CACHE STRING "Specify the minimum version of the target platform for MacOS on which the target binaries are to be deployed ") 
 
+# Configure Project
+
+## Configure Static
 if (VERIFYTAPN_Static)
     set(BUILD_SHARED_LIBS OFF)
-else(VERIFYTAPN_Static)
+    #It seems linking -static does not work
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-endif (VERIFYTAPN_Static)
+    #if (NOT APPLE)
+    #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    #else () 
+    #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+    #endif()
+endif ()
 
+## Configure Traget Platform 
 if (UNIX AND NOT APPLE)
     set(ARCH_TYPE "linux64")
-elseif(APPLE)
+elseif (APPLE)
     set(ARCH_TYPE "osx64")
-else()
+    set(CMAKE_OSX_DEPLOYMENT_TARGET ${VERIFYTAPN_OSX_DEPLOYMENT_TARGET})
+else ()
     set(ARCH_TYPE "win64")
 endif ()
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -DNDEBUG")
+## Enabled INTERPROCEDURAL_OPTIMIZATION for non-macos
+if (CMAKE_BUILD_TYPE MATCHES Release)
+    if (NOT APPLE)
+        #TODO: Using INTERPROCEDURAL_OPTIMIZATION fails when corss-compiling for windows, disabled for now
+        #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+    endif ()
+endif ()
 
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -O2 -DNDEBUG")
-if (VERIFYPN_Static AND NOT APPLE)
-    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -static")
-endif()
+## Target File location
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/bin)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
+# Required Packages and Tools
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_RELEASE_LIBS ON)
 set(Boost_USE_MULTITHREADED OFF)
@@ -55,9 +70,8 @@ find_package(Boost 1.66 REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
 if (VERIFYTAPN_GetDependencies)
-    # setup for external imports
     include(ExternalProject)
-    set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
+    # Install location should be ${EXTERNAL_INSTALL_LOCATION}
 
     ExternalProject_add(rapidxml-ext
         URL https://downloads.sourceforge.net/project/rapidxml/rapidxml/rapidxml%201.13/rapidxml-1.13.zip
@@ -72,25 +86,28 @@ if (VERIFYTAPN_GetDependencies)
 	    URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.10.zip
 	    URL_HASH SHA512=62ae6b8be8b3f1c42f8c2690d488ad1ad48cacaa31a444e6c77192734701ae42c38448ba1fb1f8199d2e67ead8c9a6acb91c92b3b37b5b40589b74c588c0a5e7
 	    CMAKE_ARGS(
-              -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
-	      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+            -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
+            -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
    	    )
-            INSTALL_COMMAND 
-	    	mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include && 
-		${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include && 
-		mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
-                ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib 
+        INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include && 
+		    ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include && 
+		    mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
+            ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib 
     )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-    #link_directories(/home/kyrke/projects/UCDD/build/ucdd/lib)
-    #link_directories(${EXTERNAL_INSTALL_LOCATION}/uppaal/lib)
-
-    # we can now include external libraries
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-    #include_directories(/home/kyrke/projects/UCDD/include)
 endif (VERIFYTAPN_GetDependencies)
 
-#include_directories(include)
+# Set Macros
+add_compile_definitions(VERIFYTAPN_VERSION=\"${VERIFYTAPN_VERSION}\")
 
+# Source
+#include_directories(include)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/)
+
+# Testing
+#if (VERIFYTAPN_TEST)
+#    enable_testing()
+#    add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+#endif()

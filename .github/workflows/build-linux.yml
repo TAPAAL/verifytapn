@@ -7,6 +7,10 @@ on:
     branches: [ main ]
   workflow_dispatch:  
 
+concurrency: 
+  group: build-Linux-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -17,7 +21,7 @@ jobs:
     - name: ubuntu install depends
       run: |
         sudo apt-get update
-        sudo apt-get install -f flex bison libboost-all-dev libsparsehash-dev cmake build-essential
+        sudo apt-get install -f flex bison libboost-all-dev libsparsehash-dev
 
     - name: Build 
       uses: lukka/run-cmake@v3
@@ -32,4 +36,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: verifytapn-linux64
-        path: '${{runner.workspace}}/build/bin/verifytapn-linux64'
+        path: '${{runner.workspace}}/build/verifytapn/bin/verifytapn-linux64'
