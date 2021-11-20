@@ -8,7 +8,7 @@ endif()
 
 # Project Definition
 set(VERIFYTAPN_NAME "verifytapn")
-set(VERIFYTAPN_VERSION 1.3.0)
+set(VERIFYTAPN_VERSION 1.3.1)
 project(${VERIFYTAPN_NAME} VERSION ${VERIFYTAPN_VERSION} LANGUAGES CXX C)
 
 
