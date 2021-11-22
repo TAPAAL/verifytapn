@@ -1,8 +1,10 @@
 #ifndef VERIFYTAPN_TAPN_TIMEDINPUTARC_HPP_
 #define VERIFYTAPN_TAPN_TIMEDINPUTARC_HPP_
 
-#include <vector>
 #include "TimeInterval.hpp"
+
+#include <vector>
+#include <memory>
 
 namespace VerifyTAPN {
 	namespace TAPN {

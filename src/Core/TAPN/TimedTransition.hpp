@@ -1,13 +1,15 @@
 #ifndef VERIFYTAPN_TAPN_TIMEDTRANSITION_HPP_
 #define VERIFYTAPN_TAPN_TIMEDTRANSITION_HPP_
 
-#include <string>
-#include <vector>
 #include "TimedInputArc.hpp"
 #include "TransportArc.hpp"
 #include "InhibitorArc.hpp"
 #include "OutputArc.hpp"
-#include "boost/shared_ptr.hpp"
+
+#include <string>
+#include <vector>
+#include <memory>
+
 
 namespace VerifyTAPN {
 

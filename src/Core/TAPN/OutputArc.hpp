@@ -2,6 +2,7 @@
 #define VERIFYTAPN_TAPN_OUTPUTARC_HPP_
 
 #include <vector>
+#include <memory>
 
 namespace VerifyTAPN {
 	namespace TAPN {

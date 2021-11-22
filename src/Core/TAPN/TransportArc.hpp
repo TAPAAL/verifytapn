@@ -1,9 +1,10 @@
 #ifndef TRANSPORTARC_HPP_
 #define TRANSPORTARC_HPP_
 
-#include <vector>
 #include "TimeInterval.hpp"
-#include "boost/smart_ptr.hpp"
+
+#include <vector>
+#include <memory>
 
 namespace VerifyTAPN
 {

@@ -7,7 +7,6 @@
 #include "../Core/SymbolicMarking/MarkingFactory.hpp"
 
 #include <vector>
-#include <boost/smart_ptr.hpp>
 
 namespace VerifyTAPN {
 	class SymbolicMarking;

@@ -1,12 +1,14 @@
 #ifndef ARGSPARSER_HPP_
 #define ARGSPARSER_HPP_
 
+#include "VerificationOptions.hpp"
+#include "boost/lexical_cast.hpp"
+
 #include <vector>
 #include <map>
 #include <string>
 #include <iosfwd>
-#include "VerificationOptions.hpp"
-#include "boost/lexical_cast.hpp"
+#include <memory>
 
 namespace VerifyTAPN
 {

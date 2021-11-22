@@ -1,5 +1,4 @@
 #include <iostream>
-#include "boost/smart_ptr.hpp"
 #include "Core/TAPNParser/TAPNXmlParser.hpp"
 #include "Core/VerificationOptions.hpp"
 #include "Core/ArgsParser.hpp"
