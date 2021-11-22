@@ -19,28 +19,28 @@ class SymMarking;
 		class TimedTransition
 		{
 		public: // typedefs
-			typedef std::vector< boost::shared_ptr<TimedTransition> > Vector;
+			typedef std::vector< std::shared_ptr<TimedTransition> > Vector;
 		public:
 			TimedTransition(const std::string& name, const std::string& id) : name(name), id(id), preset(), postset(), transportArcs(), index(-1) { };
 			TimedTransition() : name("*EMPTY*"), id("-1"), preset(), postset(), transportArcs(), index(-1) { };
 			virtual ~TimedTransition() { /* empty */ }
 
 		public: // modifiers
-			void AddToPreset(const boost::shared_ptr<TimedInputArc>& arc);
-			void AddToPostset(const boost::shared_ptr<OutputArc>& arc);
-			void AddTransportArcGoingThrough(const boost::shared_ptr<TransportArc>& arc);
-			void AddIncomingInhibitorArc(const boost::shared_ptr<InhibitorArc>& arc);
+			void AddToPreset(const std::shared_ptr<TimedInputArc>& arc);
+			void AddToPostset(const std::shared_ptr<OutputArc>& arc);
+			void AddTransportArcGoingThrough(const std::shared_ptr<TransportArc>& arc);
+			void AddIncomingInhibitorArc(const std::shared_ptr<InhibitorArc>& arc);
 
 			inline void SetIndex(int i) { index = i; };
 		public: // inspectors
 			inline const std::string& GetName() const { return name; };
 			inline const std::string& GetId() const { return id; };
 			void Print(std::ostream&) const;
-			inline const TimedInputArc::WeakPtrVector& GetPreset() const { return preset; }
-			inline const TransportArc::WeakPtrVector& GetTransportArcs() const { return transportArcs; }
-			inline const InhibitorArc::WeakPtrVector& GetInhibitorArcs() const { return inhibitorArcs; }
+			inline const TimedInputArc::NakedPtrVector& GetPreset() const { return preset; }
+			inline const TransportArc::NakedPtrVector& GetTransportArcs() const { return transportArcs; }
+			inline const InhibitorArc::NakedPtrVector& GetInhibitorArcs() const { return inhibitorArcs; }
 			inline const unsigned int GetPresetSize() const { return NumberOfInputArcs() + NumberOfTransportArcs(); }
-			inline const OutputArc::WeakPtrVector& GetPostset() const { return postset; }
+			inline const OutputArc::NakedPtrVector& GetPostset() const { return postset; }
 			inline const unsigned int GetPostsetSize() const { return postset.size() + transportArcs.size(); }
 			inline unsigned int NumberOfInputArcs() const { return preset.size(); };
 			inline unsigned int NumberOfTransportArcs() const { return transportArcs.size(); };
@@ -51,10 +51,10 @@ class SymMarking;
 		private: // data
 			std::string name;
 			std::string id;
-			TimedInputArc::WeakPtrVector preset;
-			OutputArc::WeakPtrVector postset;
-			TransportArc::WeakPtrVector transportArcs;
-			InhibitorArc::WeakPtrVector inhibitorArcs;
+			TimedInputArc::NakedPtrVector preset;
+			OutputArc::NakedPtrVector postset;
+			TransportArc::NakedPtrVector transportArcs;
+			InhibitorArc::NakedPtrVector inhibitorArcs;
 			unsigned int index;
 		};
 

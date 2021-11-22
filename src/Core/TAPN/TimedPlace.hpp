@@ -8,7 +8,6 @@
 #include "TimeInvariant.hpp"
 #include "TimedInputArc.hpp"
 #include "OutputArc.hpp"
-#include "boost/shared_ptr.hpp"
 
 namespace VerifyTAPN{
 	namespace TAPN{
@@ -26,7 +25,7 @@ namespace VerifyTAPN{
 			static const std::string BOTTOM_NAME;
 
 		public: // typedefs
-			typedef std::vector< boost::shared_ptr<TimedPlace> > Vector;
+			typedef std::vector< std::shared_ptr<TimedPlace> > Vector;
 
 		public: // construction / destruction
 			TimedPlace(const std::string& name, const std::string& id, const TimeInvariant timeInvariant)

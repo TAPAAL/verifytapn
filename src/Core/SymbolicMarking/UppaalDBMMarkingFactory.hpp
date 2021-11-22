@@ -11,7 +11,7 @@ namespace VerifyTAPN {
 	protected:
 		static id_type nextId;
 	public:
-		UppaalDBMMarkingFactory(const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn)
+		UppaalDBMMarkingFactory(const std::shared_ptr<TAPN::TimedArcPetriNet>& tapn)
 		{
 			DBMMarking::tapn = tapn;
 		};

@@ -7,35 +7,35 @@ namespace VerifyTAPN {
 			out << GetName() << "(" << index << ")";
 		}
 
-		void TimedTransition::AddToPreset(const boost::shared_ptr<TimedInputArc>& arc)
+		void TimedTransition::AddToPreset(const std::shared_ptr<TimedInputArc>& arc)
 		{
 			if(arc)
 			{
-				preset.push_back(arc);
+				preset.push_back(arc.get());
 			}
 		}
 
-		void TimedTransition::AddTransportArcGoingThrough(const boost::shared_ptr<TransportArc>& arc)
+		void TimedTransition::AddTransportArcGoingThrough(const std::shared_ptr<TransportArc>& arc)
 		{
 			if(arc)
 			{
-				transportArcs.push_back(arc);
+				transportArcs.push_back(arc.get());
 			}
 		}
 
-		void TimedTransition::AddIncomingInhibitorArc(const boost::shared_ptr<InhibitorArc>& arc)
+		void TimedTransition::AddIncomingInhibitorArc(const std::shared_ptr<InhibitorArc>& arc)
 		{
 			if(arc)
 			{
-				inhibitorArcs.push_back(arc);
+				inhibitorArcs.push_back(arc.get());
 			}
 		}
 
-		void TimedTransition::AddToPostset(const boost::shared_ptr<OutputArc>& arc)
+		void TimedTransition::AddToPostset(const std::shared_ptr<OutputArc>& arc)
 		{
 			if(arc)
 			{
-				postset.push_back(arc);
+				postset.push_back(arc.get());
 			}
 		}
 	}

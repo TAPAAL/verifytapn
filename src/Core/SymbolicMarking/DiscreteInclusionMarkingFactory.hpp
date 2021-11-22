@@ -13,7 +13,7 @@ namespace VerifyTAPN {
 
 class DiscreteInclusionMarkingFactory : public UppaalDBMMarkingFactory {
 public:
-	DiscreteInclusionMarkingFactory(const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn, const VerificationOptions& options)
+	DiscreteInclusionMarkingFactory(const std::shared_ptr<TAPN::TimedArcPetriNet>& tapn, const VerificationOptions& options)
 		: UppaalDBMMarkingFactory(tapn), tapn(tapn), inc_places(tapn->NumberOfPlaces(), false), empty_inc(options.GetFactory() == DEFAULT) { MarkPlacesForInclusion(options.GetIncPlaces()); };
 	virtual ~DiscreteInclusionMarkingFactory() {};
 
@@ -310,7 +310,7 @@ private:
 		}
 	};
 private:
-	boost::shared_ptr<TAPN::TimedArcPetriNet> tapn;
+	std::shared_ptr<TAPN::TimedArcPetriNet> tapn;
 	std::vector<bool> inc_places;
 	bool empty_inc;
 };

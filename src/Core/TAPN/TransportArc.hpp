@@ -15,13 +15,13 @@ namespace VerifyTAPN
 		class TransportArc
 		{
 		public:
-			typedef std::vector< boost::shared_ptr<TransportArc> > Vector;
-			typedef std::vector< boost::weak_ptr<TransportArc> > WeakPtrVector;
+			typedef std::vector< std::shared_ptr<TransportArc> > Vector;
+			typedef std::vector< TransportArc* > NakedPtrVector;
 		public:
 			TransportArc(
-					const boost::shared_ptr<TimedPlace>& source,
-					const boost::shared_ptr<TimedTransition>& transition,
-					const boost::shared_ptr<TimedPlace>& destination,
+					const std::shared_ptr<TimedPlace>& source,
+					const std::shared_ptr<TimedTransition>& transition,
+					const std::shared_ptr<TimedPlace>& destination,
 					const TAPN::TimeInterval& interval
 			) : interval(interval), source(source), transition(transition), destination(destination) {};
 
@@ -36,9 +36,9 @@ namespace VerifyTAPN
 				void Print(std::ostream& out) const;
 		private:
 			const TAPN::TimeInterval interval;
-			const boost::shared_ptr<TimedPlace> source;
-			const boost::shared_ptr<TimedTransition> transition;
-			const boost::shared_ptr<TimedPlace> destination;
+			const std::shared_ptr<TimedPlace> source;
+			const std::shared_ptr<TimedTransition> transition;
+			const std::shared_ptr<TimedPlace> destination;
 		};
 
 		inline std::ostream& operator<<(std::ostream& out, const TransportArc& arc)
