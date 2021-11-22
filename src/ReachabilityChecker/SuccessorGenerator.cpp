@@ -2,6 +2,7 @@
 #include "../Core/TAPN/TimedInputArc.hpp"
 #include "../Core/TAPN/Pairing.hpp"
 #include "../Core/SymbolicMarking/SymbolicMarking.hpp"
+
 #include <algorithm>
 #include <set>
 
@@ -36,7 +37,7 @@ namespace VerifyTAPN {
 					assert(nTokensFromCurrInputPlace <= static_cast<unsigned int>(options.GetKBound()));
 
 					arcsArray[currInputArcIdx] = arcsArray[currInputArcIdx] + 1;
-					tokenIndices->insert_element(currInputArcIdx,nTokensFromCurrInputPlace, i);
+                    tokenIndices[toIndex(currInputArcIdx, nTokensFromCurrInputPlace)] = i;
 					nTokensFromCurrInputPlace++;
 				}
 			}
@@ -103,7 +104,7 @@ namespace VerifyTAPN {
 
 					// Generate next permutation of input tokens
 					int j = presetSize - 1;
-					if (j<0) { break; }    
+					if (j<0) { break; }
 
 					while(true)
 					{
@@ -171,7 +172,7 @@ namespace VerifyTAPN {
 			boost::shared_ptr<TAPN::TransportArc> ta = transition.GetTransportArcs()[i].lock();
 			const TAPN::TimeInterval& ti = ta->Interval();
 
-			int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
+			int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
 			int outputPlaceIndex = tapn.GetPlaceIndex(ta->Destination());
 
 			// constrain dbm with the guard of the input arc
@@ -201,7 +202,7 @@ namespace VerifyTAPN {
 			for(std::list<int>::const_iterator opIter = outputPlaces.begin(); opIter != outputPlaces.end(); ++opIter)
 			{
 				// change placement
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+offset+i, currentPermutationindices[offset+i]);
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+offset+i, currentPermutationindices[offset+i])];
 				int outputPlaceIndex = *opIter;
 
 				// constrain dbm with the guard of the input arc
@@ -222,7 +223,7 @@ namespace VerifyTAPN {
 
 		// reset clocks of moved tokens
 		for (unsigned int i = transition.NumberOfTransportArcs(); i < presetSize; ++i) {
-			int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
+			int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
 
 			next->Reset(tokenIndex);
 		}
@@ -278,7 +279,7 @@ namespace VerifyTAPN {
 			// handle transport arcs
 			for(unsigned int i = 0; i < transition.NumberOfTransportArcs(); i++)
 			{
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
 				boost::shared_ptr<TAPN::TransportArc> ia = transition.GetTransportArcs()[i].lock();
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
@@ -297,7 +298,7 @@ namespace VerifyTAPN {
 			// handle normal arcs
 			for(unsigned int i = 0; i < transition.NumberOfInputArcs(); ++i)
 			{
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+offset+i, currentPermutationindices[offset+i]);
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+offset+i, currentPermutationindices[offset+i])];
 				boost::shared_ptr<TAPN::TimedInputArc> ia = preset[i].lock();
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
@@ -388,29 +389,6 @@ namespace VerifyTAPN {
 //    	inverted.resize(count);
 //    	mapping.swap(inverted);
 //    }
-
-
-	void SuccessorGenerator::Print(std::ostream& out) const
-	{
-		out << "\nArcs Array:\n";
-		out << "------------------\n";
-
-		for(unsigned int i = 0; i < nInputArcs; i++)
-		{
-			out << i << ": " << arcsArray[i] << "\n";
-		}
-
-		out << "\nTransitions Array:\n";
-				out << "------------------\n";
-		for(int j =0;j< numberOfTransitions;j++){
-			out << j << ": " << transitionStatistics[j] << "\n";
-		}
-
-		out << "\n\nToken Indices:\n";
-		out << "----------------------\n";
-
-		out << *tokenIndices << "\n";
-	}
 
 	void SuccessorGenerator::PrintTransitionStatistics(std::ostream& out) const {
 		out << std::endl << "TRANSITION STATISTICS";
