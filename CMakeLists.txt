@@ -31,12 +31,12 @@ set(VERIFYTAPN_OSX_DEPLOYMENT_TARGET 10.8 CACHE STRING "Specify the minimum vers
 if (VERIFYTAPN_Static)
     set(BUILD_SHARED_LIBS OFF)
     #It seems linking -static does not work
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-    #if (NOT APPLE)
-    #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-    #else () 
-    #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-    #endif()
+    #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+    if (NOT APPLE)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    else () 
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+    endif()
 endif ()
 
 ## Configure Traget Platform 
