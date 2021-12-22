@@ -14,19 +14,6 @@ namespace VerifyTAPN
 {
 	const int WIDTH = 40; // TODO: determine this based on registered switches
 
-	struct Version
-	{
-	public:
-		Version(unsigned int maj, unsigned int min, unsigned int build) : maj(maj), min(min), build(build) { };
-		unsigned int maj;
-		unsigned int min;
-		unsigned int build;
-		// TODO: maybe add revision?
-	};
-
-	std::ostream& operator <<(std::ostream& out, const Version& version);
-
-
 	typedef std::map<std::string, std::string> option_map;
 	typedef option_map::value_type option;
 
@@ -81,7 +68,7 @@ namespace VerifyTAPN
 	class ArgsParser {
 		typedef std::vector< std::shared_ptr<Switch> > parser_vec;
 	public:
-		ArgsParser() : parsers(), version(1,3,1) { Initialize(); };
+		ArgsParser() : parsers() { Initialize(); };
 		virtual ~ArgsParser() {};
 
 		VerificationOptions Parse(int argc, char* argv[]) const;
@@ -94,7 +81,6 @@ namespace VerifyTAPN
 		void Version() const;
 	private: // data
 		parser_vec parsers;
-		VerifyTAPN::Version version;
 	};
 }
 
