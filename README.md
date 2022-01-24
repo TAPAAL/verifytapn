@@ -25,9 +25,13 @@ brew install cmake boost google-sparsehash flex bison
 mkdir build && cd build
 cmake .. -DFLEX_EXECUTABLE=/usr/local/opt/flex/bin/flex -DBISON_EXECUTABLE=/usr/local/opt/bison/bin/bison
 make
-
 ```
 
+Alternative bison and flex locations:
+
+```
+cmake -DBISON_EXECUTABLE=/opt/homebrew/opt/bison/bin/bison -DFLEX_EXECUTABLE=/opt/homebrew/opt/flex/bin/flex ..
+```
 
 ## Windows (Cross-compile)
 
