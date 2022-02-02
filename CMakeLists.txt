@@ -69,6 +69,8 @@ include_directories(${Boost_INCLUDE_DIR})
 
 if (VERIFYTAPN_GetDependencies)
     include(ExternalProject)
+    find_package(FLEX 2.6.0 REQUIRED)
+    find_package(BISON 3.5.0 REQUIRED)
     # Install location should be ${EXTERNAL_INSTALL_LOCATION}
 
     ExternalProject_add(rapidxml-ext

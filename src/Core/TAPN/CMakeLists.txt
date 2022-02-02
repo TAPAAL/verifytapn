@@ -11,3 +11,6 @@ add_library(TAPN
    	TransportArc.cpp
         TAPNModelBuilder.cpp
 )
+
+
+add_dependencies(TAPN udbm-ext)

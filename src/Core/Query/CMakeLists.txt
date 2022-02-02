@@ -8,3 +8,6 @@ add_library(Query
 	UpwardClosedVisitor.cpp
         TranslationVisitor.cpp
 )
+
+
+add_dependencies(Query unfoldtacpn-ext)
