@@ -52,10 +52,8 @@ namespace VerifyTAPN {
 
 		for(TAPN::TimedTransition::Vector::const_iterator iter = transitions.begin(); iter != transitions.end(); ++iter)
 		{
-			const TAPN::TransportArc::WeakPtrVector& transportArcs = (*iter)->GetTransportArcs();
-			for(TAPN::TransportArc::WeakPtrVector::const_iterator presetIter = transportArcs.begin(); presetIter != transportArcs.end(); ++presetIter)
+			for(auto* ta : (*iter)->GetTransportArcs())
 			{
-				boost::shared_ptr<TAPN::TransportArc> ta = (*presetIter).lock();
 				const TAPN::TimeInterval& ti = ta->Interval();
 				int currInputPlaceIndex = tapn.GetPlaceIndex(ta->Source());
 
@@ -63,10 +61,8 @@ namespace VerifyTAPN {
 				currInputArcIdx++;
 			}
 
-			const TAPN::TimedInputArc::WeakPtrVector& preset = (*iter)->GetPreset();
-			for(TAPN::TimedInputArc::WeakPtrVector::const_iterator presetIter = preset.begin(); presetIter != preset.end(); ++presetIter)
+			for(auto* ia : (*iter)->GetPreset())
 			{
-				boost::shared_ptr<TAPN::TimedInputArc> ia = (*presetIter).lock();
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int currInputPlaceIndex = tapn.GetPlaceIndex(ia->InputPlace());
 
@@ -103,7 +99,7 @@ namespace VerifyTAPN {
 
 					// Generate next permutation of input tokens
 					int j = presetSize - 1;
-					if (j<0) { break; }    
+					if (j<0) { break; }
 
 					while(true)
 					{
@@ -134,10 +130,8 @@ namespace VerifyTAPN {
 	// along with the size of the preset of the transition
 	bool SuccessorGenerator::IsTransitionEnabled(const TAPN::TimedTransition& transition, const SymbolicMarking* marking, unsigned int currTransitionIndex, unsigned int presetSize) const
 	{
-		const TAPN::InhibitorArc::WeakPtrVector& inhibitorArcs = transition.GetInhibitorArcs();
-		for(TAPN::InhibitorArc::WeakPtrVector::const_iterator iter = inhibitorArcs.begin(); iter != inhibitorArcs.end(); ++iter)
+		for(auto* ia : transition.GetInhibitorArcs())
 		{
-			boost::shared_ptr<TAPN::InhibitorArc> ia = iter->lock();
 			int sourcePlaceIndex = ia->InputPlace().GetIndex();
 
 			for(unsigned int i = 0; i < marking->NumberOfTokens(); i++)
@@ -162,13 +156,13 @@ namespace VerifyTAPN {
 		bool trace = options.GetTrace() != NONE;
 
 		const Pairing& pairing = tapn.GetPairing(transition);
-		const TAPN::TimedInputArc::WeakPtrVector& preset = transition.GetPreset();
+		auto& preset = transition.GetPreset();
 		std::set<int> tokensToRemove; // sets are sorted internally in ascending order. THIS MUST BE THE CASE OR THE CODE WONT WORK!
 		SymbolicMarking* next = factory.Clone(*marking);
 
 		for(unsigned int i = 0; i < transition.NumberOfTransportArcs(); ++i)
 		{
-			boost::shared_ptr<TAPN::TransportArc> ta = transition.GetTransportArcs()[i].lock();
+			auto* ta = transition.GetTransportArcs()[i];
 			const TAPN::TimeInterval& ti = ta->Interval();
 
 			int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
@@ -190,7 +184,7 @@ namespace VerifyTAPN {
 		// move all tokens that are currently in the net
 		for(unsigned int i = 0; i < transition.NumberOfInputArcs(); ++i)
 		{
-			boost::shared_ptr<TAPN::TimedInputArc> inputArc = preset[i].lock();
+			auto* inputArc = preset[i];
 			int inputPlace = tapn.GetPlaceIndex(inputArc->InputPlace());
 			const TAPN::TimeInterval& ti = inputArc->Interval();
 			const std::list<int>& outputPlaces = pairing.GetOutputPlacesFor(inputPlace);
@@ -279,7 +273,7 @@ namespace VerifyTAPN {
 			for(unsigned int i = 0; i < transition.NumberOfTransportArcs(); i++)
 			{
 				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
-				boost::shared_ptr<TAPN::TransportArc> ia = transition.GetTransportArcs()[i].lock();
+				auto* ia = transition.GetTransportArcs()[i];
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
 				for(std::set<int>::iterator iter = tokensToRemove.begin(); iter != tokensToRemove.end(); ++iter)
@@ -298,7 +292,7 @@ namespace VerifyTAPN {
 			for(unsigned int i = 0; i < transition.NumberOfInputArcs(); ++i)
 			{
 				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+offset+i, currentPermutationindices[offset+i]);
-				boost::shared_ptr<TAPN::TimedInputArc> ia = preset[i].lock();
+				auto* ia = preset[i];
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
 				for(std::set<int>::iterator iter = tokensToRemove.begin(); iter != tokensToRemove.end(); ++iter)

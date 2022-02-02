@@ -132,18 +132,18 @@ namespace VerifyTAPN {
 		// NOTE: The Help() function only splits and indents descriptions based on newlines.
 		//       Each line in the description is assumed to fit within the remaining width
 		//       of the console, so keep descriptions short, or implement manual word-wrapping :).
-		parsers.push_back(boost::make_shared<SwitchWithArg>("k", KBOUND_OPTION, "Max tokens to use during exploration.",0));
-		parsers.push_back(boost::make_shared<SwitchWithArg>("o", SEARCH_OPTION, "Specify the desired search strategy.\n - 0: Breadth-First Search\n - 1: Depth-First Search\n - 2: Random Search\n - 3: Maximum Cover Search",3));
-		parsers.push_back(boost::make_shared<SwitchWithArg>("t", TRACE_OPTION, "Specify the desired trace option.\n - 0: none\n - 1: some",0));
+		parsers.push_back(std::make_shared<SwitchWithArg>("k", KBOUND_OPTION, "Max tokens to use during exploration.",0));
+		parsers.push_back(std::make_shared<SwitchWithArg>("o", SEARCH_OPTION, "Specify the desired search strategy.\n - 0: Breadth-First Search\n - 1: Depth-First Search\n - 2: Random Search\n - 3: Maximum Cover Search",3));
+		parsers.push_back(std::make_shared<SwitchWithArg>("t", TRACE_OPTION, "Specify the desired trace option.\n - 0: none\n - 1: some",0));
 
-		parsers.push_back(boost::make_shared<Switch>("g",MAX_CONSTANT_OPTION, "Use global maximum constant for \nextrapolation (as opposed to local \nconstants)."));
-		parsers.push_back(boost::make_shared<Switch>("u",UNTIMED_PLACES_OPTION, "Disables the untimed place optimization."));
-		parsers.push_back(boost::make_shared<Switch>("s",SYMMETRY_OPTION, "Disables symmetry reduction."));
+		parsers.push_back(std::make_shared<Switch>("g",MAX_CONSTANT_OPTION, "Use global maximum constant for \nextrapolation (as opposed to local \nconstants)."));
+		parsers.push_back(std::make_shared<Switch>("u",UNTIMED_PLACES_OPTION, "Disables the untimed place optimization."));
+		parsers.push_back(std::make_shared<Switch>("s",SYMMETRY_OPTION, "Disables symmetry reduction."));
 
-		parsers.push_back(boost::make_shared<Switch>("x",XML_TRACE_OPTION, "Output trace in xml format for TAPAAL."));
+		parsers.push_back(std::make_shared<Switch>("x",XML_TRACE_OPTION, "Output trace in xml format for TAPAAL."));
 
-		parsers.push_back(boost::make_shared<SwitchWithArg>("f", FACTORY_OPTION, "Specify the desired marking factory.\n - 0: Default\n - 1: Discrete-inclusion\n - 2: Old factory",0));
-		parsers.push_back(boost::make_shared<SwitchWithStringArg>("i", INCLUSION_PLACES, "Specify a list of places to consider \nfor discrete inclusion. No spaces after\nthe commas!\nSpecial values: *ALL*, *NONE*", "*ALL*"));
+		parsers.push_back(std::make_shared<SwitchWithArg>("f", FACTORY_OPTION, "Specify the desired marking factory.\n - 0: Default\n - 1: Discrete-inclusion\n - 2: Old factory",0));
+		parsers.push_back(std::make_shared<SwitchWithStringArg>("i", INCLUSION_PLACES, "Specify a list of places to consider \nfor discrete inclusion. No spaces after\nthe commas!\nSpecial values: *ALL*, *NONE*", "*ALL*"));
 	};
 
 	void ArgsParser::Help() const

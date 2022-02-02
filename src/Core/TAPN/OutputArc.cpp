@@ -9,12 +9,12 @@ namespace VerifyTAPN {
 			out << "From " << transition->GetName() << " to " << place->GetName();
 		}
 
-		TimedPlace& OutputArc::OutputPlace()
+		const TimedPlace& OutputArc::OutputPlace() const
 		{
 			return *place;
 		}
 
-		TimedTransition& OutputArc::InputTransition()
+		const TimedTransition& OutputArc::InputTransition() const
 		{
 			return *transition;
 		}

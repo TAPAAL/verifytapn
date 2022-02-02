@@ -1,7 +1,6 @@
 #include "TraceStore.hpp"
 #include "EntrySolver.hpp"
 #include "../../Core/SymbolicMarking/SymbolicMarking.hpp"
-#include "../../Core/TAPNParser/util.hpp"
 
 #include <rapidxml.hpp>
 
@@ -174,7 +173,8 @@ namespace VerifyTAPN
 			decimal delay = delays[i];
 
 			if(delay > decimal(0)){
-				xml_node<>* node = doc.allocate_node(node_element, "delay", doc.allocate_string(ToString(delay).c_str()));
+                auto str = std::to_string(delay);
+				xml_node<>* node = doc.allocate_node(node_element, "delay", doc.allocate_string(str.c_str()));
 				root->append_node(node);
 				marking.Delay(delay);
 			}
@@ -194,7 +194,8 @@ namespace VerifyTAPN
 				{
 					xml_node<>* token_node = doc.allocate_node(node_element, "token");
 					xml_attribute<>* place_attr = doc.allocate_attribute("place", doc.allocate_string(token.Place().c_str()));
-					xml_attribute<>* age_attr = doc.allocate_attribute("age", doc.allocate_string(ToString(token.Age()).c_str()));
+                    auto str = std::to_string(token.Age());
+					xml_attribute<>* age_attr = doc.allocate_attribute("age", doc.allocate_string(str.c_str()));
 					token_node->append_attribute(place_attr);
 					token_node->append_attribute(age_attr);
 					transition_node->append_node(token_node);

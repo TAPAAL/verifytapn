@@ -23,7 +23,7 @@ option(VERIFYTAPN_Static "Link libraries statically" ON)
 option(VERIFYTAPN_GetDependencies "Fetch external dependencies from web." ON)
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external CACHE PATH "Install location for external dependencies")
 set(VERIFYTAPN_TARGETDIR "${CMAKE_BINARY_DIR}/${VERIFYTAPN_NAME}" CACHE PATH "Traget directory for build files")
-set(VERIFYTAPN_OSX_DEPLOYMENT_TARGET 10.8 CACHE STRING "Specify the minimum version of the target platform for MacOS on which the target binaries are to be deployed ") 
+set(VERIFYTAPN_OSX_DEPLOYMENT_TARGET 10.8 CACHE STRING "Specify the minimum version of the target platform for MacOS on which the target binaries are to be deployed ")
 
 # Configure Project
 
@@ -32,12 +32,12 @@ if (VERIFYTAPN_Static)
     set(BUILD_SHARED_LIBS OFF)
     if (NOT APPLE)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-    else () 
+    else ()
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
     endif()
 endif ()
 
-## Configure Traget Platform 
+## Configure Traget Platform
 if (UNIX AND NOT APPLE)
     set(ARCH_TYPE "linux64")
 elseif (APPLE)
@@ -79,6 +79,12 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
+    ExternalProject_add(unfoldtacpn-ext
+        GIT_REPOSITORY https://github.com/TAPAAL/unfoldTACPN
+        GIT_TAG 8346890ae62fa96151296411877c5853cd975fac
+	    CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}  -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION} -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DFLEX_EXECUTABLE=${FLEX_EXECUTABLE} -DBISON_EXECUTABLE=${BISON_EXECUTABLE}
+    )
+
     #set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
     ExternalProject_add(udbm-ext
 	    URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.10.zip
@@ -87,10 +93,10 @@ if (VERIFYTAPN_GetDependencies)
             -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
    	    )
-        INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include && 
-		    ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include && 
+        INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include &&
+		    ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include &&
 		    mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
-            ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib 
+            ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib
     )
 
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)

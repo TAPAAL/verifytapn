@@ -8,7 +8,6 @@
 #include "TimeInvariant.hpp"
 #include "TimedInputArc.hpp"
 #include "OutputArc.hpp"
-#include "boost/shared_ptr.hpp"
 
 namespace VerifyTAPN{
 	namespace TAPN{
@@ -26,17 +25,17 @@ namespace VerifyTAPN{
 			static const std::string BOTTOM_NAME;
 
 		public: // typedefs
-			typedef std::vector< boost::shared_ptr<TimedPlace> > Vector;
+			typedef std::vector<TimedPlace* > Vector;
+            typedef std::vector<const TimedPlace* > CVector;
 
 		public: // construction / destruction
-			TimedPlace(const std::string& name, const std::string& id, const TimeInvariant timeInvariant)
-			: name(name), id(id), timeInvariant(timeInvariant), index(-2), isUntimed(false), maxConstant(0), hasInhibitorArcs(false) { };
+			TimedPlace(size_t index, const std::string& name, const std::string& id, const TimeInvariant timeInvariant, double x, double y)
+			: index(index), name(name), id(id), timeInvariant(timeInvariant), isUntimed(false), maxConstant(0), hasInhibitorArcs(false), _x(x), _y(y) { };
 			TimedPlace() : name(BOTTOM_NAME), timeInvariant(), index(BottomIndex()), isUntimed(false), maxConstant(0), hasInhibitorArcs(false) { };
 			virtual ~TimedPlace() { /* empty */ };
 
 		public: // modifiers
 			inline void MarkPlaceAsUntimed() { isUntimed = true; }
-			inline void SetIndex(int i) { index = i; };
 			inline void SetMaxConstant(int max) { maxConstant = max; }
 			inline void SetHasInhibitorArcs(bool inhibitorArcs) { hasInhibitorArcs = inhibitorArcs; }
 		public: // inspection
@@ -49,13 +48,15 @@ namespace VerifyTAPN{
 			inline const TAPN::TimeInvariant& GetInvariant() const { return timeInvariant; };
 			inline bool HasInhibitorArcs() const { return hasInhibitorArcs; };
 		private: // data
+			int index;
 			std::string	name;
 			std::string id;
 			TimeInvariant timeInvariant;
-			int index;
 			bool isUntimed;
 			int maxConstant;
 			bool hasInhibitorArcs;
+            double _x;
+            double _y;
 		};
 
 		inline std::ostream& operator<<(std::ostream& out, const TimedPlace& place)

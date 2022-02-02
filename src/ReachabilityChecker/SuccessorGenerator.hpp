@@ -7,7 +7,6 @@
 #include "../Core/SymbolicMarking/MarkingFactory.hpp"
 
 #include <vector>
-#include <boost/smart_ptr.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
