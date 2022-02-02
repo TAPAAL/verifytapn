@@ -1,5 +1,5 @@
 
-add_subdirectory(QueryParser)
+add_subdirectory(Query)
 add_subdirectory(SymbolicMarking)
 add_subdirectory(TAPN)
 
@@ -10,7 +10,7 @@ add_library(Core
 )
 
 target_link_libraries(Core
-	QueryParser
+	Query
 	SymbolicMarking
 	TAPN
 )

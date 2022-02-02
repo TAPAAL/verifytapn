@@ -60,9 +60,9 @@ namespace VerifyTAPN
 			}else{
 				op = expr.Operator();
 			}
-			tuple.returnExpr = new AtomicProposition(&expr.GetLeft(), &op, &expr.GetRight());
+			tuple.returnExpr = new AtomicProposition(&expr.GetLeft(), std::move(op), &expr.GetRight());
 		}
-                
+
                 // these should never be visited (handled in atomic expression)
                 void NormalizationVisitor::Visit(const NumberExpression& expr, boost::any& context){};
                 void NormalizationVisitor::Visit(const IdentifierExpression& expr, boost::any& context){};

@@ -3,11 +3,10 @@
 #include "Core/TAPN/TAPNModelBuilder.hpp"
 #include "Core/VerificationOptions.hpp"
 #include "Core/ArgsParser.hpp"
-#include "Core/QueryParser/UpwardClosedVisitor.hpp"
-#include "Core/QueryParser/TAPNQueryParser.hpp"
-#include "Core/QueryParser/NormalizationVisitor.hpp"
-#include "Core/QueryParser/ToStringVisitor.hpp"
-#include "Core/QueryParser/BadPlaceVisitor.hpp"
+#include "Core/Query/UpwardClosedVisitor.hpp"
+#include "Core/Query/NormalizationVisitor.hpp"
+#include "Core/Query/ToStringVisitor.hpp"
+#include "Core/Query/BadPlaceVisitor.hpp"
 
 #include "ReachabilityChecker/Search/SearchStrategy.hpp"
 #include "ReachabilityChecker/Search/BFS.hpp"
@@ -135,7 +134,7 @@ int main(int argc, char* argv[])
 
 	tapn->Initialize(options.GetUntimedPlacesEnabled());
 
-	AST::Query* query;
+	std::unique_ptr<AST::Query> query;
 	try{
         auto qfile = std::ifstream(options.QueryFile());
         if(!qfile)
@@ -169,10 +168,7 @@ int main(int argc, char* argv[])
             std::fstream of(options.getOutputQueryFile(), std::ios::out);
             unfoldtacpn::PQL::to_xml(of, ast_queries);
         }
-
-		TAPNQueryParser queryParser(*tapn);
-		queryParser.parse(options.QueryFile());
-		query = queryParser.GetAST();
+        query = AST::toAST(ast_queries[quid].first, *tapn);
 	}catch(...){
 		std::cout << "There was an error parsing the query file." << std::endl;
 		return 1;
@@ -202,7 +198,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	SearchStrategy* strategy = CreateSearchStrategy(tapn.get(), initialMarking, query, options, factory);
+	SearchStrategy* strategy = CreateSearchStrategy(tapn.get(), initialMarking, query.get(), options, factory);
 
 	std::cout << options << std::endl;
 	bool result = strategy->Verify();

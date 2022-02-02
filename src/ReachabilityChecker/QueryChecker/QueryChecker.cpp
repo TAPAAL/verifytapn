@@ -1,8 +1,8 @@
 #include "QueryChecker.hpp"
 #include "../../Core/SymbolicMarking/SymbolicMarking.hpp"
-#include "../../Core/QueryParser/ExpressionSatisfiedVisitor.hpp"
+#include "../../Core/Query/ExpressionSatisfiedVisitor.hpp"
 #include "boost/any.hpp"
-#include "../../Core/QueryParser/AST.hpp"
+#include "../../Core/Query/AST.hpp"
 
 namespace VerifyTAPN
 {
