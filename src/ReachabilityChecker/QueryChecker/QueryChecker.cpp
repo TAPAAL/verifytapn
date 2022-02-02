@@ -12,7 +12,6 @@ namespace VerifyTAPN
 
 	QueryChecker::~QueryChecker()
 	{
-		if( query ) delete query;
 	}
 
 	bool QueryChecker::IsExpressionSatisfied(const SymbolicMarking& marking) const

@@ -29,38 +29,38 @@ using namespace VerifyTAPN;
 using namespace VerifyTAPN::TAPN;
 using namespace boost;
 
-MarkingFactory* CreateFactory(const VerificationOptions& options, TAPN::TimedArcPetriNet* tapn)
+std::shared_ptr<MarkingFactory> CreateFactory(const VerificationOptions& options, TAPN::TimedArcPetriNet* tapn)
 {
 	switch(options.GetFactory())
 	{
 	case OLD_FACTORY:
-		return new UppaalDBMMarkingFactory(tapn);
+		return std::make_shared<UppaalDBMMarkingFactory>(tapn);
 	default:// Note that the constructor of DiscreteInclusionMarkingFactory automatically disables discrete inclusion
 		    // if DEFAULT is chosen
-		return new DiscreteInclusionMarkingFactory(tapn, options);
+		return std::make_shared<DiscreteInclusionMarkingFactory>(tapn, options);
 	};
 }
 
-SearchStrategy* CreateSearchStrategy(TAPN::TimedArcPetriNet* tapn, SymbolicMarking* initialMarking, AST::Query* query, const VerificationOptions& options, MarkingFactory* factory)
+std::shared_ptr<SearchStrategy> CreateSearchStrategy(TAPN::TimedArcPetriNet* tapn, SymbolicMarking* initialMarking, AST::Query* query, const VerificationOptions& options, MarkingFactory* factory)
 {
-	SearchStrategy* strategy;
+	std::shared_ptr<SearchStrategy> strategy;
 
 	switch(options.GetSearchType())
 	{
 	case DEPTHFIRST:
-		strategy = new DFS(*tapn, initialMarking, query, options, factory);
+		strategy = std::make_shared<DFS>(*tapn, initialMarking, query, options, factory);
 		break;
 	case COVERMOST:
 		if(options.GetFactory() == DISCRETE_INCLUSION)
-			strategy = new CoverMostSearch(*tapn, initialMarking, query, options, factory);
+			strategy = std::make_shared<CoverMostSearch>(*tapn, initialMarking, query, options, factory);
 		else
-			strategy = new BFS(*tapn, initialMarking, query, options, factory);
+			strategy = std::make_shared<BFS>(*tapn, initialMarking, query, options, factory);
 		break;
 	case RANDOM:
-		strategy = new RandomSearch(*tapn, initialMarking, query, options, factory);
+		strategy = std::make_shared<RandomSearch>(*tapn, initialMarking, query, options, factory);
 		break;
 	default:
-		strategy = new BFS(*tapn, initialMarking, query, options, factory);
+		strategy = std::make_shared<BFS>(*tapn, initialMarking, query, options, factory);
 		break;
 	}
 	strategy->Init();
@@ -118,13 +118,14 @@ int main(int argc, char* argv[])
 	VerificationOptions options = parser.Parse(argc, argv);
 
     unfoldtacpn::ColoredPetriNetBuilder builder;
-    auto [initialPlacement, tapn] = parse_net_file(builder, options.GetInputFile());
+    auto [initialVector, tapn] = parse_net_file(builder, options.GetInputFile());
+
     if(tapn != nullptr)
     {
         if(!options.getOutputModelFile().empty())
         {
             std::fstream of(options.getOutputModelFile(), std::ios::out);
-            //tapn->toTAPNXML(of, initialPlacement);
+            tapn->toTAPNXML(of, initialVector);
             of.close();
         }
 	} else {
@@ -190,15 +191,20 @@ int main(int argc, char* argv[])
 		}*/
 	}
 
-	MarkingFactory* factory = CreateFactory(options, tapn.get());
-	SymbolicMarking* initialMarking(factory->InitialMarking(initialPlacement));
+	auto factory = CreateFactory(options, tapn.get());
+    std::vector<int> initialPlacement;
+    for(size_t i = 0; i < initialVector.size(); ++i) // convert into placement vector
+        for(size_t n = 0; n < initialVector[i]; ++n)
+            initialPlacement.emplace_back(i);
+	std::shared_ptr<SymbolicMarking> initialMarking(factory->InitialMarking(initialPlacement));
 	if(initialMarking->NumberOfTokens() > options.GetKBound())
 	{
-		std::cout << "The specified k-bound is less than the number of tokens in the initial markings.";
+
+		std::cout << "The specified k-bound (" << options.GetKBound() << ") is less than the number of tokens in the initial marking (" << initialMarking->NumberOfTokens() << ")." << std::endl;
 		return 1;
 	}
 
-	SearchStrategy* strategy = CreateSearchStrategy(tapn.get(), initialMarking, query.get(), options, factory);
+	auto strategy = CreateSearchStrategy(tapn.get(), initialMarking.get(), query.get(), options, factory.get());
 
 	std::cout << options << std::endl;
 	bool result = strategy->Verify();
@@ -218,8 +224,6 @@ int main(int argc, char* argv[])
 		std::cout << e.what() << std::endl;
 		return 1;
 	}
-	delete strategy;
-	delete factory;
 
 	return 0;
 }

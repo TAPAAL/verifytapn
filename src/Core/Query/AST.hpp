@@ -376,7 +376,9 @@ namespace VerifyTAPN {
 				return *this;
 			}
 
-			virtual ~Query() { if( expr ) delete expr; }
+			virtual ~Query() {
+                if( expr ) delete expr;
+            }
 
 			virtual Query* clone() const;
 			virtual void Accept(Visitor& visitor, boost::any& context) const;
