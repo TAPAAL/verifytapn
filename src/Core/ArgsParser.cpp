@@ -17,6 +17,9 @@ namespace VerifyTAPN {
 	static const std::string FACTORY_OPTION = "factory";
 	static const std::string XML_TRACE_OPTION = "xml-trace";
 	static const std::string INCLUSION_PLACES = "inc-places";
+    static const std::string XML_INDEXES = "xml-queries";
+    static const std::string OUTPUT_MODEL = "write-unfolded-net";
+    static const std::string OUTPUT_QUERIES = "write-unfolded-queries";
 
 	std::ostream& operator<<(std::ostream& out, const Switch& flag)
 	{
@@ -51,8 +54,9 @@ namespace VerifyTAPN {
 	void SwitchWithArg::Print(std::ostream& out) const
 	{
 		std::stringstream s;
-		s << "-" << ShortName();
-		s << " [ --" << LongName() << " ] ";
+        if(!ShortName().empty())
+            s << "-" << ShortName() << " ";
+		s << "[ --" << LongName() << " ] ";
 		s << " arg (=" << default_value << ")";
 		out << std::setw(WIDTH) << std::left << s.str();
 		PrintIndentedDescription(out, Description());
@@ -61,9 +65,11 @@ namespace VerifyTAPN {
 	void SwitchWithStringArg::Print(std::ostream& out) const
 	{
 		std::stringstream s;
-		s << "-" << ShortName();
-		s << " [ --" << LongName() << " ] ";
-		s << " a1,a2,.. (=" << default_value << ")";
+        if(!ShortName().empty())
+            s << "-" << ShortName() << " ";
+		s << "[ --" << LongName() << " ] ";
+		s << " string.. ";
+        if(!default_value.empty()) s << "(=" << default_value << ")";
 		out << std::setw(WIDTH) << std::left << s.str();
 		PrintIndentedDescription(out, Description());
 	};
@@ -92,7 +98,7 @@ namespace VerifyTAPN {
 		std::string copy(flag);
 		std::stringstream stream;
 		stream << "-" << ShortName() << " ";
-		if(flag.find(stream.str()) != std::string::npos)
+		if(!ShortName().empty() && flag.find(stream.str()) != std::string::npos)
 		{
 			boost::erase_all(copy, stream.str());
 		}
@@ -113,7 +119,7 @@ namespace VerifyTAPN {
 		std::string copy(flag);
 		std::stringstream stream;
 		stream << "-" << ShortName() << " ";
-		if(flag.find(stream.str()) != std::string::npos)
+		if(!ShortName().empty() && flag.find(stream.str()) != std::string::npos)
 		{
 			boost::erase_all(copy, stream.str());
 		}
@@ -144,6 +150,9 @@ namespace VerifyTAPN {
 
 		parsers.push_back(std::make_shared<SwitchWithArg>("f", FACTORY_OPTION, "Specify the desired marking factory.\n - 0: Default\n - 1: Discrete-inclusion\n - 2: Old factory",0));
 		parsers.push_back(std::make_shared<SwitchWithStringArg>("i", INCLUSION_PLACES, "Specify a list of places to consider \nfor discrete inclusion. No spaces after\nthe commas!\nSpecial values: *ALL*, *NONE*", "*ALL*"));
+        parsers.push_back(std::make_shared<SwitchWithStringArg>("", XML_INDEXES, "Parse XML query file and verify queries of a given comma-seperated list", ""));
+        parsers.push_back(std::make_shared<SwitchWithStringArg>("", OUTPUT_MODEL, "Outputs the model to the given file after unfolding", ""));
+        parsers.push_back(std::make_shared<SwitchWithStringArg>("", OUTPUT_QUERIES, "Outputs the queries to the given file after unfolding", ""));
 	};
 
 	void ArgsParser::Help() const
@@ -315,6 +324,51 @@ namespace VerifyTAPN {
 		return vec;
 	}
 
+    uint64_t parseInt(const std::string& str)
+    {
+        if(std::any_of(str.begin(), str.end(), [](char a) { return !std::isdigit(a); }))
+        {
+            std::cout << "Not a number: " << str << std::endl;
+        }
+        std::stringstream ss(str);
+        uint64_t a;
+        ss >> a;
+        return a;
+    }
+
+    std::set<size_t> parseNumbers(const std::string& str)
+    {
+        size_t last = 0;
+        size_t i = 0;
+        std::set<size_t> res;
+        for(; i < str.size(); ++i)
+        {
+            if(str[i] != ',') continue;
+            std::string tmp = str.substr(last, i-last);
+            auto n = parseInt(tmp);
+            if(n <= 0)
+            {
+                std::cerr << "Query-indexes are 1-index, got a 0";
+                std::exit(-1);
+            }
+            res.emplace(n-1); // 0-indexed in parser
+            last = i+1; // skip comma
+        }
+        if(last < i)
+        {
+            std::string tmp = str.substr(last, i-last);
+            auto n = parseInt(tmp);
+            if(n <= 0)
+            {
+                std::cerr << "Query-indexes are 1-index, got a 0";
+                std::exit(-1);
+            }
+            res.emplace(n-1); // 0-indexed in parser
+        }
+        return res;
+    }
+
+
 	VerificationOptions ArgsParser::CreateVerificationOptions(const option_map& map, const std::string& modelFile, const std::string& queryFile) const
 	{
 		assert(map.find(KBOUND_OPTION) != map.end());
@@ -343,6 +397,17 @@ namespace VerifyTAPN {
 
 		assert(map.find(INCLUSION_PLACES) != map.end());
 		std::vector<std::string> inc_places = ParseIncPlaces(map.find(INCLUSION_PLACES)->second);
-		return VerificationOptions(modelFile, queryFile, search, kbound, !disable_symmetry, trace, xml_trace, !disable_untimed_places, max_constant, factory, inc_places);
+
+        assert(map.find(OUTPUT_MODEL) != map.end());
+        std::string out_model = map.find(OUTPUT_MODEL)->second;
+
+        assert(map.find(OUTPUT_QUERIES) != map.end());
+        std::string out_queries = map.find(OUTPUT_QUERIES)->second;
+
+        assert(map.find(XML_INDEXES) != map.end());
+        std::set<size_t> indexes = parseNumbers(map.find(XML_INDEXES)->second);
+
+		return VerificationOptions(modelFile, queryFile, search, kbound, !disable_symmetry,
+            trace, xml_trace, !disable_untimed_places, max_constant, factory, inc_places, out_model, out_queries, indexes);
 	}
 }

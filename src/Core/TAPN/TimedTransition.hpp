@@ -47,6 +47,7 @@ namespace VerifyTAPN {
 		//	bool isEnabledBy(const TimedArcPetriNet& tapn, const VerifyTAPN::SymMarking& marking) const;
 			inline const bool isConservative() const { return preset.size() == postset.size(); }
 			inline unsigned int GetIndex() const { return index; };
+            std::pair<double,double> getPosition() const { return {_x, _y}; }
 
 		private: // data
 			std::string name;

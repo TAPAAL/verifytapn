@@ -122,12 +122,12 @@ int main(int argc, char* argv[])
     auto [initialPlacement, tapn] = parse_net_file(builder, options.GetInputFile());
     if(tapn != nullptr)
     {
-        /*if(!options.getOutputModelFile().empty())
+        if(!options.getOutputModelFile().empty())
         {
             std::fstream of(options.getOutputModelFile(), std::ios::out);
-            tapn->toTAPNXML(of, initialPlacement);
+            //tapn->toTAPNXML(of, initialPlacement);
             of.close();
-        }*/
+        }
 	} else {
 		std::cout << "There was an error parsing the model file: " << options.GetInputFile() << std::endl;
 		return 1;
@@ -137,7 +137,16 @@ int main(int argc, char* argv[])
 
 	AST::Query* query;
 	try{
-        /*if (qfile.peek() == '<') { // assumed XML
+        auto qfile = std::ifstream(options.QueryFile());
+        if(!qfile)
+        {
+            std::cerr << "Could not open " << options.QueryFile() << std::endl;
+            std::exit(-1);
+        }
+        auto qnums = options.getQueryNumbers();
+        size_t quid = 0;
+        std::vector<std::pair<unfoldtacpn::PQL::Condition_ptr, std::string>> ast_queries;
+        if (qfile.peek() == '<') { // assumed XML
             if (qnums.empty()) {
                 std::cerr << "Missing query-indexes for query-file (which is identified as XML-format), assuming only first query is to be verified" << std::endl;
                 qnums.emplace(0);
@@ -152,14 +161,14 @@ int main(int argc, char* argv[])
             ast_queries = unfoldtacpn::parse_string_queries(builder, qfile);
         }
         if (ast_queries.empty()) {
-            std::cerr << "There was an error parsing " << queryFile << std::endl;
+            std::cerr << "There was an error parsing " << options.QueryFile() << std::endl;
             std::exit(-1);
         }
 
         if (!options.getOutputQueryFile().empty()) {
             std::fstream of(options.getOutputQueryFile(), std::ios::out);
             unfoldtacpn::PQL::to_xml(of, ast_queries);
-        }*/
+        }
 
 		TAPNQueryParser queryParser(*tapn);
 		queryParser.parse(options.QueryFile());

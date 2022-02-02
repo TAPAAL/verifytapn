@@ -46,6 +46,7 @@ namespace VerifyTAPN{
 			inline const bool IsUntimed() const { return isUntimed; }
 			inline const int GetMaxConstant() const { return maxConstant; }
 			inline const TAPN::TimeInvariant& GetInvariant() const { return timeInvariant; };
+            const std::pair<double,double> getPosition() const { return {_x, _y}; }
 			inline bool HasInhibitorArcs() const { return hasInhibitorArcs; };
 		private: // data
 			int index;

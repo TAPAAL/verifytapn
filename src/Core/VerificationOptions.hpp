@@ -4,6 +4,7 @@
 #include <string>
 #include <iosfwd>
 #include <vector>
+#include <set>
 
 namespace VerifyTAPN {
 	enum Trace { NONE, SOME };
@@ -23,7 +24,10 @@ namespace VerifyTAPN {
 				bool useUntimedPlaces,
 				bool useGlobalMaxConstants,
 				Factory factory,
-				const std::vector<std::string>& inc_places
+				const std::vector<std::string>& inc_places,
+                    const std::string& out_model,
+                    const std::string& out_queries,
+                    const std::set<size_t>& q_nums
 			) :	inputFile(inputFile),
 				queryFile(queryFile),
 				searchType(searchType),
@@ -34,7 +38,10 @@ namespace VerifyTAPN {
 				useUntimedPlaces(useUntimedPlaces),
 				useGlobalMaxConstants(useGlobalMaxConstants),
 				factory(factory),
-				inc_places(inc_places)
+				inc_places(inc_places),
+                out_model(out_model),
+                out_queries(out_queries),
+                query_numbers(q_nums)
 			{ };
 
 		public: // inspectors
@@ -51,7 +58,18 @@ namespace VerifyTAPN {
 			inline void SetFactory(Factory f) { factory = f; };
 			inline const std::vector<std::string>& GetIncPlaces() const { return inc_places; };
 			inline std::vector<std::string>& GetIncPlaces(){ return inc_places; };
-		private:
+            const std::string& getOutputQueryFile() const {
+                    return out_queries;
+            }
+
+            const std::set<size_t>& getQueryNumbers() const {
+                return query_numbers;
+            }
+
+            const std::string& getOutputModelFile() const {
+                    return out_model;
+            }
+    private:
 			std::string inputFile;
 			std::string queryFile;
 			SearchType searchType;
@@ -63,6 +81,9 @@ namespace VerifyTAPN {
 			bool useGlobalMaxConstants;
 			Factory factory;
 			std::vector<std::string> inc_places;
+            std::string out_model;
+            std::string out_queries;
+            std::set<size_t> query_numbers;
 	};
 
 	std::ostream& operator<<(std::ostream& out, const VerificationOptions& options);
