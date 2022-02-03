@@ -22,7 +22,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 option(VERIFYTAPN_Static "Link libraries statically" ON)
 option(VERIFYTAPN_GetDependencies "Fetch external dependencies from web." ON)
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external CACHE PATH "Install location for external dependencies")
-set(VERIFYTAPN_TARGETDIR "${CMAKE_BINARY_DIR}/${VERIFYTAPN_NAME}" CACHE PATH "Traget directory for build files")
+set(VERIFYTAPN_TARGETDIR "${CMAKE_BINARY_DIR}/${VERIFYTAPN_NAME}" CACHE PATH "Target directory for build files")
 set(VERIFYTAPN_OSX_DEPLOYMENT_TARGET 10.8 CACHE STRING "Specify the minimum version of the target platform for MacOS on which the target binaries are to be deployed ")
 
 # Configure Project
@@ -37,7 +37,7 @@ if (VERIFYTAPN_Static)
     endif()
 endif ()
 
-## Configure Traget Platform
+## Configure Target Platform
 if (UNIX AND NOT APPLE)
     set(ARCH_TYPE "linux64")
 elseif (APPLE)
@@ -49,9 +49,8 @@ endif ()
 
 ## Enabled INTERPROCEDURAL_OPTIMIZATION for non-macos
 if (CMAKE_BUILD_TYPE MATCHES Release)
-    if (NOT APPLE)
-        #TODO: Using INTERPROCEDURAL_OPTIMIZATION fails when corss-compiling for windows, disabled for now
-        #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+    if (NOT APPLE AND UNIX)
+    	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
     endif ()
 endif ()
 
@@ -60,17 +59,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${VERIFYTAPN_TARGETDIR}/bin)
 
-# Required Packages and Tools
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_RELEASE_LIBS ON)
-set(Boost_USE_MULTITHREADED OFF)
-find_package(Boost 1.66 REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
+find_package(FLEX 2.6.0 REQUIRED)
+find_package(BISON 3.5.0 REQUIRED)
 
 if (VERIFYTAPN_GetDependencies)
     include(ExternalProject)
-    find_package(FLEX 2.6.0 REQUIRED)
-    find_package(BISON 3.5.0 REQUIRED)
     # Install location should be ${EXTERNAL_INSTALL_LOCATION}
 
     if (UNIX AND NOT APPLE)
@@ -126,17 +119,23 @@ if (VERIFYTAPN_GetDependencies)
             ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib
     )
 
+    ExternalProject_Add( sparsehash-ext
+	    URL https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.zip
+	    CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ./configure --prefix=${CMAKE_BINARY_DIR}/external CXXFLAGS=-std=c++11 ${SPARSEHASH_HOST}
+	    BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} make
+	    INSTALL_COMMAND make install
+            BUILD_IN_SOURCE 1
+    )
+
+    set(CMAKE_PREFIX_PATH ${EXTERNAL_INSTALL_LOCATION};${CMAKE_PREFIX_PATH})
     link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
     include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 endif (VERIFYTAPN_GetDependencies)
 
-# Set Macros
-add_compile_definitions(VERIFYTAPN_NAME=\"${VERIFYTAPN_NAME}\")
-add_compile_definitions(VERIFYTAPN_VERSION=\"${VERIFYTAPN_VERSION}\")
 if (CMAKE_BUILD_TYPE MATCHES Prebuild)
     # dummy for pre-build
     add_custom_target( prebuild )
-    add_dependencies( prebuild boost-ext rapidxml-ext unfoldtacpn-ext)
+    add_dependencies( prebuild boost-ext rapidxml-ext unfoldtacpn-ext sparsehash-ext)
 else ( )
 
     set(Boost_USE_RELEASE_LIBS ON)
@@ -159,7 +158,11 @@ else ( )
     endif()
 
     find_package(Boost 1.66 REQUIRED program_options)
-    include_directories(${Boost_INCLUDE_DIR})
+    include_directories(${Boost_INCLUDE_DIRS})
+
+    # Set Macros
+    add_compile_definitions(VERIFYTAPN_VERSION=\"${VERIFYTAPN_VERSION}\")
+    add_compile_definitions(VERIFYTAPN_NAME=\"${VERIFYTAPN_NAME}-${ARCH_TYPE}\")
 
     # Source
     #include_directories(include)

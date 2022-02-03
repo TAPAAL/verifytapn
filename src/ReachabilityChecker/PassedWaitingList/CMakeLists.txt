@@ -4,4 +4,4 @@ add_library(PassedWaitingList
 )
 
 
-add_dependencies(PassedWaitingList udbm-ext)
+add_dependencies(PassedWaitingList udbm-ext sparsehash-ext)

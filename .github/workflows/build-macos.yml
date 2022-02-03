@@ -4,10 +4,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    types: [synchronize, opened, reopened, ready_for_review]    
-  workflow_dispatch:    
+    types: [synchronize, opened, reopened, ready_for_review]
+  workflow_dispatch:
 
-concurrency: 
+concurrency:
   group: build-MacOS-${{ github.head_ref }}
   cancel-in-progress: true
 
@@ -18,26 +18,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install depends
       run: |
-        brew install cmake boost google-sparsehash flex bison 
-    
-    - name: Build 
-      uses: lukka/run-cmake@v3
-      with:
-        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-        cmakeAppendedArgs: >-
-          -DFLEX_EXECUTABLE=/usr/local/opt/flex/bin/flex 
-          -DBISON_EXECUTABLE=/usr/local/opt/bison/bin/bison
-        cmakeBuildType: Release
-        cmakeGenerator: UnixMakefiles
-        buildDirectory: '${{runner.workspace}}/build'     
-      env:
-        CC: gcc-9
-        CXX: g++-9
+        brew install cmake flex bison
 
-    - name: Upload artifacts 
+    - name: Prebuild
+      run: |
+        mkdir build && cd build
+        CC=gcc-10 CXX=g++-10 cmake ../ -DCMAKE_BUILD_TYPE=Prebuild -DBISON_EXECUTABLE=/usr/local/opt/bison/bin/bison -DFLEX_EXECUTABLE=/usr/local/opt/flex/bin/flex
+        make
+
+    - name: Build
+      run: |
+        cd build
+        CC=gcc-10 CXX=g++-10 cmake ../ -DCMAKE_BUILD_TYPE=Release -DBISON_EXECUTABLE=/usr/local/opt/bison/bin/bison -DFLEX_EXECUTABLE=/usr/local/opt/flex/bin/flex
+        make
+
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: verifytapn-osx64
