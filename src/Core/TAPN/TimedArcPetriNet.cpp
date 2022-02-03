@@ -190,8 +190,8 @@ namespace VerifyTAPN {
             for (auto* place : places) {
                 auto& inv = place->GetInvariant();
                 auto [x, y] = place->getPosition();
-                out << "<place id=\"" << place->GetName() << "\" name=\"" << place->GetName()
-                    << "\" invariant=\"";
+                out << "<place id=\"" << place->GetName() << "\" name=\"" << place->GetName() << "\" "
+                    << "invariant=\"";
                 if (inv.IsBoundStrict()) {
                     if (inv.GetBound() == std::numeric_limits<int>::max())
                         out << "&lt; inf";
@@ -200,7 +200,8 @@ namespace VerifyTAPN {
                 } else {
                     out << "&lt;=" << inv.GetBound();
                 }
-                out << "\" initialMarking=\"" << initial[place->GetIndex()] << "\">\n";
+                out << "\" "
+                out << "initialMarking=\"" << initial[place->GetIndex()] << "\">\n";
                 out << "\t<graphics><position x=\"" << x << "\" y=\"" << y << "\" /></graphics>\n";
                 out << "</place>\n";
             }
@@ -214,19 +215,19 @@ namespace VerifyTAPN {
 
             for (auto* ia : inputArcs) {
                 out << "<inputArc inscription=\"" << ia->Interval() << "\" "
-                    << "\" source=\"" << ia->InputPlace().GetName() << "\" target=\"" << ia->OutputTransition().GetName() << "\" />\n";
+                    << "source=\"" << ia->InputPlace().GetName() << "\" target=\"" << ia->OutputTransition().GetName() << "\" />\n";
             }
 
             for (auto* oa : outputArcs) {
                 out << "<outputArc "
-                    << "\" target=\"" << oa->OutputPlace().GetName()
-                    << "\" source=\"" << oa->InputTransition().GetName() << "\" />\n";
+                    << "target=\"" << oa->OutputPlace().GetName() << "\" "
+                    << "source=\"" << oa->InputTransition().GetName() << "\" />\n";
             }
 
             for (auto* ia : inhibitorArcs) {
                 out << "<inhibitorArc inscription=\"[0,inf)\" "
-                    << "\" source=\"" << ia->InputPlace().GetName()
-                    << "\" target=\"" << ia->OutputTransition().GetName() << "\" />\n";
+                    << "source=\"" << ia->InputPlace().GetName() << "\" "
+                    << "target=\"" << ia->OutputTransition().GetName() << "\" />\n";
             }
 
             for (auto* ta : transportArcs) {
