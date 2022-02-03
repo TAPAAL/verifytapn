@@ -41,4 +41,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: verifytapn-win64
-        path: '${{runner.workspace}}/build/verifytapn/bin/verifytapn-win64.exe'
+        path: '${{runner.workspace}}/verifytapn/build/verifytapn/bin/verifytapn-win64.exe'
