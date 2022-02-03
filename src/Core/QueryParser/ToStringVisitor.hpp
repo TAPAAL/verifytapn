@@ -13,7 +13,7 @@ namespace VerifyTAPN
 		class ToStringVisitor : public Visitor
 		{
 		public:
-			ToStringVisitor(const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn) : tapn(tapn) { };
+			ToStringVisitor(const std::shared_ptr<TAPN::TimedArcPetriNet>& tapn) : tapn(tapn) { };
 			virtual ~ToStringVisitor() {}
 			virtual void Visit(const NotExpression& expr, boost::any& context);
 			virtual void Visit(const OrExpression& expr, boost::any& context);
@@ -30,7 +30,7 @@ namespace VerifyTAPN
 
 			void Print(const Query& query) { boost::any any; query.Accept(*this, any); };
 		private:
-			const boost::shared_ptr<TAPN::TimedArcPetriNet> tapn;
+			const std::shared_ptr<TAPN::TimedArcPetriNet> tapn;
 		};
 	}
 }

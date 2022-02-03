@@ -1,5 +1,4 @@
 #include <iostream>
-#include "boost/smart_ptr.hpp"
 #include "Core/TAPNParser/TAPNXmlParser.hpp"
 #include "Core/VerificationOptions.hpp"
 #include "Core/ArgsParser.hpp"
@@ -25,7 +24,7 @@ using namespace VerifyTAPN;
 using namespace VerifyTAPN::TAPN;
 using namespace boost;
 
-MarkingFactory* CreateFactory(const VerificationOptions& options, const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn)
+MarkingFactory* CreateFactory(const VerificationOptions& options, const std::shared_ptr<TAPN::TimedArcPetriNet>& tapn)
 {
 	switch(options.GetFactory())
 	{
@@ -37,7 +36,7 @@ MarkingFactory* CreateFactory(const VerificationOptions& options, const boost::s
 	};
 }
 
-SearchStrategy* CreateSearchStrategy(const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn, SymbolicMarking* initialMarking, AST::Query* query, const VerificationOptions& options, MarkingFactory* factory)
+SearchStrategy* CreateSearchStrategy(const std::shared_ptr<TAPN::TimedArcPetriNet>& tapn, SymbolicMarking* initialMarking, AST::Query* query, const VerificationOptions& options, MarkingFactory* factory)
 {
 	SearchStrategy* strategy;
 
@@ -98,7 +97,7 @@ int main(int argc, char* argv[])
 	VerificationOptions options = parser.Parse(argc, argv);
 
 	TAPNXmlParser modelParser;
-	boost::shared_ptr<TAPN::TimedArcPetriNet> tapn;
+	std::shared_ptr<TAPN::TimedArcPetriNet> tapn;
 
 	try{
 		tapn = modelParser.Parse(options.GetInputFile());

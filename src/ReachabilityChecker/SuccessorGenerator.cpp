@@ -2,6 +2,7 @@
 #include "../Core/TAPN/TimedInputArc.hpp"
 #include "../Core/TAPN/Pairing.hpp"
 #include "../Core/SymbolicMarking/SymbolicMarking.hpp"
+
 #include <algorithm>
 #include <set>
 
@@ -36,7 +37,7 @@ namespace VerifyTAPN {
 					assert(nTokensFromCurrInputPlace <= static_cast<unsigned int>(options.GetKBound()));
 
 					arcsArray[currInputArcIdx] = arcsArray[currInputArcIdx] + 1;
-					tokenIndices->insert_element(currInputArcIdx,nTokensFromCurrInputPlace, i);
+                    tokenIndices[toIndex(currInputArcIdx, nTokensFromCurrInputPlace)] = i;
 					nTokensFromCurrInputPlace++;
 				}
 			}
@@ -50,12 +51,10 @@ namespace VerifyTAPN {
 	{
 		unsigned int currInputArcIdx = 0;
 
-		for(TAPN::TimedTransition::Vector::const_iterator iter = transitions.begin(); iter != transitions.end(); ++iter)
+		for(auto& trans : transitions)
 		{
-			const TAPN::TransportArc::WeakPtrVector& transportArcs = (*iter)->GetTransportArcs();
-			for(TAPN::TransportArc::WeakPtrVector::const_iterator presetIter = transportArcs.begin(); presetIter != transportArcs.end(); ++presetIter)
+			for(auto* ta : trans->GetTransportArcs())
 			{
-				boost::shared_ptr<TAPN::TransportArc> ta = (*presetIter).lock();
 				const TAPN::TimeInterval& ti = ta->Interval();
 				int currInputPlaceIndex = tapn.GetPlaceIndex(ta->Source());
 
@@ -63,10 +62,8 @@ namespace VerifyTAPN {
 				currInputArcIdx++;
 			}
 
-			const TAPN::TimedInputArc::WeakPtrVector& preset = (*iter)->GetPreset();
-			for(TAPN::TimedInputArc::WeakPtrVector::const_iterator presetIter = preset.begin(); presetIter != preset.end(); ++presetIter)
+			for(auto* ia : trans->GetPreset())
 			{
-				boost::shared_ptr<TAPN::TimedInputArc> ia = (*presetIter).lock();
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int currInputPlaceIndex = tapn.GetPlaceIndex(ia->InputPlace());
 
@@ -103,7 +100,7 @@ namespace VerifyTAPN {
 
 					// Generate next permutation of input tokens
 					int j = presetSize - 1;
-					if (j<0) { break; }    
+					if (j<0) { break; }
 
 					while(true)
 					{
@@ -134,10 +131,8 @@ namespace VerifyTAPN {
 	// along with the size of the preset of the transition
 	bool SuccessorGenerator::IsTransitionEnabled(const TAPN::TimedTransition& transition, const SymbolicMarking* marking, unsigned int currTransitionIndex, unsigned int presetSize) const
 	{
-		const TAPN::InhibitorArc::WeakPtrVector& inhibitorArcs = transition.GetInhibitorArcs();
-		for(TAPN::InhibitorArc::WeakPtrVector::const_iterator iter = inhibitorArcs.begin(); iter != inhibitorArcs.end(); ++iter)
+		for(auto* ia : transition.GetInhibitorArcs())
 		{
-			boost::shared_ptr<TAPN::InhibitorArc> ia = iter->lock();
 			int sourcePlaceIndex = ia->InputPlace().GetIndex();
 
 			for(unsigned int i = 0; i < marking->NumberOfTokens(); i++)
@@ -162,16 +157,16 @@ namespace VerifyTAPN {
 		bool trace = options.GetTrace() != NONE;
 
 		const Pairing& pairing = tapn.GetPairing(transition);
-		const TAPN::TimedInputArc::WeakPtrVector& preset = transition.GetPreset();
+		const TAPN::TimedInputArc::NakedPtrVector& preset = transition.GetPreset();
 		std::set<int> tokensToRemove; // sets are sorted internally in ascending order. THIS MUST BE THE CASE OR THE CODE WONT WORK!
 		SymbolicMarking* next = factory.Clone(*marking);
 
 		for(unsigned int i = 0; i < transition.NumberOfTransportArcs(); ++i)
 		{
-			boost::shared_ptr<TAPN::TransportArc> ta = transition.GetTransportArcs()[i].lock();
+			TAPN::TransportArc* ta = transition.GetTransportArcs()[i];
 			const TAPN::TimeInterval& ti = ta->Interval();
 
-			int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
+			int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
 			int outputPlaceIndex = tapn.GetPlaceIndex(ta->Destination());
 
 			// constrain dbm with the guard of the input arc
@@ -190,7 +185,7 @@ namespace VerifyTAPN {
 		// move all tokens that are currently in the net
 		for(unsigned int i = 0; i < transition.NumberOfInputArcs(); ++i)
 		{
-			boost::shared_ptr<TAPN::TimedInputArc> inputArc = preset[i].lock();
+			auto* inputArc = preset[i];
 			int inputPlace = tapn.GetPlaceIndex(inputArc->InputPlace());
 			const TAPN::TimeInterval& ti = inputArc->Interval();
 			const std::list<int>& outputPlaces = pairing.GetOutputPlacesFor(inputPlace);
@@ -198,11 +193,10 @@ namespace VerifyTAPN {
 			// only BOTTOM is allowed to have more than 1 associated output place
 			assert(outputPlaces.size() <= 1);
 
-			for(std::list<int>::const_iterator opIter = outputPlaces.begin(); opIter != outputPlaces.end(); ++opIter)
+			for(auto outputPlaceIndex : outputPlaces)
 			{
 				// change placement
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+offset+i, currentPermutationindices[offset+i]);
-				int outputPlaceIndex = *opIter;
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+offset+i, currentPermutationindices[offset+i])];
 
 				// constrain dbm with the guard of the input arc
 				next->Constrain(tokenIndex, ti);
@@ -222,7 +216,7 @@ namespace VerifyTAPN {
 
 		// reset clocks of moved tokens
 		for (unsigned int i = transition.NumberOfTransportArcs(); i < presetSize; ++i) {
-			int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
+			int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
 
 			next->Reset(tokenIndex);
 		}
@@ -278,14 +272,14 @@ namespace VerifyTAPN {
 			// handle transport arcs
 			for(unsigned int i = 0; i < transition.NumberOfTransportArcs(); i++)
 			{
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+i, currentPermutationindices[i]);
-				boost::shared_ptr<TAPN::TransportArc> ia = transition.GetTransportArcs()[i].lock();
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+i, currentPermutationindices[i])];
+				TAPN::TransportArc* ia = transition.GetTransportArcs()[i];
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
-				for(std::set<int>::iterator iter = tokensToRemove.begin(); iter != tokensToRemove.end(); ++iter)
+				for(auto to_remove : tokensToRemove)
 				{
-					if(*iter < tokenIndex) indexAfterFiring--;
-					assert(*iter != tokenIndex);
+					if(to_remove < tokenIndex) indexAfterFiring--;
+					assert(to_remove != tokenIndex);
 				}
 				assert(tokenIndex < static_cast<int>(marking->NumberOfTokens())); assert(indexAfterFiring < static_cast<int>(next->NumberOfTokens()));
 
@@ -297,8 +291,8 @@ namespace VerifyTAPN {
 			// handle normal arcs
 			for(unsigned int i = 0; i < transition.NumberOfInputArcs(); ++i)
 			{
-				int tokenIndex = tokenIndices->at_element(currentTransitionIndex+offset+i, currentPermutationindices[offset+i]);
-				boost::shared_ptr<TAPN::TimedInputArc> ia = preset[i].lock();
+				int tokenIndex = tokenIndices[toIndex(currentTransitionIndex+offset+i, currentPermutationindices[offset+i])];
+				TAPN::TimedInputArc* ia = preset[i];
 				const TAPN::TimeInterval& ti = ia->Interval();
 				int indexAfterFiring = tokenIndex;
 				for(std::set<int>::iterator iter = tokensToRemove.begin(); iter != tokensToRemove.end(); ++iter)
@@ -371,46 +365,6 @@ namespace VerifyTAPN {
 		}
     	mapping.Swap(table);
     }
-
-//    void SuccessorGenerator::InvertMapping(std::vector<int>& mapping) const
-//    {
-//    	std::vector<int> inverted(mapping.size(),-1);
-//    	unsigned int count = 0;
-//    	for(unsigned int i = 0; i < mapping.size(); ++i)
-//    	{
-//    		int index = mapping[i];
-//    		if(index >= 0)
-//    		{
-//    			inverted[index] = i;
-//    			count++;
-//    		}
-//    	}
-//    	inverted.resize(count);
-//    	mapping.swap(inverted);
-//    }
-
-
-	void SuccessorGenerator::Print(std::ostream& out) const
-	{
-		out << "\nArcs Array:\n";
-		out << "------------------\n";
-
-		for(unsigned int i = 0; i < nInputArcs; i++)
-		{
-			out << i << ": " << arcsArray[i] << "\n";
-		}
-
-		out << "\nTransitions Array:\n";
-				out << "------------------\n";
-		for(int j =0;j< numberOfTransitions;j++){
-			out << j << ": " << transitionStatistics[j] << "\n";
-		}
-
-		out << "\n\nToken Indices:\n";
-		out << "----------------------\n";
-
-		out << *tokenIndices << "\n";
-	}
 
 	void SuccessorGenerator::PrintTransitionStatistics(std::ostream& out) const {
 		out << std::endl << "TRANSITION STATISTICS";

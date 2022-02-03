@@ -25,27 +25,27 @@ namespace VerifyTAPN {
 
 			for(TimedInputArc::Vector::const_iterator iter = inputArcs.begin(); iter != inputArcs.end(); ++iter)
 			{
-				const boost::shared_ptr<TimedInputArc>& arc = *iter;
+				const std::shared_ptr<TimedInputArc>& arc = *iter;
 				arc->OutputTransition().AddToPreset(arc);
 				UpdateMaxConstant(arc->Interval());
 			}
 
 			for(TransportArc::Vector::const_iterator iter = transportArcs.begin(); iter != transportArcs.end(); ++iter)
 			{
-				const boost::shared_ptr<TransportArc>& arc = *iter;
+				const std::shared_ptr<TransportArc>& arc = *iter;
 				arc->Transition().AddTransportArcGoingThrough(arc);
 				UpdateMaxConstant(arc->Interval());
 			}
 
 			for(InhibitorArc::Vector::const_iterator iter = inhibitorArcs.begin(); iter != inhibitorArcs.end(); ++iter) {
-				const boost::shared_ptr<InhibitorArc>& arc = *iter;
+				const std::shared_ptr<InhibitorArc>& arc = *iter;
 				arc->OutputTransition().AddIncomingInhibitorArc(arc);
 				arc->InputPlace().SetHasInhibitorArcs(true);
 			}
 
 			for(OutputArc::Vector::const_iterator iter = outputArcs.begin(); iter != outputArcs.end(); ++iter)
 			{
-				const boost::shared_ptr<OutputArc>& arc = *iter;
+				const std::shared_ptr<OutputArc>& arc = *iter;
 				arc->InputTransition().AddToPostset(arc);
 			}
 
@@ -115,7 +115,7 @@ namespace VerifyTAPN {
 				{
 					if((*arcIter)->InputPlace() == **iter)
 					{
-						boost::shared_ptr<TimedInputArc> ia = *arcIter;
+						std::shared_ptr<TimedInputArc> ia = *arcIter;
 						const TAPN::TimeInterval& interval = ia->Interval();
 
 						const int lowerBound = interval.GetLowerBound();
