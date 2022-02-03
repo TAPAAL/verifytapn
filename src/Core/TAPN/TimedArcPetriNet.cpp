@@ -200,7 +200,7 @@ namespace VerifyTAPN {
                 } else {
                     out << "&lt;=" << inv.GetBound();
                 }
-                out << "\" "
+                out << "\" ";
                 out << "initialMarking=\"" << initial[place->GetIndex()] << "\">\n";
                 out << "\t<graphics><position x=\"" << x << "\" y=\"" << y << "\" /></graphics>\n";
                 out << "</place>\n";
