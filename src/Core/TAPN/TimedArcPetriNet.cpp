@@ -206,8 +206,7 @@ namespace VerifyTAPN {
             }
 
             for (auto* transition : transitions) {
-                out << "<transition id=\"" << transition->GetName() << "\" name=\"" << transition->GetName()
-                    << "\" \">\n";
+                out << "<transition id=\"" << transition->GetName() << "\" name=\"" << transition->GetName() << "\" >\n";
                 auto [x, y] = transition->getPosition();
                 out << "\t<graphics><position x=\"" << x << "\" y=\"" << y << "\" /></graphics>\n";
                 out << "</transition>\n";
