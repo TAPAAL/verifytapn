@@ -123,14 +123,7 @@ namespace VerifyTAPN
         std::cerr << "Trace: " << std::endl;
        	ConcreteMarking marking(initialMarking);
 
-        if(options.XmlTrace())
-        {
-        	OutputTraceInXmlFormat(marking, tapn, traceInfos, delays);
-        }
-        else
-        {
-        	OutputTraceInNormalFormat(marking, tapn, traceInfos, delays);
-        }
+        OutputTraceInXmlFormat(marking, tapn, traceInfos, delays);
     }
 
 	void TraceStore::CalculateDelays(const std::deque<TraceInfo>& traceInfos, std::vector<decimal>& delays) const
@@ -138,26 +131,6 @@ namespace VerifyTAPN
 		EntrySolver solver(options.GetKBound(), traceInfos);
 		std::vector<decimal> calculatedDelays = solver.CalculateDelays(lastInvariants);
 		delays.swap(calculatedDelays);
-	}
-
-	void TraceStore::OutputTraceInNormalFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const
-	{
-		std::cerr << "\t" << marking;
-		TAPN::TimedTransition::Vector transitions = tapn.GetTransitions();
-		for(unsigned int i = 0;i < traceInfos.size();++i){
-			const TraceInfo & traceInfo = traceInfos[i];
-			int index = traceInfo.TransitionIndex();
-			const TAPN::TimedTransition & transition = *transitions[index];
-			if(delays[i] > decimal(0)){
-				std::cerr << "\tDelay: " << delays[i] << std::endl;
-				marking.Delay(delays[i]);
-				std::cerr << "\t" << marking;
-			}
-			std::cerr << "\tTransition: " << transition.GetName() << std::endl;
-			UpdateMarking(marking, traceInfo, tapn);
-			std::cerr << "\t" << marking;
-		}
-
 	}
 
 	void TraceStore::OutputTraceInXmlFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const

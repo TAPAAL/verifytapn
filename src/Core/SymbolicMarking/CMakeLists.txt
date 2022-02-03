@@ -8,7 +8,7 @@ add_library(SymbolicMarking
 )
 
 
-add_dependencies(SymbolicMarking udbm-ext)
+add_dependencies(SymbolicMarking udbm-ext boost-ext)
 
 #target_link_libraries(SymbolicMarking
 #	 ${EXTERNAL_INSTALL_LOCATION}/uppaal/lib/libudbm.a

@@ -75,7 +75,6 @@ namespace VerifyTAPN
 	    void CalculateDelays(const std::deque<TraceInfo> & traceInfos, std::vector<decimal> & delays) const;
 	    void ComputeIndexMappings(std::deque<TraceInfo> & traceInfos) const;
 	    void AugmentSymmetricMappings(std::deque<TraceInfo> & traceInfos) const;
-	    void OutputTraceInNormalFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const;
 	    void OutputTraceInXmlFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const;
 	private:
 	    HashMap store;

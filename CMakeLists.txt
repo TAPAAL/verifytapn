@@ -73,6 +73,31 @@ if (VERIFYTAPN_GetDependencies)
     find_package(BISON 3.5.0 REQUIRED)
     # Install location should be ${EXTERNAL_INSTALL_LOCATION}
 
+    if (UNIX AND NOT APPLE)
+        set(BOOST_CONFIG_JAM "using gcc : : ${CMAKE_CXX_COMPILER}")
+        set(BOOST_B2_OPTS "")
+    elseif (APPLE)
+        set(BOOST_CONFIG_JAM "using gcc : : ${CMAKE_CXX_COMPILER}")
+        set(BOOST_B2_OPTS "")
+    else ()
+        set(BOOST_CONFIG_JAM "using gcc : : ${CMAKE_CXX_COMPILER}")
+        set(BOOST_B2_OPTS target-os=windows binary-format=pe abi=ms threading=multi threadapi=win32)
+    endif ()
+
+    if (ARCH_TYPE MATCHES "win64")
+        set(BOOST_CONFIG_JAM "using gcc : : ${CMAKE_CXX_COMPILER}")
+    endif ()
+    ExternalProject_Add(
+        boost-ext
+        URL https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip
+        URL_HASH SHA256=f22143b5528e081123c3c5ed437e92f648fe69748e95fa6e2bd41484e2986cc3
+        PATCH_COMMAND echo "${BOOST_CONFIG_JAM}" $<SEMICOLON>  > config.jam
+        CONFIGURE_COMMAND ./bootstrap.sh --prefix=${CMAKE_BINARY_DIR}/external cxxflags="-arch x86_64" --without-icu
+        BUILD_COMMAND ./b2 --user-config=config.jam --prefix=${CMAKE_BINARY_DIR}/external --with-program_options cxxstd=17 cflags="-fPIC" cxxflags="-fPIC" address-model=64 ${BOOST_B2_OPTS} variant=release link=static runtime-link=static install
+        BUILD_IN_SOURCE 1
+        INSTALL_COMMAND ""
+    )
+
     ExternalProject_add(rapidxml-ext
         URL https://downloads.sourceforge.net/project/rapidxml/rapidxml/rapidxml%201.13/rapidxml-1.13.zip
         URL_HASH SHA512=6c10583e6631ccdb0217d0a5381172cb4c1046226de6ef1acf398d85e81d145228e14c3016aefcd7b70a1db8631505b048d8b4f5d4b0dbf1811d2482eefdd265
@@ -106,14 +131,38 @@ if (VERIFYTAPN_GetDependencies)
 endif (VERIFYTAPN_GetDependencies)
 
 # Set Macros
+add_compile_definitions(VERIFYTAPN_NAME=\"${VERIFYTAPN_NAME}\")
 add_compile_definitions(VERIFYTAPN_VERSION=\"${VERIFYTAPN_VERSION}\")
+if (CMAKE_BUILD_TYPE MATCHES Prebuild)
+    # dummy for pre-build
+    add_custom_target( prebuild )
+    add_dependencies( prebuild boost-ext rapidxml-ext unfoldtacpn-ext)
+else ( )
 
-# Source
-#include_directories(include)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/)
+    set(Boost_USE_RELEASE_LIBS ON)
+    set(Boost_USE_MULTITHREADED OFF)
+    if (NOT BUILD_TESTING)
+        set(Boost_USE_STATIC_LIBS ON)
+    else ()
+        set(Boost_USE_STATIC_LIBS OFF)
+    endif()
 
-# Testing
-#if (VERIFYTAPN_TEST)
-#    enable_testing()
-#    add_subdirectory(${CMAKE_SOURCE_DIR}/test)
-#endif()
+    if(NOT BUILD_TESTING)
+        set(Boost_USE_STATIC_RUNTIME ON)
+        set(Boost_USE_STATIC_LIBS ON)
+        set(Boost_USE_RELEASE_LIBS ON)
+        set(Boost_USE_MULTITHREADED OFF)
+    else()
+        set(Boost_USE_STATIC_LIBS OFF)
+        set(Boost_USE_RELEASE_LIBS ON)
+        set(Boost_USE_MULTITHREADED OFF)
+    endif()
+
+    find_package(Boost 1.66 REQUIRED program_options)
+    include_directories(${Boost_INCLUDE_DIR})
+
+    # Source
+    #include_directories(include)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/src/)
+endif()
+
