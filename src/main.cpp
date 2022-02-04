@@ -2,7 +2,6 @@
 
 #include "Core/TAPN/TAPNModelBuilder.hpp"
 #include "Core/VerificationOptions.hpp"
-#include "Core/ArgsParser.hpp"
 #include "Core/Query/UpwardClosedVisitor.hpp"
 #include "Core/Query/NormalizationVisitor.hpp"
 #include "Core/Query/ToStringVisitor.hpp"
@@ -114,8 +113,7 @@ int main(int argc, char* argv[])
 {
 	srand ( time(nullptr) );
 
-	ArgsParser parser;
-	VerificationOptions options = parser.Parse(argc, argv);
+	VerificationOptions options = VerificationOptions::parse(argc, argv);
 
     unfoldtacpn::ColoredPetriNetBuilder builder;
     auto [initialVector, tapn] = parse_net_file(builder, options.GetInputFile());

@@ -13,4 +13,4 @@ add_library(TAPN
 )
 
 
-add_dependencies(TAPN udbm-ext)
+add_dependencies(TAPN udbm-ext boost-ext sparsehash-ext)

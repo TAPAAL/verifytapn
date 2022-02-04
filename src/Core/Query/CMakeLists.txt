@@ -10,4 +10,4 @@ add_library(Query
 )
 
 
-add_dependencies(Query unfoldtacpn-ext)
+add_dependencies(Query unfoldtacpn-ext boost-ext)
