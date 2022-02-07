@@ -6,7 +6,14 @@
 #include "Visitor.hpp"
 #include "boost/any.hpp"
 
-namespace VerifyTAPN{
+#include <PQL/PQL.h>
+
+namespace VerifyTAPN {
+
+    namespace TAPN {
+        class TimedArcPetriNet;
+    }
+
 	namespace AST {
 
 		class Visitable
@@ -67,7 +74,7 @@ namespace VerifyTAPN{
 		class AtomicProposition : public Expression
 		{
 		public:
-			AtomicProposition(ArithmeticExpression* left, std::string* op,ArithmeticExpression* right) : left(left), op(op->begin(), op->end()), right(right){};
+			AtomicProposition(ArithmeticExpression* left, std::string op,ArithmeticExpression* right) : left(left), op(std::move(op)), right(right){};
 			AtomicProposition(const AtomicProposition& other) : left(other.left), op(other.op), right(other.right) { };
 			AtomicProposition& operator=(const AtomicProposition& other)
 			{
@@ -84,7 +91,7 @@ namespace VerifyTAPN{
                         ArithmeticExpression& GetLeft() const {return *left;};
                         ArithmeticExpression& GetRight() const {return *right;};
                         std::string GetOperator() const {return op;};
-                         
+
 			virtual AtomicProposition* clone() const;
 			virtual void Accept(Visitor& visitor, boost::any& context) const;
 
@@ -161,7 +168,7 @@ namespace VerifyTAPN{
 			Expression* left;
 			Expression* right;
 		};
-                
+
                 class ArithmeticExpression : public Visitable
                 {
                     public:
@@ -187,14 +194,14 @@ namespace VerifyTAPN{
                         }
                         return *this;
                     }
-                    
+
                     virtual ~OperationExpression() {
                     };
-                    
+
                 public:
                     ArithmeticExpression& GetLeft() const {return *left;};
                     ArithmeticExpression& GetRight() const {return *right;};
-                    
+
                 protected:
                     ArithmeticExpression* left;
                     ArithmeticExpression* right;
@@ -270,7 +277,7 @@ namespace VerifyTAPN{
                     }
 
                     ArithmeticExpression& GetValue() const { return *value;};
-                    
+
                     virtual ~MinusExpression() {
                     };
                     virtual MinusExpression* clone() const;
@@ -319,7 +326,7 @@ namespace VerifyTAPN{
                     };
 
                     int GetValue() const {return value;};
-                    
+
                     virtual ~NumberExpression() {
                     };
                     virtual NumberExpression* clone() const;
@@ -343,7 +350,7 @@ namespace VerifyTAPN{
                     };
 
                     int GetPlace() const { return place;};
-                    
+
                     virtual ~IdentifierExpression() {
                     };
                     virtual IdentifierExpression* clone() const;
@@ -351,8 +358,8 @@ namespace VerifyTAPN{
                 private:
                     int place;
                 };
-        
-                
+
+
 		enum Quantifier { EF, AG, EG, AF};
 
 		class Query : public Visitable
@@ -369,7 +376,9 @@ namespace VerifyTAPN{
 				return *this;
 			}
 
-			virtual ~Query() { if( expr ) delete expr; }
+			virtual ~Query() {
+                if( expr ) delete expr;
+            }
 
 			virtual Query* clone() const;
 			virtual void Accept(Visitor& visitor, boost::any& context) const;
@@ -380,6 +389,8 @@ namespace VerifyTAPN{
 			Quantifier quantifier;
 			Expression* expr;
 		};
+
+        std::unique_ptr<Query> toAST(const unfoldtacpn::PQL::Condition_ptr& ptr, const TAPN::TimedArcPetriNet& tapn);
 	}
 }
 

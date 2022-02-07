@@ -13,7 +13,7 @@ namespace VerifyTAPN {
 
 class DiscreteInclusionMarkingFactory : public UppaalDBMMarkingFactory {
 public:
-	DiscreteInclusionMarkingFactory(const boost::shared_ptr<TAPN::TimedArcPetriNet>& tapn, const VerificationOptions& options)
+	DiscreteInclusionMarkingFactory(const TAPN::TimedArcPetriNet* tapn, const VerificationOptions& options)
 		: UppaalDBMMarkingFactory(tapn), tapn(tapn), inc_places(tapn->NumberOfPlaces(), false), empty_inc(options.GetFactory() == DEFAULT) { MarkPlacesForInclusion(options.GetIncPlaces()); };
 	virtual ~DiscreteInclusionMarkingFactory() {};
 
@@ -117,7 +117,7 @@ private:
 		int placeIndex = marking.GetTokenPlacement(token);
 		if(!inc_places[placeIndex]) return false;
 
-		const TimedPlace& place = tapn->GetPlace(placeIndex);
+		const auto& place = tapn->GetPlace(placeIndex);
 
 		assert(placeIndex != TAPN::TimedPlace::BottomIndex());
 		if(place.GetInvariant() != TAPN::TimeInvariant::LS_INF) return false;
@@ -225,7 +225,7 @@ private:
 		{
 			if(mapping.GetMapping(i) >= dim)
 			{
-				const TimedPlace& place = tapn->GetPlace(dp.GetTokenPlacement(i));
+				const auto& place = tapn->GetPlace(dp.GetTokenPlacement(i));
 				if(!place.IsUntimed()) copy.constrain(0, mapping.GetMapping(i), dbm_bound2raw(-place.GetMaxConstant(), dbm_STRICT));
 			}
 		}
@@ -310,7 +310,7 @@ private:
 		}
 	};
 private:
-	boost::shared_ptr<TAPN::TimedArcPetriNet> tapn;
+	const TAPN::TimedArcPetriNet* tapn;
 	std::vector<bool> inc_places;
 	bool empty_inc;
 };

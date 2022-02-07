@@ -1,7 +1,7 @@
 #ifndef QUERYCHECKER_HPP_
 #define QUERYCHECKER_HPP_
 
-#include "../../Core/QueryParser/AST.hpp"
+#include "../../Core/Query/AST.hpp"
 
 namespace VerifyTAPN
 {

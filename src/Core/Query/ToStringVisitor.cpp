@@ -1,5 +1,6 @@
 #include "ToStringVisitor.hpp"
 #include "AST.hpp"
+#include "../TAPN/TAPN.hpp"
 
 namespace VerifyTAPN
 {
@@ -7,7 +8,7 @@ namespace VerifyTAPN
 	{
 		void ToStringVisitor::Visit(const NotExpression& expr, boost::any& context)
 		{
-                    
+
 			std::cout << "!(";
 			expr.Child().Accept(*this, context);
                         std::cout << ")";
@@ -30,7 +31,7 @@ namespace VerifyTAPN
 			expr.Right().Accept(*this, context);
                         std::cout << ")";
 		}
-                
+
                 // needs implementation
 		void ToStringVisitor::Visit(const AtomicProposition& expr, boost::any& context)
 		{
@@ -40,15 +41,15 @@ namespace VerifyTAPN
                     expr.GetRight().Accept(*this, context);
                     std::cout << ")";
 		}
-                
+
                 void ToStringVisitor::Visit(const NumberExpression& expr, boost::any& context){
                     std::cout << expr.GetValue();
                 };
-                
+
                 void ToStringVisitor::Visit(const IdentifierExpression& expr, boost::any& context){
                     std::cout << tapn->GetPlace(expr.GetPlace()).GetName();
                 };
-                
+
                 void ToStringVisitor::Visit(const MultiplyExpression& expr, boost::any& context){
                     std::cout << "(";
                     expr.GetLeft().Accept(*this, context);
@@ -56,12 +57,12 @@ namespace VerifyTAPN
                     expr.GetRight().Accept(*this, context);
                     std::cout << ")";
                 };
-                
+
                 void ToStringVisitor::Visit(const MinusExpression& expr, boost::any& context){
                     std::cout << " - (";
                     expr.GetValue().Accept(*this, context);
                 };
-                
+
                 void ToStringVisitor::Visit(const SubtractExpression& expr, boost::any& context){
                     std::cout << "(";
                     expr.GetLeft().Accept(*this, context);
@@ -69,13 +70,13 @@ namespace VerifyTAPN
                     expr.GetRight().Accept(*this, context);
                     std::cout << ")";
                 };
-                
+
                 void ToStringVisitor::Visit(const PlusExpression& expr, boost::any& context){
                     std::cout << "(";
                     expr.GetLeft().Accept(*this, context);
                     std::cout << ") + (";
                     expr.GetRight().Accept(*this, context);
-                    std::cout << ")";                    
+                    std::cout << ")";
                 };
 
 		void ToStringVisitor::Visit(const BoolExpression& expr, boost::any& context)

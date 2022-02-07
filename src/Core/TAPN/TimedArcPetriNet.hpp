@@ -29,7 +29,14 @@ namespace VerifyTAPN {
 				const TransportArc::Vector& transportArcs,
 				const InhibitorArc::Vector& inhibitorArcs)
 				: places(places), transitions(transitions), inputArcs(inputArcs), outputArcs(outputArcs), transportArcs(transportArcs), inhibitorArcs(inhibitorArcs), maxConstant(0) { };
-			virtual ~TimedArcPetriNet() { /* empty */ }
+			virtual ~TimedArcPetriNet() {
+                for(auto e : transitions) delete e;
+                for(auto e : places) delete e;
+                for(auto e : inputArcs) delete e;
+                for(auto e : outputArcs) delete e;
+                for(auto e : transportArcs) delete e;
+                for(auto e : inhibitorArcs) delete e;
+            }
 
 		public: // inspectors
 			void Print(std::ostream& out) const;
@@ -49,6 +56,7 @@ namespace VerifyTAPN {
 			const Pairing& GetPairing(const TimedTransition& t) const { return pairings.find(t)->second; }
 			inline int MaxConstant() const { return maxConstant; };
 			inline const bool IsPlaceUntimed(int index) const { return places[index]->IsUntimed(); }
+            void toTAPNXML(std::ostream& out, const std::vector<int>& initial) const;
 		public: // modifiers
 			void Initialize(bool useUntimedPlaces);
 

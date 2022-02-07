@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "TimeInterval.hpp"
-#include "boost/smart_ptr.hpp"
 
 namespace VerifyTAPN {
 	namespace TAPN {
@@ -12,21 +11,21 @@ namespace VerifyTAPN {
 
 		class InhibitorArc {
 			public: // typedefs
-				typedef std::vector< boost::shared_ptr<InhibitorArc> > Vector;
-				typedef std::vector< boost::weak_ptr<InhibitorArc> > WeakPtrVector;
+				typedef std::vector<InhibitorArc*> Vector;
+                typedef std::vector<const InhibitorArc*> CVector;
 			public:
-				InhibitorArc(const boost::shared_ptr<TimedPlace>& place, const boost::shared_ptr<TimedTransition>& transition) : place(place), transition(transition) { };
+				InhibitorArc(const TimedPlace* place, const TimedTransition* transition) : place(place), transition(transition) { };
 				virtual ~InhibitorArc() { /* empty */ }
 
 			public: // modifiers
-				inline TimedPlace& InputPlace() { return *place; }
-				inline TimedTransition& OutputTransition() { return *transition; }
+				inline const TimedPlace& InputPlace() const { return *place; }
+				inline const TimedTransition& OutputTransition() const { return *transition; }
 
 			public: // Inspectors
 				void Print(std::ostream& out) const;
 			private:
-				const boost::shared_ptr<TimedPlace> place;
-				const boost::shared_ptr<TimedTransition> transition;
+				const TimedPlace* place;
+				const TimedTransition* transition;
 		};
 
 		inline std::ostream& operator<<(std::ostream& out, const InhibitorArc& arc)

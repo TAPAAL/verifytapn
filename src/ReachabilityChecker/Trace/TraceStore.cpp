@@ -1,9 +1,38 @@
 #include "TraceStore.hpp"
 #include "EntrySolver.hpp"
 #include "../../Core/SymbolicMarking/SymbolicMarking.hpp"
-#include "../../Core/TAPNParser/util.hpp"
 
 #include <rapidxml.hpp>
+/* Adding declarations to make it compatible with gcc 4.7 and greater */
+namespace rapidxml { namespace internal {
+    template<class OutIt, class Ch>
+    inline OutIt print_children(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_attributes(OutIt out, const xml_node <Ch> *node, int flags);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_data_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_cdata_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_element_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_declaration_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_comment_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_doctype_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+
+    template<class OutIt, class Ch>
+    inline OutIt print_pi_node(OutIt out, const xml_node <Ch> *node, int flags, int indent);
+} }
+#include <rapidxml_print.hpp>
 
 namespace VerifyTAPN
 {
@@ -124,14 +153,7 @@ namespace VerifyTAPN
         std::cerr << "Trace: " << std::endl;
        	ConcreteMarking marking(initialMarking);
 
-        if(options.XmlTrace())
-        {
-        	OutputTraceInXmlFormat(marking, tapn, traceInfos, delays);
-        }
-        else
-        {
-        	OutputTraceInNormalFormat(marking, tapn, traceInfos, delays);
-        }
+        OutputTraceInXmlFormat(marking, tapn, traceInfos, delays);
     }
 
 	void TraceStore::CalculateDelays(const std::deque<TraceInfo>& traceInfos, std::vector<decimal>& delays) const
@@ -139,26 +161,6 @@ namespace VerifyTAPN
 		EntrySolver solver(options.GetKBound(), traceInfos);
 		std::vector<decimal> calculatedDelays = solver.CalculateDelays(lastInvariants);
 		delays.swap(calculatedDelays);
-	}
-
-	void TraceStore::OutputTraceInNormalFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const
-	{
-		std::cerr << "\t" << marking;
-		TAPN::TimedTransition::Vector transitions = tapn.GetTransitions();
-		for(unsigned int i = 0;i < traceInfos.size();++i){
-			const TraceInfo & traceInfo = traceInfos[i];
-			int index = traceInfo.TransitionIndex();
-			const TAPN::TimedTransition & transition = *transitions[index];
-			if(delays[i] > decimal(0)){
-				std::cerr << "\tDelay: " << delays[i] << std::endl;
-				marking.Delay(delays[i]);
-				std::cerr << "\t" << marking;
-			}
-			std::cerr << "\tTransition: " << transition.GetName() << std::endl;
-			UpdateMarking(marking, traceInfo, tapn);
-			std::cerr << "\t" << marking;
-		}
-
 	}
 
 	void TraceStore::OutputTraceInXmlFormat(ConcreteMarking& marking, const TAPN::TimedArcPetriNet& tapn, const std::deque<TraceInfo>& traceInfos, const std::vector<decimal>& delays) const
@@ -174,7 +176,8 @@ namespace VerifyTAPN
 			decimal delay = delays[i];
 
 			if(delay > decimal(0)){
-				xml_node<>* node = doc.allocate_node(node_element, "delay", doc.allocate_string(ToString(delay).c_str()));
+                		auto str = std::to_string(delay);
+				xml_node<>* node = doc.allocate_node(node_element, "delay", doc.allocate_string(str.c_str()));
 				root->append_node(node);
 				marking.Delay(delay);
 			}
@@ -194,7 +197,8 @@ namespace VerifyTAPN
 				{
 					xml_node<>* token_node = doc.allocate_node(node_element, "token");
 					xml_attribute<>* place_attr = doc.allocate_attribute("place", doc.allocate_string(token.Place().c_str()));
-					xml_attribute<>* age_attr = doc.allocate_attribute("age", doc.allocate_string(ToString(token.Age()).c_str()));
+                    			auto str = std::to_string(token.Age());
+					xml_attribute<>* age_attr = doc.allocate_attribute("age", doc.allocate_string(str.c_str()));
 					token_node->append_attribute(place_attr);
 					token_node->append_attribute(age_attr);
 					transition_node->append_node(token_node);
@@ -204,6 +208,6 @@ namespace VerifyTAPN
 			UpdateMarking(marking, traceInfo, tapn);
 		}
 
-		std::cerr << doc.first_node();
+		std::cerr << doc;
 	}
 }

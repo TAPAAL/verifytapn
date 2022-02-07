@@ -7,8 +7,8 @@ namespace VerifyTAPN {
 using namespace TAPN;
 
 	void Pairing::GeneratePairingFor(const TimedArcPetriNet& tapn, const TAPN::TimedTransition& t) {
-		TimedInputArc::WeakPtrVector preset = t.GetPreset();
-		OutputArc::WeakPtrVector postset = t.GetPostset();
+		auto& preset = t.GetPreset();
+		auto& postset = t.GetPostset();
 
 		unsigned int sizeOfPairing = preset.size() >= postset.size() ? preset.size() : postset.size();
 
@@ -19,8 +19,8 @@ using namespace TAPN;
 		{
 			if(i < preset.size() && i < postset.size())
 			{
-				boost::shared_ptr<TimedInputArc> tiaPtr = preset[i].lock();
-				boost::shared_ptr<OutputArc> oaPtr = postset[i].lock();
+				auto* tiaPtr = preset[i];
+				auto* oaPtr = postset[i];
 
 				inputPlace = tapn.GetPlaceIndex(tiaPtr->InputPlace());
 				outputPlace = tapn.GetPlaceIndex(oaPtr->OutputPlace());
@@ -28,14 +28,14 @@ using namespace TAPN;
 				Add(inputPlace, outputPlace);
 			}
 			else if(i < preset.size() && i >= postset.size()){
-				boost::shared_ptr<TimedInputArc> tiaPtr = preset[i].lock();
+				auto* tiaPtr = preset[i];
 
 				inputPlace = tapn.GetPlaceIndex(tiaPtr->InputPlace());
 				Add(inputPlace, TimedPlace::BottomIndex());
 			}
 			else if(i >= preset.size() && i < postset.size())
 			{
-				boost::shared_ptr<OutputArc> oaPtr = postset[i].lock();
+				auto* oaPtr = postset[i];
 
 				outputPlace = tapn.GetPlaceIndex(oaPtr->OutputPlace());
 

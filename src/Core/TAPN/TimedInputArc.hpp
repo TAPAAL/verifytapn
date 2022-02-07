@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "TimeInterval.hpp"
-#include "boost/smart_ptr.hpp"
 
 namespace VerifyTAPN {
 	namespace TAPN {
@@ -13,24 +12,24 @@ namespace VerifyTAPN {
 		class TimedInputArc
 		{
 		public: // typedefs
-			typedef std::vector< boost::shared_ptr<TimedInputArc> > Vector;
-			typedef std::vector< boost::weak_ptr<TimedInputArc> > WeakPtrVector;
+			typedef std::vector< TimedInputArc* > Vector;
+            typedef std::vector< const TimedInputArc* > CVector;
 		public:
-			TimedInputArc(const boost::shared_ptr<TimedPlace>& place, const boost::shared_ptr<TimedTransition>& transition) : interval(), place(place), transition(transition) { };
-			TimedInputArc(const boost::shared_ptr<TimedPlace>& place, const boost::shared_ptr<TimedTransition>& transition, const TimeInterval& interval) : interval(interval), place(place), transition(transition) { };
+			TimedInputArc(const TimedPlace* place, const TimedTransition* transition) : interval(), place(place), transition(transition) { };
+			TimedInputArc(const TimedPlace* place, const TimedTransition* transition, const TimeInterval& interval) : interval(interval), place(place), transition(transition) { };
 			virtual ~TimedInputArc() { /* empty */}
 
 		public: // modifiers
-			inline TimedPlace& InputPlace() { return *place; }
-			inline TimedTransition& OutputTransition() { return *transition; }
-			inline const TimeInterval& Interval() { return interval; }
+			inline const TimedPlace& InputPlace() const { return *place; }
+			inline const TimedTransition& OutputTransition() const { return *transition; }
+			inline const TimeInterval& Interval() const { return interval; }
 
 		public: // Inspectors
 			void Print(std::ostream& out) const;
 		private:
 			const TimeInterval interval;
-			const boost::shared_ptr<TimedPlace> place;
-			const boost::shared_ptr<TimedTransition> transition;
+			const TimedPlace* place;
+			const TimedTransition* transition;
 		};
 
 		inline std::ostream& operator<<(std::ostream& out, const TimedInputArc& arc)

@@ -1,4 +1,6 @@
 #include "AST.hpp"
+#include "TranslationVisitor.h"
+
 namespace VerifyTAPN
 {
 	namespace AST
@@ -52,7 +54,7 @@ namespace VerifyTAPN
 		{
 			Visitor.Visit(*this, context);
 		}
-                
+
 		void PlusExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
 			Visitor.Visit(*this, context);
@@ -62,7 +64,7 @@ namespace VerifyTAPN
 		{
 			return new PlusExpression(*this);
 		}
-                
+
                 void SubtractExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
 			Visitor.Visit(*this, context);
@@ -72,7 +74,7 @@ namespace VerifyTAPN
 		{
 			return new SubtractExpression(*this);
 		}
-                
+
                 void MinusExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
 			Visitor.Visit(*this, context);
@@ -92,7 +94,7 @@ namespace VerifyTAPN
 		{
 			return new MultiplyExpression(*this);
 		}
-                
+
                 void NumberExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
 			Visitor.Visit(*this, context);
@@ -101,8 +103,8 @@ namespace VerifyTAPN
                 NumberExpression* NumberExpression::clone() const
 		{
 			return new NumberExpression(*this);
-		} 
-                
+		}
+
                 void IdentifierExpression::Accept(Visitor& Visitor, boost::any& context) const
 		{
 			Visitor.Visit(*this, context);
@@ -111,8 +113,8 @@ namespace VerifyTAPN
                 IdentifierExpression* IdentifierExpression::clone() const
 		{
 			return new IdentifierExpression(*this);
-		} 
-                
+		}
+
 		Query* Query::clone() const
 		{
 			return new Query(*this);
@@ -122,5 +124,10 @@ namespace VerifyTAPN
 		{
 			Visitor.Visit(*this, context);
 		}
+
+        std::unique_ptr<Query> toAST(const unfoldtacpn::PQL::Condition_ptr& ptr, const TAPN::TimedArcPetriNet& tapn) {
+            TranslationVisitor v(tapn);
+            return v.translate(*ptr);
+        }
 	}
 }
