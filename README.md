@@ -24,6 +24,8 @@ Install homebrew
 ```
 brew install cmake flex bison
 
+export CC=gcc-11; export CXX=g++-11
+
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Prebuild -DFLEX_EXECUTABLE=/usr/local/opt/flex/bin/flex -DBISON_EXECUTABLE=/usr/local/opt/bison/bin/bison
 make
