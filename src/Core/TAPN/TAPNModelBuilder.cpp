@@ -80,7 +80,7 @@ namespace VerifyTAPN {
         auto transition = find_transition(transition_name);
         if(weight != 1)
         {
-            std::cerr << "Only weight=1 supported, got " << weight << " on output arc between " << place << " " << transition << std::endl;
+            std::cerr << "Only weight=1 supported, got " << weight << " on output arc between " << place_name << " " << transition_name << std::endl;
             std::exit(-1);
         }
         _outputArcs.emplace_back(new OutputArc(transition, place));
