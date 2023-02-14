@@ -141,7 +141,7 @@ namespace VerifyTAPN {
             return BREADTHFIRST;
         if (str == "DFS")
             return DEPTHFIRST;
-        if (str == "RANDOM")
+        if (str == "RANDOM" || str == "RDFS")
             return RANDOM;
         if (str == "MAX-COVER")
             return COVERMOST;
