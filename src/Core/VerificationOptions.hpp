@@ -23,6 +23,7 @@ namespace VerifyTAPN {
             bool symmetry,
             Trace trace,
             bool xml_trace,
+            bool printBindings,
             bool useUntimedPlaces,
             bool useGlobalMaxConstants,
             Factory factory,
@@ -36,6 +37,7 @@ namespace VerifyTAPN {
             k_bound(k_bound),
             symmetry(symmetry),
             trace(trace),
+            printBindings(printBindings),
             useUntimedPlaces(useUntimedPlaces),
             useGlobalMaxConstants(useGlobalMaxConstants),
             factory(factory),
@@ -50,6 +52,7 @@ namespace VerifyTAPN {
 			const std::string QueryFile() const {return queryFile; }
 			inline const unsigned int GetKBound() const { return k_bound; }
 			inline const Trace GetTrace() const { return trace; };
+            inline const bool GetPrintBindings() const {return printBindings; };
 			inline const bool GetSymmetryEnabled() const { return symmetry; }
 			inline const bool GetUntimedPlacesEnabled() const { return useUntimedPlaces; }
 			inline const bool GetGlobalMaxConstantsEnabled() const { return useGlobalMaxConstants; }
@@ -79,6 +82,7 @@ namespace VerifyTAPN {
 			unsigned int k_bound = 0;
 			bool symmetry = true;
 			Trace trace = NONE;
+            bool printBindings = false;
 			bool useUntimedPlaces = true;
 			bool useGlobalMaxConstants = false;
 			Factory factory = DEFAULT;
