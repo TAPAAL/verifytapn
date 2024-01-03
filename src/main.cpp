@@ -115,7 +115,9 @@ int main(int argc, char* argv[])
 
 	VerificationOptions options = VerificationOptions::parse(argc, argv);
 
-    unfoldtacpn::ColoredPetriNetBuilder builder;
+ 	std::unique_ptr<std::stringstream> output_stream = std::make_unique<std::stringstream>();
+    unfoldtacpn::ColoredPetriNetBuilder builder(options.GetPrintBindings() ? output_stream.get() : nullptr);
+
     auto [initialVector, tapn] = parse_net_file(builder, options.GetInputFile());
 
     if(tapn != nullptr)
@@ -223,6 +225,10 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	if (options.GetPrintBindings()) {
+        std::cout << output_stream.get()->str();
+    }
+	
 	return 0;
 }
 

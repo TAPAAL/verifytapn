@@ -83,6 +83,7 @@ namespace VerifyTAPN {
             "Specify the desired trace option.\n"
             " 0: none (default)\n"
             " 1: some")
+             ("bindings,b", "Print bindings to stderr in XML format (only for CPNs, default is not to print)")
             ("global-max-constants", "Use global maximum constant for extrapolation (as opposed to local constants).")
             ("disable-untimed-opt", "Disables the untimed place optimization.")
             ("disable-symmetry", "Disables symmetry reduction.")
@@ -183,6 +184,9 @@ namespace VerifyTAPN {
 
             if (vm.count("trace"))
                 opts.trace = vm["trace"].as<uint32_t>() == 0 ? NONE : SOME;
+
+             if (vm.count("bindings"))
+                opts.printBindings = true;    
 
             if (vm.count("global-max-constants"))
                 opts.useGlobalMaxConstants = true;
