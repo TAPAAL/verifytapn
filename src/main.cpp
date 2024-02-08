@@ -135,6 +135,10 @@ int main(int argc, char* argv[])
 
 	tapn->Initialize(options.GetUntimedPlacesEnabled());
 
+	if (options.GetPrintBindings()) {
+            std::cout << output_stream.get()->str();
+        }
+
 	std::unique_ptr<AST::Query> query;
 	try{
         auto qfile = std::ifstream(options.QueryFile());
@@ -225,10 +229,6 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	if (options.GetPrintBindings()) {
-        std::cout << output_stream.get()->str();
-    }
-	
 	return 0;
 }
 
