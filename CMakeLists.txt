@@ -83,7 +83,7 @@ if (VERIFYTAPN_GetDependencies)
     endif ()
     ExternalProject_Add(
         boost-ext
-        URL https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip
+	URL https://archives.boost.io/release/1.78.0/source/boost_1_78_0.zip #https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip
         URL_HASH SHA256=f22143b5528e081123c3c5ed437e92f648fe69748e95fa6e2bd41484e2986cc3
         PATCH_COMMAND echo "${BOOST_CONFIG_JAM}" $<SEMICOLON>  > config.jam
         CONFIGURE_COMMAND ./bootstrap.sh --prefix=${CMAKE_BINARY_DIR}/external cxxflags="-arch x86_64" --without-icu
