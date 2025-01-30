@@ -38,7 +38,7 @@ jobs:
         CPATH=$PREFIX/include make
     
     - name: Upload artifacts 
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: verifytapn-win64
         path: '${{runner.workspace}}/verifytapn/build/verifytapn/bin/verifytapn-win64.exe'
