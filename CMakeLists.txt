@@ -83,7 +83,8 @@ if (VERIFYTAPN_GetDependencies)
     endif ()
     ExternalProject_Add(
         boost-ext
-        URL https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        URL https://archives.boost.io/release/1.78.0/source/boost_1_78_0.zip
         URL_HASH SHA256=f22143b5528e081123c3c5ed437e92f648fe69748e95fa6e2bd41484e2986cc3
         PATCH_COMMAND echo "${BOOST_CONFIG_JAM}" $<SEMICOLON>  > config.jam
         CONFIGURE_COMMAND ./bootstrap.sh --prefix=${CMAKE_BINARY_DIR}/external cxxflags="-arch x86_64" --without-icu
@@ -92,7 +93,9 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND ""
     )
 
-    ExternalProject_add(rapidxml-ext
+    ExternalProject_add(
+        rapidxml-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         URL https://downloads.sourceforge.net/project/rapidxml/rapidxml/rapidxml%201.13/rapidxml-1.13.zip
         URL_HASH SHA512=6c10583e6631ccdb0217d0a5381172cb4c1046226de6ef1acf398d85e81d145228e14c3016aefcd7b70a1db8631505b048d8b4f5d4b0dbf1811d2482eefdd265
         BUILD_COMMAND ""
@@ -100,34 +103,61 @@ if (VERIFYTAPN_GetDependencies)
         INSTALL_COMMAND cd ../rapidxml-ext && ${CMAKE_COMMAND} -E copy rapidxml.hpp rapidxml_iterators.hpp rapidxml_print.hpp rapidxml_utils.hpp ${EXTERNAL_INSTALL_LOCATION}/include
     )
 
-    ExternalProject_add(unfoldtacpn-ext
+    ExternalProject_add(
+        unfoldtacpn-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         GIT_REPOSITORY https://github.com/TAPAAL/unfoldTACPN
         GIT_TAG 5948ffff5a084eccef7c2758b8df371b170fa68d
-	    CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}  -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION} -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DFLEX_EXECUTABLE=${FLEX_EXECUTABLE} -DBISON_EXECUTABLE=${BISON_EXECUTABLE}
+        CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}  -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION} -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DFLEX_EXECUTABLE=${FLEX_EXECUTABLE} -DBISON_EXECUTABLE=${BISON_EXECUTABLE}
+    )
+
+    ExternalProject_Add(
+        xxhash-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        URL https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.0.zip
+        URL_HASH SHA256=064333c754f166837bbefefa497642a60b3f8035e54bae52eb304d3cb3ceb655
+        SOURCE_SUBDIR cmake_unofficial
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+        INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
+    )
+
+    ExternalProject_Add(
+        uutils-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        URL https://github.com/UPPAALModelChecker/UUtils/archive/refs/tags/v1.1.1.zip
+        URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+        INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
     #set(cflag-dbm "-DDISABLE_ASSERTX -DENABLE_64BIT -DCMAKE_TOOLCHAIN_FILE")
-    ExternalProject_add(udbm-ext
-	    URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.10.zip
-	    URL_HASH SHA512=62ae6b8be8b3f1c42f8c2690d488ad1ad48cacaa31a444e6c77192734701ae42c38448ba1fb1f8199d2e67ead8c9a6acb91c92b3b37b5b40589b74c588c0a5e7
-	    CMAKE_ARGS(
+    ExternalProject_add(
+        udbm-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.12.zip
+        URL_HASH SHA512=a1217448fdbf0a358d2956b16b308de5baffff3bc2d988589758e52dc3bda81bd4eb50988a9ed19f1010be95b1ba2c6cfeccb535b7f7ed8aae022bfbeee868be
+        CMAKE_ARGS(
             -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-   	    )
-        INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include &&
-		    ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include &&
-		    mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
-            ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/udbm/lib ${EXTERNAL_INSTALL_LOCATION}/lib
+        )
+        DEPENDS xxhash-ext uutils-ext
+        INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include/dbm &&
+        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/include/dbm/config.h ${EXTERNAL_INSTALL_LOCATION}/include/dbm/config.h &&
+        ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/include ${EXTERNAL_INSTALL_LOCATION}/include &&
+        mkdir -p ${EXTERNAL_INSTALL_LOCATION}/lib &&
+        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/src/libUDBM.a ${EXTERNAL_INSTALL_LOCATION}/lib/libUDBM.a
     )
 
-    ExternalProject_Add( sparsehash-ext
-	    URL https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.zip
-	    CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ./configure --prefix=${CMAKE_BINARY_DIR}/external CXXFLAGS=-std=c++11 ${SPARSEHASH_HOST}
-	    BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} make
-	    INSTALL_COMMAND make install
-            BUILD_IN_SOURCE 1
+    ExternalProject_Add(
+        sparsehash-ext
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        URL https://github.com/sparsehash/sparsehash/archive/sparsehash-2.0.4.zip
+        CONFIGURE_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ./configure --prefix=${CMAKE_BINARY_DIR}/external CXXFLAGS=-std=c++11 ${SPARSEHASH_HOST}
+        BUILD_COMMAND CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} make
+        INSTALL_COMMAND make install
+        BUILD_IN_SOURCE 1
     )
 
     set(CMAKE_PREFIX_PATH ${EXTERNAL_INSTALL_LOCATION};${CMAKE_PREFIX_PATH})

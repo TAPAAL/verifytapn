@@ -4,3 +4,4 @@ Release
 .project
 .settings
 build/
+.vscode
