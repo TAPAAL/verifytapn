@@ -125,7 +125,10 @@ if (VERIFYTAPN_GetDependencies)
         SOURCE_SUBDIR cmake_unofficial
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
+                   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                    -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
+                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -134,9 +137,10 @@ if (VERIFYTAPN_GetDependencies)
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         URL https://github.com/UPPAALModelChecker/UUtils/archive/refs/tags/v1.1.1.zip
         URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
-                   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
+        CMAKE_ARGS -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                    -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
+                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -151,6 +155,7 @@ if (VERIFYTAPN_GetDependencies)
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+            -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         )
         DEPENDS xxhash-ext uutils-ext
