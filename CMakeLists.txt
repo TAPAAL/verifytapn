@@ -119,7 +119,8 @@ if (VERIFYTAPN_GetDependencies)
         SOURCE_SUBDIR cmake_unofficial
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   $<$<STREQUAL:${CMAKE_SYSTEM_NAME},Darwin>:-DCMAKE_CXX_FLAGS=-stdlib=libc++>
+                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+        INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
     ExternalProject_Add(
@@ -129,7 +130,6 @@ if (VERIFYTAPN_GetDependencies)
         URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   $<$<STREQUAL:${CMAKE_SYSTEM_NAME},Darwin>:-DCMAKE_CXX_FLAGS=-stdlib=libc++>
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -144,7 +144,6 @@ if (VERIFYTAPN_GetDependencies)
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-            $<$<STREQUAL:${CMAKE_SYSTEM_NAME},Darwin>:-DCMAKE_CXX_FLAGS=-stdlib=libc++>
         )
         DEPENDS xxhash-ext uutils-ext
         INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include/dbm &&
@@ -205,4 +204,3 @@ else ( )
     #include_directories(include)
     add_subdirectory(${CMAKE_SOURCE_DIR}/src/)
 endif()
-
