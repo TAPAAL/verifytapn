@@ -47,10 +47,6 @@ else ()
     set(ARCH_TYPE "win64")
 endif ()
 
-if (APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-endif()
-
 ## Enabled INTERPROCEDURAL_OPTIMIZATION for non-macos
 if (CMAKE_BUILD_TYPE MATCHES Release)
     if (NOT APPLE AND UNIX)
@@ -124,11 +120,6 @@ if (VERIFYTAPN_GetDependencies)
         SOURCE_SUBDIR cmake_unofficial
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-                   -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-                   -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
-                   -DCMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}
-                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
                    $<$<STREQUAL:${CMAKE_SYSTEM_NAME},Darwin>:-DCMAKE_CXX_FLAGS=-stdlib=libc++>
     )
 
@@ -139,8 +130,6 @@ if (VERIFYTAPN_GetDependencies)
         URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-                   -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
                    $<$<STREQUAL:${CMAKE_SYSTEM_NAME},Darwin>:-DCMAKE_CXX_FLAGS=-stdlib=libc++>
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
