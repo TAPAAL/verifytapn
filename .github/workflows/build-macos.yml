@@ -32,7 +32,7 @@ jobs:
 
     - name: Install depends
       run: |
-        brew install cmake@3.28.3 flex bison
+        brew install cmake@3.16 flex bison
 
     - name: Prebuild
       run: |
