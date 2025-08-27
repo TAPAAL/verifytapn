@@ -117,7 +117,9 @@ if (VERIFYTAPN_GetDependencies)
         URL https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.0.zip
         URL_HASH SHA256=064333c754f166837bbefefa497642a60b3f8035e54bae52eb304d3cb3ceb655
         SOURCE_SUBDIR cmake_unofficial
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
+                   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -127,6 +129,7 @@ if (VERIFYTAPN_GetDependencies)
         URL https://github.com/UPPAALModelChecker/UUtils/archive/refs/tags/v1.1.1.zip
         URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+                   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
