@@ -36,6 +36,8 @@ jobs:
         curl -L https://github.com/Kitware/CMake/releases/download/v3.31.8/cmake-3.31.8-macos-universal.tar.gz -o cmake.tar.gz
         tar -xzf cmake.tar.gz
         sudo mv cmake-3.31.8-macos-universal/CMake.app/Contents/bin/* /usr/local/bin/
+        sudo cp -r cmake-3.31.8-macos-universal/CMake.app/Contents/share /usr/local/
+        cmake --version
         
     - name: Prebuild
       run: |
