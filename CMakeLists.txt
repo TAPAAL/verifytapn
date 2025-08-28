@@ -16,13 +16,6 @@ project(${VERIFYTAPN_NAME} VERSION ${VERIFYTAPN_VERSION} LANGUAGES CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-if(APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
-endif()
-
-
 # Default Values
 ## Build Flags
 option(VERIFYTAPN_Static "Link libraries statically" ON)
@@ -125,10 +118,7 @@ if (VERIFYTAPN_GetDependencies)
         SOURCE_SUBDIR cmake_unofficial
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
                    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-                   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-                    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-                    -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
-                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
+                   -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -137,10 +127,9 @@ if (VERIFYTAPN_GetDependencies)
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         URL https://github.com/UPPAALModelChecker/UUtils/archive/refs/tags/v1.1.1.zip
         URL_HASH SHA256=5e0ccc6996f2eed47dc3ec7fb71cb6b79e0526db9b30622b552ba35a11f96424
-        CMAKE_ARGS -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-                    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-                    -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
-                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}              
+                   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+                   -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
     )
 
@@ -150,14 +139,9 @@ if (VERIFYTAPN_GetDependencies)
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         URL https://github.com/UPPAALModelChecker/UDBM/archive/refs/tags/v2.0.12.zip
         URL_HASH SHA512=a1217448fdbf0a358d2956b16b308de5baffff3bc2d988589758e52dc3bda81bd4eb50988a9ed19f1010be95b1ba2c6cfeccb535b7f7ed8aae022bfbeee868be
-        CMAKE_ARGS(
-            -DCMAKE_PREFIX_PATH=${EXTERNAL_INSTALL_LOCATION}
-            -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-            -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-            -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-            -DCMAKE_CXX_FLAGS=-stdlib=libstdc++
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
-        )
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+                   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+                   -DCMAKE_OSX_DEPLOYMENT_TARGET=${VERIFYTAPN_OSX_DEPLOYMENT_TARGET}
         DEPENDS xxhash-ext uutils-ext
         INSTALL_COMMAND mkdir -p ${EXTERNAL_INSTALL_LOCATION}/include/dbm &&
         ${CMAKE_COMMAND} -E copy <BINARY_DIR>/include/dbm/config.h ${EXTERNAL_INSTALL_LOCATION}/include/dbm/config.h &&
