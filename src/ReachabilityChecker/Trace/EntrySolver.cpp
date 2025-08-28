@@ -98,7 +98,7 @@ namespace VerifyTAPN
 				assert(inv.second != TAPN::TimeInvariant::LS_INF);
 
 				unsigned int mapped_index = RemapTokenIndex(traceInfo, inv.first);
-				constraint_t bound(mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict()));
+				constraint_t bound{mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict())};
 				entryTimeDBM.constrain(AfterAction(i, bound));
 			}
 		}
@@ -110,7 +110,7 @@ namespace VerifyTAPN
 			assert(inv.second != TAPN::TimeInvariant::LS_INF);
 
 			unsigned int mapped_index = traceInfos[traceInfos.size()-1].GetOriginalMapping()[inv.first];
-			constraint_t bound(mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict()));
+			constraint_t bound{mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict())};
 			entryTimeDBM.constrain(AfterAction(dim, bound));
 		}
 
@@ -125,12 +125,12 @@ namespace VerifyTAPN
 				const TAPN::TimeInterval & interval = it->GetTimeInterval();
 				unsigned int mapped_token_index = RemapTokenIndex(traceInfo, it->TokenIndex());
 
-				constraint_t lower(0, mapped_token_index + 1, interval.LowerBoundToDBMRaw());
+				constraint_t lower{0, mapped_token_index + 1, interval.LowerBoundToDBMRaw()};
 				constraint_t entryLower(AfterDelay(i, lower));
 				entryTimeDBM.constrain(entryLower);
 				if(interval.UpperBoundToDBMRaw() != dbm_LS_INFINITY)
 				{
-					constraint_t upper(mapped_token_index + 1, 0, interval.UpperBoundToDBMRaw());
+					constraint_t upper{mapped_token_index + 1, 0, interval.UpperBoundToDBMRaw()};
 					constraint_t entryUpper(AfterDelay(i, upper));
 					entryTimeDBM.constrain(entryUpper);
 				}
@@ -143,7 +143,7 @@ namespace VerifyTAPN
 				assert(inv.second != TAPN::TimeInvariant::LS_INF);
 
 				unsigned int mapped_index = RemapTokenIndex(traceInfo, inv.first);
-				constraint_t bound(mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict()));
+				constraint_t bound{mapped_index+1, 0, dbm_boundbool2raw(inv.second.GetBound(), inv.second.IsBoundStrict())};
 				entryTimeDBM.constrain(AfterDelay(i, bound));
 			}
 		}
@@ -160,14 +160,14 @@ namespace VerifyTAPN
 	constraint_t EntrySolver::AfterAction(unsigned int locationIndex, const constraint_t & constraint) const
 	{
 		if(constraint.j == 0 && constraint.i != 0)
-			return constraint_t(locationIndex, LastResetAt(locationIndex, constraint.i), constraint.value);
+			return constraint_t{locationIndex, LastResetAt(locationIndex, constraint.i), constraint.value};
 
 		else
 			if(constraint.i == 0 && constraint.j != 0)
-				return constraint_t(LastResetAt(locationIndex, constraint.j), locationIndex, constraint.value);
+				return constraint_t{LastResetAt(locationIndex, constraint.j), locationIndex, constraint.value};
 
 			else
-				return constraint_t(LastResetAt(locationIndex, constraint.j), LastResetAt(locationIndex, constraint.i), constraint.value);
+				return constraint_t{LastResetAt(locationIndex, constraint.j), LastResetAt(locationIndex, constraint.i), constraint.value};
 
 
 	}
@@ -175,14 +175,14 @@ namespace VerifyTAPN
 	constraint_t EntrySolver::AfterDelay(unsigned int locationIndex, const constraint_t & constraint) const
 	{
 		if(constraint.i != 0 && constraint.j == 0)
-			return constraint_t(locationIndex + 1, LastResetAt(locationIndex, constraint.i), constraint.value);
+			return constraint_t{locationIndex + 1, LastResetAt(locationIndex, constraint.i), constraint.value};
 
 		else
 			if(constraint.i == 0 && constraint.j != 0)
-				return constraint_t(LastResetAt(locationIndex, constraint.j), locationIndex + 1, constraint.value);
+				return constraint_t{LastResetAt(locationIndex, constraint.j), locationIndex + 1, constraint.value};
 
 			else
-				return constraint_t(LastResetAt(locationIndex, constraint.j), LastResetAt(locationIndex, constraint.i), constraint.value);
+				return constraint_t{LastResetAt(locationIndex, constraint.j), LastResetAt(locationIndex, constraint.i), constraint.value};
 
 
 	}
