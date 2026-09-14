@@ -10,7 +10,7 @@ endif()
 
 # Project Definition
 set(VERIFYTAPN_NAME "verifytapn")
-set(VERIFYTAPN_VERSION 1.3.3)
+set(VERIFYTAPN_VERSION 1.4.0)
 
 # Select GCC compiler
 set(DESIRED_GCC_VERSION "$ENV{GCC_VERSION}")
